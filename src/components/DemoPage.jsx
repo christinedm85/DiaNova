@@ -24,6 +24,7 @@ const DEMO_SECTIONS = {
   sponsorships: { label: 'Sponsorships', icon: SponsorshipIcon },
   leads: { label: 'Lead Gen', icon: LeadIcon },
   products: { label: 'Products', icon: ProductsIcon },
+  ai: { label: 'AI Tools', icon: AIIcon },
 }
 
 export default function DemoPage({ onGetStarted }) {
@@ -120,6 +121,7 @@ export default function DemoPage({ onGetStarted }) {
           {active === 'sponsorships' && <DemoSponsorships />}
           {active === 'leads' && <DemoLeads />}
           {active === 'products' && <DemoProducts />}
+          {active === 'ai' && <DemoAI />}
         </div>
       </main>
 
@@ -503,6 +505,99 @@ function DemoProducts() {
   )
 }
 
+/* ─── Demo AI ─────────────────────────────────────────────── */
+
+function DemoAI() {
+  const aiTools = [
+    {
+      icon: '💡',
+      title: 'Pricing Suggestion',
+      sample: 'Gaming sponsorship: $500–$5,000\n(medium confidence)',
+      description: 'Get AI-powered pricing ranges based on niche, deal type, and market data.',
+    },
+    {
+      icon: '🎯',
+      title: 'Brand Match',
+      sample: 'Nike × Fitness Creator\n87% fit score',
+      description: 'See how well a brand aligns with your audience and content.',
+    },
+    {
+      icon: '📧',
+      title: 'Smart Follow-up',
+      sample: 'Draft: "Hey [Brand], following up on our\nsponsorship conversation..."',
+      description: 'Generate personalized follow-up emails tailored to each deal stage.',
+    },
+    {
+      icon: '💡',
+      title: 'Content Ideas',
+      sample: '"Ultimate Streaming Setup Guide"\nest. $2,100/mo',
+      description: 'Discover profitable digital product ideas matched to your niche.',
+    },
+    {
+      icon: '🔍',
+      title: 'Brand Discovery',
+      sample: '8 brands found in\n"tech review" niche',
+      description: 'Find brands actively looking for creators like you to partner with.',
+    },
+  ]
+
+  return (
+    <div className="page-enter space-y-8" id="demo-ai-section">
+      <div>
+        <h2 className="font-display text-3xl font-bold text-surface-50">✨ AI Assistant</h2>
+        <p className="text-surface-400 mt-1">Smart tools to grow your creator business.</p>
+      </div>
+
+      {/* Tool Cards Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {aiTools.map((tool, i) => (
+          <div
+            key={tool.title}
+            className="glass glass-hover p-5 group relative overflow-hidden"
+            style={{ animationDelay: `${i * 0.06}s` }}
+          >
+            {/* Pro badge */}
+            <span className="absolute top-3 right-3 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-accent-500/15 text-accent-400 border border-accent-500/20">
+              Available on Pro
+            </span>
+
+            <div className="flex items-start gap-3">
+              <span className="text-2xl shrink-0">{tool.icon}</span>
+              <div className="flex-1 min-w-0">
+                <h4 className="font-semibold text-surface-100 text-sm">{tool.title}</h4>
+                <p className="text-xs text-surface-500 mt-1 leading-relaxed">{tool.description}</p>
+              </div>
+            </div>
+
+            {/* Sample output */}
+            <div className="mt-4 p-3 rounded-lg bg-surface-800/60 border border-surface-700/30">
+              <p className="text-xs text-surface-300 whitespace-pre-wrap leading-relaxed font-mono">
+                {tool.sample}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* CTA */}
+      <div className="glass p-6 text-center">
+        <h3 className="font-display text-lg font-semibold text-surface-100 mb-2">
+          Ready to unlock the AI tools?
+        </h3>
+        <p className="text-sm text-surface-400 mb-4">
+          Get pricing suggestions, brand matches, follow-up drafts, content ideas, and brand discovery — all powered by AI.
+        </p>
+        <a
+          href="/?signup=1"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-accent-600 hover:bg-accent-500 text-white text-sm font-semibold rounded-xl transition-all duration-200 shadow-lg shadow-accent-600/25 active:scale-95"
+        >
+          Unlock AI tools →
+        </a>
+      </div>
+    </div>
+  )
+}
+
 /* ─── Shared Demo Components ─────────────────────────────── */
 
 function DemoStatCard({ label, value, change, positive, color }) {
@@ -643,6 +738,15 @@ function ProductsIcon({ active }) {
       <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
       <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
       <line x1="12" y1="22.08" x2="12" y2="12" />
+    </svg>
+  )
+}
+
+function AIIcon({ active }) {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={active ? '#818cf8' : '#64748b'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 2l1.5 4.5L18 8l-4.5 1.5L12 14l-1.5-4.5L6 8l4.5-1.5z" />
+      <path d="M12 22l1-3 3-1-3-1-1-3-1 3-3 1 3 1z" opacity="0.5" />
     </svg>
   )
 }

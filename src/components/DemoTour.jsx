@@ -37,6 +37,13 @@ const TOUR_STEPS = [
     position: 'top',
   },
   {
+    id: 'ai',
+    title: 'AI-Powered Creator Tools',
+    description: 'Let AI handle the busywork. Get pricing suggestions, brand match scores, follow-up drafts, content ideas, and discover brands to pitch — all from one panel.',
+    target: 'demo-ai-section',
+    position: 'top',
+  },
+  {
     id: 'cta',
     title: 'Ready to try it yourself?',
     description: 'Join 2,400+ creators already using CreatorPilot. Start free — no credit card required.',
@@ -120,6 +127,7 @@ export default function DemoTour({ onComplete, onSkip, currentSection, onNavigat
       'demo-sponsorships-section': 'sponsorships',
       'demo-leads-section': 'leads',
       'demo-products-section': 'products',
+      'demo-ai-section': 'ai',
     }
     const targetSection = sectionMap[s.target]
     if (targetSection && currentSection !== targetSection) {
