@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { api } from '../api.js'
 import EmptyState from './EmptyState.jsx'
+import FormField from './FormField.jsx'
 
 function downloadCSV(type) {
   api.exportCSV(type).then(r => r.blob()).then(blob => {
@@ -64,15 +65,15 @@ export default function Products() {
       {showForm && (
         <form onSubmit={handleCreate} className="glass p-5 space-y-3">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            <input className="px-3 py-2 rounded-lg bg-surface-800 border border-surface-700/50 text-surface-200 text-sm focus:outline-none focus:border-emerald-500" placeholder="Product title" value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} required />
-            <select className="px-3 py-2 rounded-lg bg-surface-800 border border-surface-700/50 text-surface-200 text-sm focus:outline-none focus:border-emerald-500" value={form.type} onChange={e => setForm({ ...form, type: e.target.value })}>
+            <FormField placeholder="Product title" value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} required />
+            <select className="px-3 py-2 rounded-xl bg-surface-800 border border-surface-700/50 text-surface-200 text-sm focus:outline-none focus:border-emerald-500" value={form.type} onChange={e => setForm({ ...form, type: e.target.value })}>
               <option>Guide</option>
               <option>Templates</option>
               <option>Presets</option>
               <option>Course</option>
               <option>Toolkit</option>
             </select>
-            <input className="px-3 py-2 rounded-lg bg-surface-800 border border-surface-700/50 text-surface-200 text-sm focus:outline-none focus:border-emerald-500" placeholder="Price ($)" type="number" value={form.price} onChange={e => setForm({ ...form, price: e.target.value })} required />
+            <FormField placeholder="Price ($)" type="number" value={form.price} onChange={e => setForm({ ...form, price: e.target.value })} required />
             <button type="submit" className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold rounded-lg transition-colors">Create</button>
           </div>
         </form>

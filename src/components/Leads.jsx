@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { api } from '../api.js'
 import EmptyState from './EmptyState.jsx'
+import FormField from './FormField.jsx'
 
 function downloadCSV(type) {
   api.exportCSV(type).then(r => r.blob()).then(blob => {
@@ -57,7 +58,7 @@ export default function Leads() {
               placeholder="Search leads..."
               value={search}
               onChange={e => setSearch(e.target.value)}
-              className="pl-8 pr-3 py-2 text-xs rounded-lg bg-surface-800/50 border border-surface-700/50 text-surface-200 focus:outline-none focus:border-accent-500 transition-colors w-44"
+              className="pl-8 pr-3 py-2 text-xs rounded-xl bg-surface-800/50 border border-surface-700/50 text-surface-200 focus:outline-none focus:border-accent-500 transition-colors w-44"
             />
           </div>
           <button onClick={() => downloadCSV('leads')} className="px-3 py-2 text-xs font-medium text-surface-400 hover:text-surface-200 bg-surface-800/50 hover:bg-surface-700/50 border border-surface-700/50 rounded-lg transition-colors flex items-center gap-1.5">
@@ -83,9 +84,9 @@ export default function Leads() {
         <div className="glass p-6">
           <h3 className="font-display text-lg font-semibold text-surface-100 mb-4">Add New Lead</h3>
           <form onSubmit={handleCreate} className="space-y-3">
-            <input id="lead-name" className="w-full px-3 py-2 rounded-lg bg-surface-800 border border-surface-700/50 text-surface-200 text-sm focus:outline-none focus:border-emerald-500" placeholder="Name" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} required />
-            <input className="w-full px-3 py-2 rounded-lg bg-surface-800 border border-surface-700/50 text-surface-200 text-sm focus:outline-none focus:border-emerald-500" placeholder="Email" type="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} required />
-            <select className="w-full px-3 py-2 rounded-lg bg-surface-800 border border-surface-700/50 text-surface-200 text-sm focus:outline-none focus:border-emerald-500" value={form.source} onChange={e => setForm({ ...form, source: e.target.value })}>
+            <FormField id="lead-name" placeholder="Name" icon="👤" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} required />
+            <FormField placeholder="Email" type="email" icon="📧" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} required />
+            <select className="w-full px-3 py-2 rounded-xl bg-surface-800 border border-surface-700/50 text-surface-200 text-sm focus:outline-none focus:border-emerald-500" value={form.source} onChange={e => setForm({ ...form, source: e.target.value })}>
               <option>Landing Page</option>
               <option>YouTube Bio</option>
               <option>Newsletter CTA</option>

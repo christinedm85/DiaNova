@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { api } from '../api.js'
 import { useAuth } from '../AuthContext.jsx'
+import FormField from './FormField.jsx'
 
 export default function ProfilePage() {
   const { user, login } = useAuth()
@@ -69,12 +70,12 @@ export default function ProfilePage() {
       <form onSubmit={handleNameChange} className="glass p-6 space-y-4 max-w-2xl">
         <h3 className="text-sm font-semibold text-surface-200">Display Name</h3>
         <div>
-          <label className="text-xs text-surface-400 block mb-1.5">Full name</label>
-          <input
+          <FormField
+            label="Full name"
+            icon="👤"
             type="text"
             value={name}
             onChange={e => setName(e.target.value)}
-            className="w-full px-3 py-2.5 rounded-xl bg-surface-800 border border-surface-700/50 text-surface-200 text-sm focus:outline-none focus:border-accent-500 transition-colors"
           />
         </div>
         <button
@@ -90,11 +91,12 @@ export default function ProfilePage() {
       <div className="glass p-6 space-y-3 max-w-2xl">
         <h3 className="text-sm font-semibold text-surface-200">Email</h3>
         <div className="flex items-center gap-3">
-          <input
+          <FormField
             type="email"
             value={user?.email || ''}
             disabled
-            className="flex-1 px-3 py-2.5 rounded-xl bg-surface-800/50 border border-surface-700/30 text-surface-400 text-sm cursor-not-allowed"
+            icon="📧"
+            className="flex-1 bg-surface-800/50 border-surface-700/30 text-surface-400 cursor-not-allowed"
           />
           {user?.email_verified !== false ? (
             <span className="text-xs bg-emerald-500/10 text-emerald-400 px-2 py-1 rounded-full whitespace-nowrap">Verified</span>
@@ -108,32 +110,32 @@ export default function ProfilePage() {
       <form onSubmit={handlePasswordChange} className="glass p-6 space-y-4 max-w-2xl">
         <h3 className="text-sm font-semibold text-surface-200">Change Password</h3>
         <div>
-          <label className="text-xs text-surface-400 block mb-1.5">Current password</label>
-          <input
+          <FormField
+            label="Current password"
+            icon="🔒"
             type="password"
             value={currentPassword}
             onChange={e => setCurrentPassword(e.target.value)}
-            className="w-full px-3 py-2.5 rounded-xl bg-surface-800 border border-surface-700/50 text-surface-200 text-sm focus:outline-none focus:border-accent-500 transition-colors"
             placeholder="Enter current password"
           />
         </div>
         <div>
-          <label className="text-xs text-surface-400 block mb-1.5">New password</label>
-          <input
+          <FormField
+            label="New password"
+            icon="🔒"
             type="password"
             value={newPassword}
             onChange={e => setNewPassword(e.target.value)}
-            className="w-full px-3 py-2.5 rounded-xl bg-surface-800 border border-surface-700/50 text-surface-200 text-sm focus:outline-none focus:border-accent-500 transition-colors"
             placeholder="At least 6 characters"
           />
         </div>
         <div>
-          <label className="text-xs text-surface-400 block mb-1.5">Confirm new password</label>
-          <input
+          <FormField
+            label="Confirm new password"
+            icon="🔒"
             type="password"
             value={confirmPassword}
             onChange={e => setConfirmPassword(e.target.value)}
-            className="w-full px-3 py-2.5 rounded-xl bg-surface-800 border border-surface-700/50 text-surface-200 text-sm focus:outline-none focus:border-accent-500 transition-colors"
             placeholder="Re-enter new password"
           />
         </div>

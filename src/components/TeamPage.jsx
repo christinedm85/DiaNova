@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { api } from '../api.js'
 import { useAuth } from '../AuthContext.jsx'
+import FormField from './FormField.jsx'
 
 export default function TeamPage() {
   const { user } = useAuth()
@@ -91,13 +92,14 @@ export default function TeamPage() {
       <form onSubmit={handleInvite} className="glass p-6 space-y-3 max-w-2xl">
         <h3 className="text-sm font-semibold text-surface-200">Invite a team member</h3>
         <div className="flex gap-2">
-          <input
+          <FormField
             type="email"
             required
+            icon="📧"
             value={inviteEmail}
             onChange={e => setInviteEmail(e.target.value)}
-            className="flex-1 px-3 py-2.5 rounded-xl bg-surface-800 border border-surface-700/50 text-surface-200 text-sm focus:outline-none focus:border-accent-500"
             placeholder="colleague@email.com"
+            className="flex-1"
           />
           <button
             type="submit"

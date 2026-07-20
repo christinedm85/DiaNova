@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { api } from '../api.js'
 import { useAuth } from '../AuthContext.jsx'
+import FormField from './FormField.jsx'
 
 const STEPS = [
   {
@@ -90,16 +91,16 @@ export default function Onboarding({ onComplete }) {
         {/* Step 1: Deal form */}
         {step === 1 && (
           <div className="space-y-3 mb-6">
-            <input
-              className="w-full px-3 py-2.5 rounded-xl bg-surface-800 border border-surface-700/50 text-surface-200 text-sm focus:outline-none focus:border-accent-500"
+            <FormField
               placeholder="Brand name (e.g. Nike, Adobe)"
+              icon="💼"
               value={deal.brand}
               onChange={e => setDeal({ ...deal, brand: e.target.value })}
             />
-            <input
-              className="w-full px-3 py-2.5 rounded-xl bg-surface-800 border border-surface-700/50 text-surface-200 text-sm focus:outline-none focus:border-accent-500"
+            <FormField
               placeholder="Amount ($)"
               type="number"
+              icon="💰"
               value={deal.amount}
               onChange={e => setDeal({ ...deal, amount: e.target.value })}
             />
@@ -109,16 +110,16 @@ export default function Onboarding({ onComplete }) {
         {/* Step 2: Lead form */}
         {step === 2 && (
           <div className="space-y-3 mb-6">
-            <input
-              className="w-full px-3 py-2.5 rounded-xl bg-surface-800 border border-surface-700/50 text-surface-200 text-sm focus:outline-none focus:border-accent-500"
+            <FormField
               placeholder="Name"
+              icon="👤"
               value={lead.name}
               onChange={e => setLead({ ...lead, name: e.target.value })}
             />
-            <input
-              className="w-full px-3 py-2.5 rounded-xl bg-surface-800 border border-surface-700/50 text-surface-200 text-sm focus:outline-none focus:border-accent-500"
+            <FormField
               placeholder="Email"
               type="email"
+              icon="📧"
               value={lead.email}
               onChange={e => setLead({ ...lead, email: e.target.value })}
             />

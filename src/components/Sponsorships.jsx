@@ -3,6 +3,7 @@ import { api } from '../api.js'
 import { useToast } from '../ToastContext.jsx'
 import ConfirmDialog from './ConfirmDialog.jsx'
 import EmptyState from './EmptyState.jsx'
+import FormField from './FormField.jsx'
 
 function downloadCSV(type) {
   api.exportCSV(type).then(r => r.blob()).then(blob => {
@@ -75,10 +76,10 @@ export default function Sponsorships() {
   }
 
   const stages = [
-    { key: 'prospecting', title: 'Prospecting', color: 'bg-surface-600' },
-    { key: 'negotiating', title: 'Negotiating', color: 'bg-amber-400' },
-    { key: 'confirmed', title: 'Confirmed', color: 'bg-accent-400' },
-    { key: 'completed', title: 'Completed', color: 'bg-emerald-400' },
+    { key: 'prospecting', title: 'Prospecting', color: 'bg-surface-600', borderColor: 'border-l-surface-600' },
+    { key: 'negotiating', title: 'Negotiating', color: 'bg-amber-400', borderColor: 'border-l-amber-400' },
+    { key: 'confirmed', title: 'Confirmed', color: 'bg-accent-400', borderColor: 'border-l-emerald-500' },
+    { key: 'completed', title: 'Completed', color: 'bg-emerald-400', borderColor: 'border-l-accent-400' },
   ]
 
   const totalDeals = pipeline ? Object.values(pipeline).reduce((sum, deals) => sum + deals.length, 0) : 0
@@ -107,7 +108,7 @@ export default function Sponsorships() {
               placeholder="Search deals..."
               value={search}
               onChange={e => setSearch(e.target.value)}
-              className="pl-8 pr-3 py-2 text-xs rounded-lg bg-surface-800/50 border border-surface-700/50 text-surface-200 focus:outline-none focus:border-accent-500 transition-colors w-44"
+              className="pl-8 pr-3 py-2 text-xs rounded-xl bg-surface-800/50 border border-surface-700/50 text-surface-200 focus:outline-none focus:border-accent-500 transition-colors w-44"
             />
           </div>
           <button onClick={() => downloadCSV('sponsorships')} className="px-3 py-2 text-xs font-medium text-surface-400 hover:text-surface-200 bg-surface-800/50 hover:bg-surface-700/50 border border-surface-700/50 rounded-lg transition-colors flex items-center gap-1.5">
@@ -126,9 +127,9 @@ export default function Sponsorships() {
       {showForm && (
         <form onSubmit={handleCreate} className="glass p-5 space-y-3 animate-scale-in">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            <input className="px-3 py-2 rounded-lg bg-surface-800 border border-surface-700/50 text-surface-200 text-sm focus:outline-none focus:border-accent-500" placeholder="Brand name" value={form.brand} onChange={e => setForm({ ...form, brand: e.target.value })} required />
-            <input className="px-3 py-2 rounded-lg bg-surface-800 border border-surface-700/50 text-surface-200 text-sm focus:outline-none focus:border-accent-500" placeholder="Amount ($)" type="number" value={form.amount} onChange={e => setForm({ ...form, amount: e.target.value })} required />
-            <select className="px-3 py-2 rounded-lg bg-surface-800 border border-surface-700/50 text-surface-200 text-sm focus:outline-none focus:border-accent-500" value={form.status} onChange={e => setForm({ ...form, status: e.target.value })}>
+            <FormField placeholder="Brand name" value={form.brand} onChange={e => setForm({ ...form, brand: e.target.value })} required />
+            <FormField placeholder="Amount ($)" type="number" value={form.amount} onChange={e => setForm({ ...form, amount: e.target.value })} required />
+            <select className="px-3 py-2 rounded-xl bg-surface-800 border border-surface-700/50 text-surface-200 text-sm focus:outline-none focus:border-accent-500" value={form.status} onChange={e => setForm({ ...form, status: e.target.value })}>
               {stages.map(s => <option key={s.key} value={s.key}>{s.title}</option>)}
             </select>
             <button type="submit" className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold rounded-lg transition-colors active:scale-95">Add Deal</button>
@@ -148,7 +149,7 @@ export default function Sponsorships() {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        {stages.map(({ key, title, color }) => {
+        {stages.map(({ key, title, color, borderColor }) => {
           const deals = pipeline[key] || []
           return (
             <div key={key} className="glass p-4 space-y-3">
@@ -156,18 +157,27 @@ export default function Sponsorships() {
                 <h4 className="font-semibold text-surface-200 text-sm">{title}</h4>
                 <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${color} text-white`}>{deals.length}</span>
               </div>
-              {deals.map(deal => (
-                <div key={deal.id} className="p-3 rounded-xl bg-surface-800/40 hover:bg-surface-800/70 transition-all duration-200 group">
-                  <div className="flex justify-between items-start">
-                    <p className="font-semibold text-surface-100 text-sm">{deal.brand}</p>
-                    <p className="font-display font-bold text-surface-200 text-sm">${deal.amount.toLocaleString()}</p>
-                  </div>
-                  <p className="text-xs text-surface-500 mt-1">{deal.notes}</p>
-                  <div className="flex gap-1 mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                    {nextStage[key] && (
-                      <button onClick={() => handleMove(deal.id, nextStage[key])} className="text-xs px-2 py-0.5 rounded bg-accent-600/20 text-accent-400 hover:bg-accent-600/30 transition-colors">Move →</button>
-                    )}
-                    <button onClick={() => handleDeleteRequest(deal.id)} className="text-xs px-2 py-0.5 rounded bg-rose-600/20 text-rose-400 hover:bg-rose-600/30 ml-auto transition-colors">×</button>
+              {deals.map((deal, i) => (
+                <div
+                  key={deal.id}
+                  className={`kanban-card p-3 rounded-xl bg-surface-800/40 hover:bg-surface-800/70 transition-all duration-200 group border-l-[3px] ${borderColor}`}
+                  style={{ animationDelay: `${i * 0.08}s` }}
+                >
+                  <div className="flex items-start gap-2">
+                    <span className="text-surface-500 text-xs mt-0.5 shrink-0 select-none cursor-grab" title="Drag to reorder">⋮⋮</span>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex justify-between items-start">
+                        <p className="font-semibold text-surface-100 text-sm">{deal.brand}</p>
+                        <p className="font-display font-semibold text-surface-200 text-lg">${deal.amount.toLocaleString()}</p>
+                      </div>
+                      <p className="text-xs text-surface-500 mt-1">{deal.notes}</p>
+                      <div className="flex gap-1 mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        {nextStage[key] && (
+                          <button onClick={() => handleMove(deal.id, nextStage[key])} className="text-xs px-2 py-0.5 rounded bg-accent-600/20 text-accent-400 hover:bg-accent-600/30 transition-colors">Move →</button>
+                        )}
+                        <button onClick={() => handleDeleteRequest(deal.id)} className="text-xs px-2 py-0.5 rounded bg-rose-600/20 text-rose-400 hover:bg-rose-600/30 ml-auto transition-colors">×</button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               ))}

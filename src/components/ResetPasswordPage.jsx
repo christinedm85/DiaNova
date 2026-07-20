@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { api } from '../api.js'
+import FormField from './FormField.jsx'
 
 export default function ResetPasswordPage({ onBack }) {
   const params = new URLSearchParams(window.location.search)
@@ -113,27 +114,27 @@ export default function ResetPasswordPage({ onBack }) {
           )}
 
           <div>
-            <label className="text-xs text-surface-400 block mb-1.5">New password</label>
-            <input
+            <FormField
+              label="New password"
+              icon="🔒"
               type="password"
               required
               minLength={6}
               value={password}
               onChange={e => setPassword(e.target.value)}
-              className="w-full px-3 py-2.5 rounded-xl bg-surface-800 border border-surface-700/50 text-surface-200 text-sm focus:outline-none focus:border-accent-500 transition-colors"
               placeholder="At least 6 characters"
             />
           </div>
 
           <div>
-            <label className="text-xs text-surface-400 block mb-1.5">Confirm password</label>
-            <input
+            <FormField
+              label="Confirm password"
+              icon="🔒"
               type="password"
               required
               minLength={6}
               value={confirm}
               onChange={e => setConfirm(e.target.value)}
-              className="w-full px-3 py-2.5 rounded-xl bg-surface-800 border border-surface-700/50 text-surface-200 text-sm focus:outline-none focus:border-accent-500 transition-colors"
               placeholder="Re-enter your password"
             />
           </div>

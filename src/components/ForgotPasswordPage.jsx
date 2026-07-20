@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { api } from '../api.js'
+import FormField from './FormField.jsx'
 
 export default function ForgotPasswordPage({ onBack }) {
   const [email, setEmail] = useState('')
@@ -71,13 +72,13 @@ export default function ForgotPasswordPage({ onBack }) {
           </p>
 
           <div>
-            <label className="text-xs text-surface-400 block mb-1.5">Email</label>
-            <input
+            <FormField
+              label="Email"
+              icon="📧"
               type="email"
               required
               value={email}
               onChange={e => setEmail(e.target.value)}
-              className="w-full px-3 py-2.5 rounded-xl bg-surface-800 border border-surface-700/50 text-surface-200 text-sm focus:outline-none focus:border-accent-500 transition-colors"
               placeholder="you@example.com"
             />
           </div>

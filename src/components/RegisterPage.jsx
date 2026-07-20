@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useAuth } from '../AuthContext.jsx'
+import FormField from './FormField.jsx'
 
 export default function RegisterPage({ onSwitch, onBack }) {
   const { register, resendVerification } = useAuth()
@@ -106,42 +107,36 @@ export default function RegisterPage({ onSwitch, onBack }) {
             </div>
           )}
 
-          <div>
-            <label className="text-xs text-surface-400 block mb-1.5">Name</label>
-            <input
-              type="text"
-              required
-              value={name}
-              onChange={e => setName(e.target.value)}
-              className="w-full px-3 py-2.5 rounded-xl bg-surface-800 border border-surface-700/50 text-surface-200 text-sm focus:outline-none focus:border-accent-500 transition-colors"
-              placeholder="Your name"
-            />
-          </div>
+          <FormField
+            label="Name"
+            icon="👤"
+            type="text"
+            required
+            value={name}
+            onChange={e => setName(e.target.value)}
+            placeholder="Your name"
+          />
 
-          <div>
-            <label className="text-xs text-surface-400 block mb-1.5">Email</label>
-            <input
-              type="email"
-              required
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              className="w-full px-3 py-2.5 rounded-xl bg-surface-800 border border-surface-700/50 text-surface-200 text-sm focus:outline-none focus:border-accent-500 transition-colors"
-              placeholder="you@example.com"
-            />
-          </div>
+          <FormField
+            label="Email"
+            icon="📧"
+            type="email"
+            required
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            placeholder="you@example.com"
+          />
 
-          <div>
-            <label className="text-xs text-surface-400 block mb-1.5">Password</label>
-            <input
-              type="password"
-              required
-              minLength={6}
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              className="w-full px-3 py-2.5 rounded-xl bg-surface-800 border border-surface-700/50 text-surface-200 text-sm focus:outline-none focus:border-accent-500 transition-colors"
-              placeholder="At least 6 characters"
-            />
-          </div>
+          <FormField
+            label="Password"
+            icon="🔒"
+            type="password"
+            required
+            minLength={6}
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            placeholder="At least 6 characters"
+          />
 
           <button
             type="submit"
