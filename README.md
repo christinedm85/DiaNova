@@ -1,16 +1,56 @@
-# React + Vite
+# CreatorPilot
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+All-in-one monetization command center for content creators.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+React (Vite) + Express + SQLite + Tailwind CSS v4
 
-## React Compiler
+## Key Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Sponsorship CRM** with Kanban pipeline — track deals from lead to closed
+- **Affiliate program management** — manage partners, links, and commissions
+- **Lead capture** with funnel visualization
+- **Digital product listings** with AI-powered pricing guidance
+- **Brand kit builder** — store and manage brand assets
+- **5 AI-powered tools** (OpenAI GPT-4o-mini): pricing suggestions, brand matching, smart follow-ups, content ideas, brand discovery
+- **Analytics dashboard** with charts
+- **Stripe subscription billing** — three tiers (Free / Pro $29/mo / Studio $79/mo), currently in test mode
+- **Email** via Resend + Gmail SMTP fallback
+- **PWA** installable with offline support
+- **Light/dark theme** with glass-morphism design
+- **Interactive demo tour** at `/demo` (7 steps)
 
-## Expanding the Oxlint configuration
+## Quick Start
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+```bash
+npm install
+```
+
+Copy `.env.example` to `.env` and fill in the required keys:
+
+```
+JWT_SECRET=
+RESEND_API_KEY=
+STRIPE_SECRET_KEY=
+STRIPE_WEBHOOK_SECRET=
+STRIPE_PRO_PRICE_ID=
+STRIPE_STUDIO_PRICE_ID=
+OPENAI_API_KEY=
+SMTP_USER=
+SMTP_PASS=
+```
+
+```bash
+npm run build && node server/index.js
+```
+
+## Domain
+
+`dianova.tech` — owner-owned on IONOS, not included in the sale.
+
+## Sale Notes
+
+This application is built for sale on the cto.new Marketplace. Stripe is in **test mode** — the buyer swaps to live keys to go live. Resend domain verification is pending — the buyer completes DNS setup. Social handles are unclaimed.
+
+Marketing assets (outreach guide, launch kit, teaser video script) are available in the team shared directory.
