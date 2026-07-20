@@ -4,11 +4,12 @@ import bcrypt from 'bcryptjs'
 import rateLimit from 'express-rate-limit'
 import db from '../db.js'
 import { generateToken, authMiddleware } from '../middleware.js'
+import { sendEmail, isEmailConfigured } from '../email.js'
 
 const router = Router()
 const origin = () => process.env.APP_URL || `http://localhost:${process.env.PORT || 3001}`
 const logLink = (label, url) => {
-  if (!process.env.RESEND_API_KEY && !process.env.SMTP_HOST) {
+  if (!isEmailConfigured()) {
     console.log(`\n📨 ${label}:`)
     console.log(`   ${url}\n`)
   }
@@ -42,11 +43,6 @@ const emailLimiter = rateLimit({
 
 // ── Helpers ──────────────────────────────────────────────
 
-function sendEmail(to_email, to_name, subject, body, type, userId) {
-  db.prepare('INSERT INTO sent_emails (to_email, to_name, subject, body, type, user_id) VALUES (?,?,?,?,?,?)')
-    .run(to_email, to_name, subject, body, type, userId)
-}
-
 function makeToken() {
   const raw = crypto.randomBytes(32).toString('hex')
   const hashed = crypto.createHash('sha256').update(raw).digest('hex')
@@ -79,7 +75,7 @@ router.post('/register', authLimiter, (req, res) => {
         .run(hashed, name, bcrypt.hashSync(password, 10), existing.id)
 
       const verifyUrl = `${origin()}/verify-email?token=${raw}`
-      sendEmail(email, name, 'Verify your CreatorPilot account',
+      void sendEmail(email, name, 'Verify your CreatorPilot account',
         `Hi ${name},\n\nWelcome to CreatorPilot! Click the link below to verify your email and activate your account:\n\n${verifyUrl}\n\n— The CreatorPilot Team`,
         'email-verification', existing.id)
       logLink('Verification re-sent', verifyUrl)
@@ -99,7 +95,7 @@ router.post('/register', authLimiter, (req, res) => {
   db.prepare('UPDATE users SET verification_token = ? WHERE id = ?').run(hashed, info.lastInsertRowid)
 
   const verifyUrl = `${origin()}/verify-email?token=${raw}`
-  sendEmail(email, name, 'Verify your CreatorPilot account',
+  void sendEmail(email, name, 'Verify your CreatorPilot account',
     `Hi ${name},\n\nWelcome to CreatorPilot! Click the link below to verify your email and activate your account:\n\n${verifyUrl}\n\n— The CreatorPilot Team`,
     'email-verification', info.lastInsertRowid)
   logLink('Verification', verifyUrl)
@@ -147,7 +143,7 @@ router.post('/resend-verification', emailLimiter, (req, res) => {
   db.prepare('UPDATE users SET verification_token = ? WHERE id = ?').run(hashed, user.id)
 
   const verifyUrl = `${origin()}/verify-email?token=${raw}`
-  sendEmail(email, user.name, 'Verify your CreatorPilot account',
+  void sendEmail(email, user.name, 'Verify your CreatorPilot account',
     `Hi ${user.name},\n\nClick the link below to verify your email and activate your account:\n\n${verifyUrl}\n\n— The CreatorPilot Team`,
     'email-verification', user.id)
   logLink('Verification re-sent', verifyUrl)
@@ -241,7 +237,7 @@ router.post('/forgot-password', emailLimiter, (req, res) => {
     .run(hashed, user.id)
 
   const resetUrl = `${origin()}/reset-password?token=${raw}`
-  sendEmail(email, user.name, 'Reset your CreatorPilot password',
+  void sendEmail(email, user.name, 'Reset your CreatorPilot password',
     `Hi ${user.name},\n\nWe received a request to reset your password. Click the link below to choose a new one:\n\n${resetUrl}\n\nThis link expires in 1 hour. If you didn't request this, you can safely ignore this email.\n\n— The CreatorPilot Team`,
     'password-reset', user.id)
   logLink('Password reset', resetUrl)

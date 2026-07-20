@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken'
+import crypto from 'crypto'
 import Database from 'better-sqlite3'
 import path from 'path'
 import { fileURLToPath } from 'url'
@@ -6,7 +7,17 @@ import { fileURLToPath } from 'url'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const db = new Database(path.join(__dirname, 'creatorpilot.db'))
 
-const JWT_SECRET = process.env.JWT_SECRET || 'creatorpilot-secret-change-in-production'
+let JWT_SECRET = process.env.JWT_SECRET
+
+if (!JWT_SECRET) {
+  console.warn('')
+  console.warn('⚠️  WARNING: JWT_SECRET environment variable is not set.')
+  console.warn('   Using a randomly generated secret for this session.')
+  console.warn('   All tokens will be invalidated on server restart.')
+  console.warn('   Set JWT_SECRET in your environment for production use.')
+  console.warn('')
+  JWT_SECRET = crypto.randomBytes(64).toString('hex')
+}
 
 export function generateToken(user) {
   return jwt.sign({ id: user.id, email: user.email, plan: user.plan }, JWT_SECRET, { expiresIn: '7d' })

@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import db from '../db.js'
 import { authMiddleware, teamScope } from '../middleware.js'
+import { sendEmail } from '../email.js'
 
 const router = Router()
 router.use(authMiddleware); router.use(teamScope)
@@ -34,12 +35,10 @@ router.post('/', (req, res) => {
   // Notify on new lead
   const user = db.prepare('SELECT id, name, email, notify_new_lead FROM users WHERE id = ?').get(req.user.id)
   if (user && user.notify_new_lead) {
-    db.prepare('INSERT INTO sent_emails (to_email, to_name, subject, body, type, user_id) VALUES (?,?,?,?,?,?)')
-      .run(user.email, user.name,
-        `🎯 New lead: ${name}`,
-        `Hi ${user.name},\n\n${name} (${email}) just signed up via ${source || 'Direct'}.\n\nView all leads in CreatorPilot: ${process.env.APP_URL || 'http://localhost:' + (process.env.PORT || 3001)}/\n\n— The CreatorPilot Team`,
-        'new-lead', user.id)
-    console.log(`\n📨 New lead notification for ${user.email}: ${name}\n`)
+    void sendEmail(user.email, user.name,
+      `🎯 New lead: ${name}`,
+      `Hi ${user.name},\n\n${name} (${email}) just signed up via ${source || 'Direct'}.\n\nView all leads in CreatorPilot: ${process.env.APP_URL || 'http://localhost:' + (process.env.PORT || 3001)}/\n\n— The CreatorPilot Team`,
+      'new-lead', user.id)
   }
 
   res.status(201).json(row)

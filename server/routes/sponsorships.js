@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import db from '../db.js'
 import { authMiddleware, teamScope } from '../middleware.js'
+import { sendEmail } from '../email.js'
 
 const router = Router()
 router.use(authMiddleware); router.use(teamScope)
@@ -52,12 +53,10 @@ router.put('/:id', (req, res) => {
     const user = db.prepare('SELECT id, name, email, notify_deal_moved FROM users WHERE id = ?').get(req.user.id)
     if (user && user.notify_deal_moved) {
       const stages = { prospecting: 'Prospecting', negotiating: 'Negotiating', confirmed: 'Confirmed', completed: 'Completed' }
-      db.prepare('INSERT INTO sent_emails (to_email, to_name, subject, body, type, user_id) VALUES (?,?,?,?,?,?)')
-        .run(user.email, user.name,
-          `📋 ${row.brand} moved to ${stages[status] || status}`,
-          `Hi ${user.name},\n\nYour deal "${row.brand}" (${row.amount}) has moved to ${stages[status] || status}.\n\nView it in CreatorPilot: ${process.env.APP_URL || 'http://localhost:' + (process.env.PORT || 3001)}/\n\n— The CreatorPilot Team`,
-          'deal-moved', user.id)
-      console.log(`\n📨 Deal moved notification for ${user.email}: ${row.brand} → ${status}\n`)
+      void sendEmail(user.email, user.name,
+        `📋 ${row.brand} moved to ${stages[status] || status}`,
+        `Hi ${user.name},\n\nYour deal "${row.brand}" (${row.amount}) has moved to ${stages[status] || status}.\n\nView it in CreatorPilot: ${process.env.APP_URL || 'http://localhost:' + (process.env.PORT || 3001)}/\n\n— The CreatorPilot Team`,
+        'deal-moved', user.id)
     }
   }
 
