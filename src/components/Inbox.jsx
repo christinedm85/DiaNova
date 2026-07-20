@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { api } from '../api.js'
+import EmptyState from './EmptyState.jsx'
 
 export default function Inbox() {
   const [tab, setTab] = useState('inbox')
@@ -43,7 +44,7 @@ export default function Inbox() {
   }
 
   const emails = tab === 'inbox' ? inbox : sent
-  const emptyMsg = tab === 'inbox' ? 'No messages yet. When someone replies, they\'ll appear here.' : 'No sent emails yet. Send your first message below.'
+  const inboxEmpty = tab === 'inbox'
 
   if (loading) {
     return <div className="flex items-center justify-center h-64"><div className="w-8 h-8 border-2 border-accent-400 border-t-transparent rounded-full animate-spin" /></div>
@@ -109,8 +110,14 @@ export default function Inbox() {
       {tab !== 'compose' && (
         <div className="space-y-2">
           {emails.length === 0 ? (
-            <div className="glass p-12 text-center">
-              <p className="text-surface-400">{emptyMsg}</p>
+            <div className="glass p-6">
+              <EmptyState
+                icon="📧"
+                title={inboxEmpty ? 'No messages yet' : 'No sent emails yet'}
+                description={inboxEmpty ? "When someone replies, they'll appear here." : "Send your first message to get started."}
+                action={inboxEmpty ? undefined : () => setTab('compose')}
+                actionLabel={inboxEmpty ? undefined : 'Compose email'}
+              />
             </div>
           ) : (
             emails.map(email => (

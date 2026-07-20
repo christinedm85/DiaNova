@@ -52,9 +52,9 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="space-y-8 max-w-lg">
+    <div className="page-enter space-y-8 max-w-6xl">
       <div>
-        <h2 className="text-xl font-display font-bold text-surface-50">Profile Settings</h2>
+        <h2 className="font-display text-3xl font-bold text-surface-50">Profile Settings</h2>
         <p className="text-sm text-surface-500 mt-1">Manage your name, email, password, and notification preferences.</p>
       </div>
 
@@ -66,7 +66,7 @@ export default function ProfilePage() {
       )}
 
       {/* Name */}
-      <form onSubmit={handleNameChange} className="glass p-6 space-y-4">
+      <form onSubmit={handleNameChange} className="glass p-6 space-y-4 max-w-2xl">
         <h3 className="text-sm font-semibold text-surface-200">Display Name</h3>
         <div>
           <label className="text-xs text-surface-400 block mb-1.5">Full name</label>
@@ -87,7 +87,7 @@ export default function ProfilePage() {
       </form>
 
       {/* Email (read-only) */}
-      <div className="glass p-6 space-y-3">
+      <div className="glass p-6 space-y-3 max-w-2xl">
         <h3 className="text-sm font-semibold text-surface-200">Email</h3>
         <div className="flex items-center gap-3">
           <input
@@ -105,7 +105,7 @@ export default function ProfilePage() {
       </div>
 
       {/* Password */}
-      <form onSubmit={handlePasswordChange} className="glass p-6 space-y-4">
+      <form onSubmit={handlePasswordChange} className="glass p-6 space-y-4 max-w-2xl">
         <h3 className="text-sm font-semibold text-surface-200">Change Password</h3>
         <div>
           <label className="text-xs text-surface-400 block mb-1.5">Current password</label>
@@ -147,7 +147,7 @@ export default function ProfilePage() {
       </form>
 
       {/* Notifications */}
-      <div className="glass p-6 space-y-4">
+      <div className="glass p-6 space-y-4 max-w-2xl">
         <h3 className="text-sm font-semibold text-surface-200">Email Notifications</h3>
         <label className="flex items-center justify-between cursor-pointer">
           <div>

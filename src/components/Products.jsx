@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { api } from '../api.js'
+import EmptyState from './EmptyState.jsx'
 
 function downloadCSV(type) {
   api.exportCSV(type).then(r => r.blob()).then(blob => {
@@ -99,7 +100,15 @@ export default function Products() {
           )
         })}
         {products.length === 0 && (
-          <div className="col-span-3 text-center py-12 text-surface-500">No products yet. Create your first!</div>
+          <div className="col-span-3">
+            <EmptyState
+              icon="📦"
+              title="No products yet"
+              description="Create your first digital product and start selling to your audience."
+              action={() => setShowForm(true)}
+              actionLabel="+ New Product"
+            />
+          </div>
         )}
       </div>
 

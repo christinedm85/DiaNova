@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { api } from '../api.js'
 import { useToast } from '../ToastContext.jsx'
 import ConfirmDialog from './ConfirmDialog.jsx'
+import EmptyState from './EmptyState.jsx'
 
 function downloadCSV(type) {
   api.exportCSV(type).then(r => r.blob()).then(blob => {
@@ -80,6 +81,7 @@ export default function Sponsorships() {
     { key: 'completed', title: 'Completed', color: 'bg-emerald-400' },
   ]
 
+  const totalDeals = pipeline ? Object.values(pipeline).reduce((sum, deals) => sum + deals.length, 0) : 0
   const nextStage = { prospecting: 'negotiating', negotiating: 'confirmed', confirmed: 'completed' }
 
   return (
@@ -134,7 +136,18 @@ export default function Sponsorships() {
         </form>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      {totalDeals === 0 ? (
+        <div className="glass p-6">
+          <EmptyState
+            icon="📋"
+            title="No pipeline data"
+            description="Your sponsorship pipeline is empty. Add your first deal to start tracking brand partnerships."
+            action={() => setShowForm(true)}
+            actionLabel="+ New Deal"
+          />
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         {stages.map(({ key, title, color }) => {
           const deals = pipeline[key] || []
           return (
@@ -158,11 +171,12 @@ export default function Sponsorships() {
                   </div>
                 </div>
               ))}
-              {deals.length === 0 && <p className="text-xs text-surface-600 text-center py-4">No deals</p>}
+              {deals.length === 0 && <EmptyState icon="📋" title="No deals" description="Deals in this stage will appear here" />}
             </div>
           )
         })}
-      </div>
+        </div>
+      )}
 
       <div className="glass p-6">
         <h3 className="font-display text-lg font-semibold text-surface-100 mb-4">Your Media Kit</h3>

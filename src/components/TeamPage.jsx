@@ -60,9 +60,9 @@ export default function TeamPage() {
 
   if (user?.plan !== 'studio') {
     return (
-      <div className="page-enter space-y-8 max-w-lg">
+      <div className="page-enter space-y-8 max-w-6xl">
         <div>
-          <h2 className="text-xl font-display font-bold text-surface-50">Team</h2>
+          <h2 className="font-display text-3xl font-bold text-surface-50">Team</h2>
           <p className="text-sm text-surface-500 mt-1">Collaborate with your team.</p>
         </div>
         <div className="glass p-8 text-center space-y-4">
@@ -78,9 +78,9 @@ export default function TeamPage() {
   }
 
   return (
-    <div className="page-enter space-y-8 max-w-lg">
+    <div className="page-enter space-y-8 max-w-6xl">
       <div>
-        <h2 className="text-xl font-display font-bold text-surface-50">Team</h2>
+        <h2 className="font-display text-3xl font-bold text-surface-50">Team</h2>
         <p className="text-sm text-surface-500 mt-1">Invite collaborators to share your pipeline, leads, and products.</p>
       </div>
 
@@ -88,7 +88,7 @@ export default function TeamPage() {
       {success && <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-xl text-sm text-emerald-400">{success}</div>}
 
       {/* Invite form */}
-      <form onSubmit={handleInvite} className="glass p-6 space-y-3">
+      <form onSubmit={handleInvite} className="glass p-6 space-y-3 max-w-2xl">
         <h3 className="text-sm font-semibold text-surface-200">Invite a team member</h3>
         <div className="flex gap-2">
           <input
@@ -111,7 +111,7 @@ export default function TeamPage() {
       </form>
 
       {/* Members */}
-      <div className="glass p-6 space-y-3">
+      <div className="glass p-6 space-y-3 max-w-2xl">
         <h3 className="text-sm font-semibold text-surface-200">
           Team Members {team?.members && `(${team.members.length})`}
         </h3>

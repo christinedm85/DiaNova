@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { api } from '../api.js'
+import EmptyState from './EmptyState.jsx'
 
 function downloadCSV(type) {
   api.exportCSV(type).then(r => r.blob()).then(blob => {
@@ -82,7 +83,7 @@ export default function Leads() {
         <div className="glass p-6">
           <h3 className="font-display text-lg font-semibold text-surface-100 mb-4">Add New Lead</h3>
           <form onSubmit={handleCreate} className="space-y-3">
-            <input className="w-full px-3 py-2 rounded-lg bg-surface-800 border border-surface-700/50 text-surface-200 text-sm focus:outline-none focus:border-emerald-500" placeholder="Name" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} required />
+            <input id="lead-name" className="w-full px-3 py-2 rounded-lg bg-surface-800 border border-surface-700/50 text-surface-200 text-sm focus:outline-none focus:border-emerald-500" placeholder="Name" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} required />
             <input className="w-full px-3 py-2 rounded-lg bg-surface-800 border border-surface-700/50 text-surface-200 text-sm focus:outline-none focus:border-emerald-500" placeholder="Email" type="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} required />
             <select className="w-full px-3 py-2 rounded-lg bg-surface-800 border border-surface-700/50 text-surface-200 text-sm focus:outline-none focus:border-emerald-500" value={form.source} onChange={e => setForm({ ...form, source: e.target.value })}>
               <option>Landing Page</option>
@@ -112,7 +113,15 @@ export default function Leads() {
                 <button onClick={() => handleDelete(lead.id)} className="text-xs text-rose-400 hover:text-rose-300 opacity-0 group-hover:opacity-100">×</button>
               </div>
             ))}
-            {leads.length === 0 && <p className="text-xs text-surface-600 text-center py-8">No leads yet. Add one!</p>}
+            {leads.length === 0 && (
+              <EmptyState
+                icon="📧"
+                title="No leads yet"
+                description="Start capturing potential sponsors and grow your brand partnerships."
+                action={() => document.querySelector('#lead-name')?.focus()}
+                actionLabel="Capture a lead"
+              />
+            )}
           </div>
         </div>
       </div>

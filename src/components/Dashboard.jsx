@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { api } from '../api.js'
+import { useAuth } from '../AuthContext.jsx'
 import {
   PieChart, Pie, Cell, ResponsiveContainer, Tooltip,
   AreaChart, Area, XAxis, YAxis, CartesianGrid,
@@ -10,6 +11,7 @@ const COLORS = ['#6366f1', '#f59e0b', '#10b981', '#f43f5e']
 const RADIAN = Math.PI / 180
 
 export default function Dashboard() {
+  const { user } = useAuth()
   const [data, setData] = useState(null)
   const [trend, setTrend] = useState(null)
 
@@ -43,7 +45,7 @@ export default function Dashboard() {
   return (
     <div className="page-enter space-y-8">
       <div>
-        <h2 className="font-display text-3xl font-bold text-surface-50">Good morning, Alex</h2>
+        <h2 className="font-display text-3xl font-bold text-surface-50">Good morning, {user?.name || 'there'}</h2>
         <p className="text-surface-400 mt-1">Here&apos;s how your revenue streams are performing today.</p>
       </div>
 
