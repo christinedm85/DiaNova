@@ -81,9 +81,9 @@ export default function LandingPage({ onGetStarted, onLogin }) {
           <button onClick={onGetStarted} className="px-7 py-3 bg-accent-600 hover:bg-accent-500 text-white font-semibold rounded-xl transition-all duration-200 shadow-xl shadow-accent-600/30 active:scale-95 text-lg">
             Start Free →
           </button>
-          <button className="px-7 py-3 bg-surface-800 hover:bg-surface-700 text-surface-200 font-semibold rounded-xl transition-colors text-lg">
+          <a href="/demo" className="inline-block px-7 py-3 bg-surface-800 hover:bg-surface-700 text-surface-200 font-semibold rounded-xl transition-colors text-lg">
             Watch Demo
-          </button>
+          </a>
         </div>
         <p className="text-surface-600 text-sm mt-4">No credit card required · Free plan forever</p>
       </section>
