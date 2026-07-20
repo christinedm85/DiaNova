@@ -1,0 +1,176 @@
+@import "tailwindcss";
+
+/* ── CSS custom properties for theming ────────────────── */
+
+:root {
+  /* Dark theme (default) */
+  --cp-surface-50: #f8fafc;
+  --cp-surface-100: #f1f5f9;
+  --cp-surface-200: #e2e8f0;
+  --cp-surface-300: #cbd5e1;
+  --cp-surface-400: #94a3b8;
+  --cp-surface-500: #64748b;
+  --cp-surface-600: #475569;
+  --cp-surface-700: #334155;
+  --cp-surface-800: #1e293b;
+  --cp-surface-900: #0f172a;
+  --cp-surface-950: #020617;
+  --cp-glass-bg: rgba(15, 23, 42, 0.6);
+  --cp-glass-border: rgba(51, 65, 85, 0.5);
+  --cp-input-bg: #1e293b;
+  --cp-hover-bg: rgba(30, 41, 59, 0.5);
+}
+
+[data-theme="light"] {
+  --cp-surface-50: #020617;
+  --cp-surface-100: #0f172a;
+  --cp-surface-200: #1e293b;
+  --cp-surface-300: #334155;
+  --cp-surface-400: #475569;
+  --cp-surface-500: #64748b;
+  --cp-surface-600: #94a3b8;
+  --cp-surface-700: #cbd5e1;
+  --cp-surface-800: #e2e8f0;
+  --cp-surface-900: #f1f5f9;
+  --cp-surface-950: #f8fafc;
+  --cp-glass-bg: rgba(255, 255, 255, 0.7);
+  --cp-glass-border: rgba(203, 213, 225, 0.6);
+  --cp-input-bg: #e2e8f0;
+  --cp-hover-bg: rgba(226, 232, 240, 0.6);
+}
+
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Outfit', ui-sans-serif, system-ui, sans-serif;
+
+  --color-surface-50: var(--cp-surface-50);
+  --color-surface-100: var(--cp-surface-100);
+  --color-surface-200: var(--cp-surface-200);
+  --color-surface-300: var(--cp-surface-300);
+  --color-surface-400: var(--cp-surface-400);
+  --color-surface-500: var(--cp-surface-500);
+  --color-surface-600: var(--cp-surface-600);
+  --color-surface-700: var(--cp-surface-700);
+  --color-surface-800: var(--cp-surface-800);
+  --color-surface-900: var(--cp-surface-900);
+  --color-surface-950: var(--cp-surface-950);
+
+  --color-accent-400: #818cf8;
+  --color-accent-500: #6366f1;
+  --color-accent-600: #4f46e5;
+  --color-accent-700: #4338ca;
+
+  --color-amber-400: #fbbf24;
+  --color-amber-500: #f59e0b;
+
+  --color-emerald-400: #34d399;
+  --color-emerald-500: #10b981;
+
+  --color-rose-400: #fb7185;
+  --color-rose-500: #f43f5e;
+}
+
+/* ── Base styles ──────────────────────────────────────── */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-surface-950 text-surface-100 antialiased;
+  font-family: var(--font-sans);
+}
+
+/* ── Scrollbar ────────────────────────────────────────── */
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { @apply bg-surface-700 rounded-full; }
+::-webkit-scrollbar-thumb:hover { @apply bg-surface-600; }
+
+/* ── Glass card ───────────────────────────────────────── */
+
+.glass {
+  background: var(--cp-glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--cp-glass-border);
+  border-radius: 1rem;
+}
+
+.glass-hover {
+  transition: all 0.3s;
+}
+.glass-hover:hover {
+  border-color: var(--cp-surface-600);
+  background: var(--cp-hover-bg);
+}
+
+/* ── Gradient text ────────────────────────────────────── */
+
+.gradient-text {
+  @apply bg-gradient-to-r from-accent-400 via-purple-400 to-rose-400 bg-clip-text text-transparent;
+}
+
+/* ── Animated gradient border ─────────────────────────── */
+
+.gradient-border {
+  position: relative;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899, #6366f1);
+  background-size: 300% 300%;
+  animation: gradient-shift 6s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* ── Pulse ring ───────────────────────────────────────── */
+
+.pulse-ring { @apply relative; }
+.pulse-ring::after {
+  content: '';
+  @apply absolute inset-0 rounded-full bg-accent-500/30 animate-ping;
+}
+
+/* ── Page transitions ─────────────────────────────────── */
+
+.page-enter {
+  opacity: 0;
+  transform: translateY(8px);
+  animation: page-in 0.3s ease-out forwards;
+}
+
+@keyframes page-in {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Toast ────────────────────────────────────────────── */
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(16px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.animate-slide-up { animation: slide-up 0.25s ease-out; }
+
+/* ── Dialog ───────────────────────────────────────────── */
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.92); }
+  to { opacity: 1; transform: scale(1); }
+}
+.animate-scale-in { animation: scale-in 0.2s ease-out; }
+
+/* ── Skeleton ─────────────────────────────────────────── */
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, var(--cp-surface-800) 25%, var(--cp-surface-700) 50%, var(--cp-surface-800) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: 0.75rem;
+}
