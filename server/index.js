@@ -1,7 +1,24 @@
+import { readFileSync } from 'fs'
+import { resolve, dirname } from 'path'
+import { fileURLToPath } from 'url'
+
+// Load .env file
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+try {
+  const envFile = readFileSync(resolve(__dirname, '.env'), 'utf8')
+  for (const line of envFile.split('\n')) {
+    const trimmed = line.trim()
+    if (trimmed && !trimmed.startsWith('#')) {
+      const [key, ...vals] = trimmed.split('=')
+      if (key && !process.env[key]) process.env[key] = vals.join('=')
+    }
+  }
+} catch (e) { /* .env not found, use env vars directly */ }
+
 import express from 'express'
 import cors from 'cors'
 import path from 'path'
-import { fileURLToPath } from 'url'
 import db from './db.js'
 import sponsorshipsRouter from './routes/sponsorships.js'
 import affiliatesRouter from './routes/affiliates.js'
@@ -18,7 +35,6 @@ import teamRouter from './routes/team.js'
 import analyticsRouter from './routes/analytics.js'
 import { teamScope, logError, authMiddleware } from './middleware.js'
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const app = express()
 const PORT = process.env.PORT || 3001
 
