@@ -99,4 +99,12 @@ export const api = {
     addIdea: (data) => request('/brand/ideas', { method: 'POST', body: JSON.stringify(data) }),
     removeIdea: (id) => request(`/brand/ideas/${id}`, { method: 'DELETE' }),
   },
+
+  ai: {
+    pricingSuggestion: (data) => request('/ai/pricing-suggestion', { method: 'POST', body: JSON.stringify(data) }),
+    brandMatch: (data) => request('/ai/brand-match', { method: 'POST', body: JSON.stringify(data) }),
+    smartFollowup: (data) => request('/ai/smart-followup', { method: 'POST', body: JSON.stringify(data) }),
+    contentIdeas: (data) => request('/ai/content-ideas', { method: 'POST', body: JSON.stringify(data) }),
+    brandDiscovery: (data) => request('/ai/brand-discovery', { method: 'POST', body: JSON.stringify(data) }),
+  },
 }

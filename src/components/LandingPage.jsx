@@ -47,7 +47,10 @@ export default function LandingPage({ onGetStarted, onLogin }) {
       {/* Nav */}
       <nav className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${scrolled ? 'bg-surface-950/80 backdrop-blur-xl border-b border-surface-800/50' : ''}`}>
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <img src="/wordmark.png" alt="CreatorPilot" className="h-8 w-auto" />
+          <div className="flex items-center gap-2.5">
+            <img src="/icon-192.png" alt="CreatorPilot" className="w-9 h-9 rounded-xl" />
+            <span className="font-display text-lg font-bold text-surface-50 tracking-tight">CreatorPilot</span>
+          </div>
           <div className="flex items-center gap-3">
             <button onClick={onLogin} className="px-4 py-2 text-sm font-medium text-surface-300 hover:text-surface-100 transition-colors">
               Sign In

@@ -4,6 +4,7 @@ import { useToast } from '../ToastContext.jsx'
 import ConfirmDialog from './ConfirmDialog.jsx'
 import EmptyState from './EmptyState.jsx'
 import FormField from './FormField.jsx'
+import AIPanel from './AIPanel.jsx'
 
 function downloadCSV(type) {
   api.exportCSV(type).then(r => r.blob()).then(blob => {
@@ -22,6 +23,7 @@ export default function Sponsorships() {
   const [form, setForm] = useState({ brand: '', amount: '', status: 'prospecting', notes: '' })
   const [confirm, setConfirm] = useState(null)
   const [search, setSearch] = useState('')
+  const [showAI, setShowAI] = useState(false)
 
   const fetchPipeline = () => api.sponsorships.pipeline().then(p => { setAllPipeline(p); setPipeline(p) }).catch(console.error)
   useEffect(() => { fetchPipeline() }, [])
@@ -101,6 +103,9 @@ export default function Sponsorships() {
           <p className="text-surface-400 mt-1">Manage your brand partnerships and track deals.</p>
         </div>
         <div className="flex gap-2">
+          <button onClick={() => setShowAI(true)} className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-accent-500/10 text-accent-400 text-sm font-medium hover:bg-accent-500/20 transition-all border border-accent-500/20">
+            <span>✨</span> AI
+          </button>
           <div className="relative">
             <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-surface-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
             <input
@@ -200,6 +205,7 @@ export default function Sponsorships() {
           <button className="px-4 py-2 text-sm font-medium bg-accent-600/15 hover:bg-accent-600/25 text-accent-400 rounded-xl transition-colors">Download as PDF</button>
         </div>
       </div>
+      <AIPanel show={showAI} onClose={() => setShowAI(false)} />
     </div>
   )
 }

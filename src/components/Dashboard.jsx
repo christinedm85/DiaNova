@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { api } from '../api.js'
 import { useAuth } from '../AuthContext.jsx'
+import AIPanel from './AIPanel.jsx'
 import {
   PieChart, Pie, Cell, ResponsiveContainer, Tooltip,
   AreaChart, Area, XAxis, YAxis, CartesianGrid,
@@ -14,6 +15,7 @@ export default function Dashboard() {
   const { user } = useAuth()
   const [data, setData] = useState(null)
   const [trend, setTrend] = useState(null)
+  const [showAI, setShowAI] = useState(false)
 
   useEffect(() => {
     api.dashboard().then(setData).catch(console.error)
@@ -45,7 +47,12 @@ export default function Dashboard() {
   return (
     <div className="page-enter space-y-8">
       <div>
-        <h2 className="font-display text-3xl font-bold text-surface-50">Good morning, {user?.name || 'there'}</h2>
+        <div className="flex items-center justify-between">
+          <h2 className="font-display text-3xl font-bold text-surface-50">Good morning, {user?.name || 'there'}</h2>
+          <button onClick={() => setShowAI(true)} className="flex items-center gap-2 px-4 py-2 rounded-xl bg-accent-500/10 text-accent-400 text-sm font-medium hover:bg-accent-500/20 transition-all border border-accent-500/20">
+            <span>✨</span> AI Assistant
+          </button>
+        </div>
         <p className="text-surface-400 mt-1">Here&apos;s how your revenue streams are performing today.</p>
       </div>
 
@@ -170,6 +177,7 @@ export default function Dashboard() {
           <RecCard title="Launch a digital product" desc="Your top video topic has 84K views. Turn it into a $29 guide." tag="Products" />
         </div>
       </div>
+      <AIPanel show={showAI} onClose={() => setShowAI(false)} />
     </div>
   )
 }
