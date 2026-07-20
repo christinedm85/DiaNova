@@ -20,6 +20,7 @@ import VerifyEmailPage from './components/VerifyEmailPage.jsx'
 import ProfilePage from './components/ProfilePage.jsx'
 import TeamPage from './components/TeamPage.jsx'
 import Onboarding from './components/Onboarding.jsx'
+import DemoPage from './components/DemoPage.jsx'
 
 const SECTIONS = {
   dashboard: { label: 'Dashboard', icon: DashboardIcon, component: Dashboard },
@@ -73,6 +74,9 @@ export default function App() {
     }
     if (window.location.pathname === '/reset-password') {
       return <ResetPasswordPage onBack={() => { window.history.replaceState({}, '', '/'); setAuthPage('landing') }} />
+    }
+    if (window.location.pathname === '/demo') {
+      return <DemoPage onGetStarted={() => { window.history.replaceState({}, '', '/'); setAuthPage('register') }} />
     }
     if (authPage === 'forgot-password') return <ForgotPasswordPage onBack={() => setAuthPage('login')} />
     if (authPage === 'login') return <LoginPage onSwitch={() => setAuthPage('register')} onBack={() => setAuthPage('landing')} onForgot={() => setAuthPage('forgot-password')} />
