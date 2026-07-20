@@ -47,10 +47,10 @@ npm run build && node server/index.js
 
 ## Domain
 
-`dianova.tech` — owner-owned on IONOS, not included in the sale.
+`dianova.tech` — owner-owned on IONOS, included in the sale.
 
 ## Sale Notes
 
-This application is built for sale on the cto.new Marketplace. Stripe is in **test mode** — the buyer swaps to live keys to go live. Resend domain verification is pending — the buyer completes DNS setup. Social handles are unclaimed.
+This application is built for private sale. Stripe is in **test mode** — the buyer swaps to live keys to go live. Resend domain verification is pending — the buyer completes DNS setup. Social handles are unclaimed.
 
-Marketing assets (outreach guide, launch kit, teaser video script) are available in the team shared directory.
+Marketing assets (outreach guide, launch kit, teaser video script) are included.
