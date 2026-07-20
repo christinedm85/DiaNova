@@ -13,10 +13,7 @@ export default function Sidebar({ active, onSelect, sections, user, onLogout, on
   return (
     <aside className="w-64 h-full glass rounded-none border-t-0 border-b-0 border-l-0 flex flex-col shrink-0">
       <div className="px-6 py-7 border-b border-surface-700/50">
-        <h1 className="font-display text-xl font-bold">
-          <span className="gradient-text">Creator</span>
-          <span className="text-surface-100">Pilot</span>
-        </h1>
+        <img src="/wordmark.png" alt="CreatorPilot" className="h-8 w-auto" />
         <p className="text-xs text-surface-500 mt-0.5 tracking-wide">MONETIZE YOUR CRAFT</p>
       </div>
 
