@@ -1,7 +1,14 @@
 import { useTheme } from '../ThemeContext.jsx'
 
+function planEmoji(plan) {
+  if (plan === 'studio') return '👑'
+  if (plan === 'pro') return '⭐'
+  return ''
+}
+
 export default function Sidebar({ active, onSelect, sections, user, onLogout, onProfile }) {
   const { theme, toggle } = useTheme()
+  const emoji = planEmoji(user?.plan)
 
   return (
     <aside className="w-64 h-full glass rounded-none border-t-0 border-b-0 border-l-0 flex flex-col shrink-0">
@@ -14,25 +21,26 @@ export default function Sidebar({ active, onSelect, sections, user, onLogout, on
       </div>
 
       <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
-        {Object.entries(sections).map(([key, { label, icon: Icon }]) => {
+        {Object.entries(sections).flatMap(([key, { label, icon: Icon }]) => {
           const isActive = active === key
-          return (
+          const btn = (
             <button
               key={key}
               onClick={() => onSelect(key)}
               className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group ${
                 isActive
-                  ? 'bg-accent-600/15 text-accent-400'
+                  ? 'bg-accent-600/15 text-accent-400 border-l-3 border-l-accent-500'
                   : 'text-surface-400 hover:text-surface-200 hover:bg-surface-800/50'
               }`}
             >
               <Icon active={isActive} />
               {label}
-              {isActive && (
-                <span className="ml-auto w-1.5 h-1.5 rounded-full bg-accent-400 pulse-ring" />
-              )}
             </button>
           )
+          if (key === 'inbox') {
+            return [btn, <div key="nav-sep" className="my-2 border-t border-surface-800" />]
+          }
+          return [btn]
         })}
       </nav>
 
@@ -53,12 +61,12 @@ export default function Sidebar({ active, onSelect, sections, user, onLogout, on
           {theme === 'dark' ? 'Light mode' : 'Dark mode'}
         </button>
         <button onClick={onProfile} className="flex items-center gap-3 w-full rounded-xl p-2 -mx-2 hover:bg-surface-800/50 transition-colors">
-          <div className="w-8 h-8 rounded-full gradient-border flex items-center justify-center text-xs font-bold text-white">
+          <div className="w-10 h-10 rounded-full gradient-border flex items-center justify-center text-[10px] font-bold text-white ring-2 ring-surface-700">
             {user?.name?.[0] || '?'}
           </div>
           <div className="flex-1 min-w-0 text-left">
             <p className="text-sm font-medium text-surface-200 truncate">{user?.name || 'User'}</p>
-            <p className="text-xs text-accent-400 capitalize">{user?.plan || 'free'} Plan</p>
+            <p className="text-xs text-accent-400 capitalize">{emoji}{emoji ? ' ' : ''}{user?.plan || 'free'} Plan</p>
           </div>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M12 20h9" /><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />

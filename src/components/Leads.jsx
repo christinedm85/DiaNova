@@ -71,12 +71,7 @@ export default function Leads() {
       {funnel && (
         <div className="glass p-6">
           <h3 className="font-display text-lg font-semibold text-surface-100 mb-6">Conversion Funnel</h3>
-          <div className="flex items-end gap-2 h-40">
-            <FunnelBar label="Visitors" value={funnel.visitors} max={maxFunnel} color="bg-accent-500" />
-            <FunnelBar label="Sign-ups" value={funnel.signups} max={maxFunnel} color="bg-accent-400" />
-            <FunnelBar label="Leads" value={funnel.leads} max={maxFunnel} color="bg-amber-400" />
-            <FunnelBar label="Qualified" value={funnel.qualified} max={maxFunnel} color="bg-emerald-400" />
-          </div>
+          <FunnelChart funnel={funnel} max={maxFunnel} />
         </div>
       )}
 
@@ -130,13 +125,43 @@ export default function Leads() {
   )
 }
 
-function FunnelBar({ label, value, max, color }) {
-  const height = Math.max((value / max) * 140, 20)
+function FunnelChart({ funnel, max }) {
+  const stages = [
+    { key: 'visitors', label: 'Visitors', value: funnel.visitors, gradient: 'from-accent-400 to-accent-300' },
+    { key: 'signups', label: 'Sign-ups', value: funnel.signups, gradient: 'from-accent-500 to-accent-400' },
+    { key: 'leads', label: 'Leads', value: funnel.leads, gradient: 'from-accent-600 to-accent-500' },
+    { key: 'qualified', label: 'Qualified', value: funnel.qualified, gradient: 'from-accent-700 to-accent-500' },
+  ]
+
   return (
-    <div className="flex-1 flex flex-col items-center gap-1.5">
-      <span className="text-xs font-semibold text-surface-200">{value.toLocaleString()}</span>
-      <div className={`w-full rounded-t-lg transition-all duration-700 ${color}`} style={{ height: `${height}px` }} />
-      <span className="text-xs text-surface-500">{label}</span>
+    <div className="flex flex-col items-center">
+      {stages.map((stage, i) => {
+        const pct = Math.max((stage.value / max) * 100, 5)
+        const prevValue = i > 0 ? stages[i - 1].value : null
+        const convRate = i > 0 && prevValue > 0 ? Math.round((stage.value / prevValue) * 100) : null
+
+        return (
+          <div key={stage.key} className="flex flex-col items-center w-full">
+            {convRate !== null && (
+              <div className="flex items-center gap-1.5 py-1">
+                <span className="text-[11px] font-medium text-surface-500">{convRate}%</span>
+                <span className="text-[11px] text-surface-600">→</span>
+              </div>
+            )}
+            <div
+              className={`h-10 bg-gradient-to-r ${stage.gradient} transition-all duration-1000 ease-out`}
+              style={{
+                width: `${pct}%`,
+                clipPath: 'polygon(4% 0%, 96% 0%, 100% 100%, 0% 100%)',
+              }}
+            />
+            <div className="flex justify-between w-full mt-1.5" style={{ maxWidth: `${pct}%`, minWidth: '80px' }}>
+              <span className="text-[11px] text-surface-400">{stage.label}</span>
+              <span className="text-[11px] font-semibold text-surface-200">{stage.value.toLocaleString()}</span>
+            </div>
+          </div>
+        )
+      })}
     </div>
   )
 }

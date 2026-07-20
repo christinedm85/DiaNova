@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { api } from '../api.js'
+import EmptyState from './EmptyState.jsx'
 
 export default function Affiliates() {
   const [programs, setPrograms] = useState([])
@@ -31,36 +32,45 @@ export default function Affiliates() {
 
       <div className="glass p-6">
         <h3 className="font-display text-lg font-semibold text-surface-100 mb-4">Top Performing Links</h3>
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="bg-surface-800/50 text-surface-400 text-left">
-                <th className="px-4 py-3 font-medium">Program</th>
-                <th className="px-4 py-3 font-medium">Commission</th>
-                <th className="px-4 py-3 font-medium">Clicks</th>
-                <th className="px-4 py-3 font-medium">Conv.</th>
-                <th className="px-4 py-3 font-medium">Revenue</th>
-                <th className="px-4 py-3 font-medium">Trend</th>
-                <th className="px-4 py-3"></th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-surface-700/30">
-              {programs.map(p => (
-                <tr key={p.id} className="hover:bg-surface-800/30 transition-colors">
-                  <td className="px-4 py-3 font-medium text-surface-200">{p.program}</td>
-                  <td className="px-4 py-3 text-surface-300">{p.commission}</td>
-                  <td className="px-4 py-3 text-surface-300">{p.clicks.toLocaleString()}</td>
-                  <td className="px-4 py-3 text-surface-300">{p.conversions}</td>
-                  <td className="px-4 py-3 font-semibold text-surface-100">${p.revenue.toLocaleString()}</td>
-                  <td className={`px-4 py-3 font-medium ${p.trend.startsWith('+') ? 'text-emerald-400' : 'text-rose-400'}`}>{p.trend}</td>
-                  <td className="px-4 py-3">
-                    <button onClick={() => handleDelete(p.id)} className="text-xs text-rose-400 hover:text-rose-300 opacity-0 group-hover:opacity-100">×</button>
-                  </td>
+        {programs.length === 0 ? (
+          <EmptyState
+            icon="👥"
+            title="No affiliate programs yet"
+            description="Add your first program to start tracking and optimizing affiliate revenue."
+            actionLabel="Add your first program"
+          />
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead className="sticky top-0">
+                <tr className="bg-surface-800/50 text-surface-400 text-left">
+                  <th className="px-4 py-3 font-medium">Program ↑↓</th>
+                  <th className="px-4 py-3 font-medium">Commission ↑↓</th>
+                  <th className="px-4 py-3 font-medium">Clicks ↑↓</th>
+                  <th className="px-4 py-3 font-medium">Conv. ↑↓</th>
+                  <th className="px-4 py-3 font-medium">Revenue ↑↓</th>
+                  <th className="px-4 py-3 font-medium">Trend ↑↓</th>
+                  <th className="px-4 py-3"></th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody className="divide-y divide-surface-700/30">
+                {programs.map(p => (
+                  <tr key={p.id} className="hover:bg-surface-800/30 transition-colors group even:bg-surface-800/20">
+                    <td className="px-4 py-3 font-medium text-surface-200">{p.program}</td>
+                    <td className="px-4 py-3 text-surface-300">{p.commission}</td>
+                    <td className="px-4 py-3 text-surface-300">{p.clicks.toLocaleString()}</td>
+                    <td className="px-4 py-3 text-surface-300">{p.conversions}</td>
+                    <td className="px-4 py-3 font-semibold text-surface-100">${p.revenue.toLocaleString()}</td>
+                    <td className={`px-4 py-3 font-medium ${p.trend.startsWith('+') ? 'text-emerald-400' : 'text-rose-400'}`}>{p.trend}</td>
+                    <td className="px-4 py-3">
+                      <button onClick={() => handleDelete(p.id)} className="text-xs text-rose-400 hover:text-rose-300 opacity-0 group-hover:opacity-100 transition-opacity">×</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
