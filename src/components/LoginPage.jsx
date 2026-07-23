@@ -88,7 +88,7 @@ export default function LoginPage({ onSwitch, onBack, onForgot }) {
 
           <div className="pt-2 border-t border-surface-700/30">
             <p className="text-xs text-surface-600 text-center">
-              Demo: alex@creatorpilot.com / creator123
+              Demo: alex@creatorbloom.com / creator123
             </p>
           </div>
         </form>

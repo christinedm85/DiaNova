@@ -60,7 +60,7 @@ export default function BrandBuilder() {
             <div className="w-full aspect-square rounded-2xl gradient-border flex items-center justify-center">
               <div className="text-center">
                 <span className="text-5xl font-display font-bold text-white">CP</span>
-                <p className="text-white/60 text-sm mt-2">CreatorPilot</p>
+                <p className="text-white/60 text-sm mt-2">CreatorBloom</p>
               </div>
             </div>
             <div className="space-y-2">

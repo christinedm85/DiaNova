@@ -48,8 +48,8 @@ export default function LandingPage({ onGetStarted, onLogin }) {
       <nav className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${scrolled ? 'bg-surface-950/80 backdrop-blur-xl border-b border-surface-800/50' : ''}`}>
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <img src="/icon-192.png" alt="CreatorPilot" className="w-9 h-9 rounded-xl" />
-            <span className="font-display text-lg font-bold text-surface-50 tracking-tight">CreatorPilot</span>
+            <img src="/icon-192.png" alt="CreatorBloom" className="w-9 h-9 rounded-xl" />
+            <span className="font-display text-lg font-bold text-surface-50 tracking-tight">CreatorBloom</span>
           </div>
           <div className="flex items-center gap-3">
             <button onClick={onLogin} className="px-4 py-2 text-sm font-medium text-surface-300 hover:text-surface-100 transition-colors">
@@ -73,7 +73,7 @@ export default function LandingPage({ onGetStarted, onLogin }) {
           <span className="gradient-text">into a business</span>
         </h2>
         <p className="text-surface-400 text-lg mt-6 max-w-2xl mx-auto leading-relaxed">
-          CreatorPilot is the all-in-one monetization platform for content creators.
+          CreatorBloom is the all-in-one monetization platform for content creators.
           Manage sponsorships, optimize affiliates, sell products, and build your brand —
           all from one dashboard.
         </p>
@@ -172,7 +172,7 @@ export default function LandingPage({ onGetStarted, onLogin }) {
       <section className="max-w-3xl mx-auto px-6 pb-20 text-center">
         <div className="glass p-12 bg-gradient-to-br from-accent-600/10 to-purple-600/10">
           <h3 className="font-display text-3xl font-bold text-surface-50">Ready to earn more from your content?</h3>
-          <p className="text-surface-400 mt-3 mb-8">Join 2,400+ creators who are already using CreatorPilot.</p>
+          <p className="text-surface-400 mt-3 mb-8">Join 2,400+ creators who are already using CreatorBloom.</p>
           <button onClick={onGetStarted} className="px-8 py-3.5 bg-accent-600 hover:bg-accent-500 text-white font-semibold rounded-xl transition-all duration-200 shadow-xl shadow-accent-600/30 active:scale-95 text-lg">
             Get Started Free →
           </button>
@@ -182,7 +182,7 @@ export default function LandingPage({ onGetStarted, onLogin }) {
       {/* Footer */}
       <footer className="border-t border-surface-800/50 px-6 py-8">
         <div className="max-w-6xl mx-auto flex items-center justify-between text-sm text-surface-600">
-          <p>© 2026 CreatorPilot. All rights reserved.</p>
+          <p>© 2026 CreatorBloom. All rights reserved.</p>
           <div className="flex gap-6">
             <span className="hover:text-surface-400 cursor-pointer transition-colors">Privacy</span>
             <span className="hover:text-surface-400 cursor-pointer transition-colors">Terms</span>

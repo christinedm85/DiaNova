@@ -55,7 +55,7 @@ router.put('/:id', (req, res) => {
       const stages = { prospecting: 'Prospecting', negotiating: 'Negotiating', confirmed: 'Confirmed', completed: 'Completed' }
       void sendEmail(user.email, user.name,
         `📋 ${row.brand} moved to ${stages[status] || status}`,
-        `Hi ${user.name},\n\nYour deal "${row.brand}" (${row.amount}) has moved to ${stages[status] || status}.\n\nView it in CreatorPilot: ${process.env.APP_URL || 'http://localhost:' + (process.env.PORT || 3001)}/\n\n— The CreatorPilot Team`,
+        `Hi ${user.name},\n\nYour deal "${row.brand}" (${row.amount}) has moved to ${stages[status] || status}.\n\nView it in CreatorBloom: ${process.env.APP_URL || 'http://localhost:' + (process.env.PORT || 3001)}/\n\n— The CreatorBloom Team`,
         'deal-moved', user.id)
     }
   }

@@ -1,4 +1,4 @@
-# CreatorPilot
+# CreatorBloom
 
 All-in-one monetization command center for content creators.
 

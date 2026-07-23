@@ -22,7 +22,7 @@ const smtpTransport = smtpConfigured
     })
   : null
 
-const EMAIL_FROM = process.env.EMAIL_FROM || (smtpConfigured ? process.env.SMTP_USER : 'CreatorPilot <noreply@dianova.tech>')
+const EMAIL_FROM = process.env.EMAIL_FROM || (smtpConfigured ? process.env.SMTP_USER : 'CreatorBloom <noreply@dianova.tech>')
 
 // --- Determine active transport name for logging ---
 function transportName() {

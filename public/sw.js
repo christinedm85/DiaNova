@@ -1,4 +1,4 @@
-const CACHE = 'creatorpilot-v1'
+const CACHE = 'creatorbloom-v1'
 const ASSETS = [
   '/',
   '/manifest.json',

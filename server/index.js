@@ -95,5 +95,5 @@ app.use((req, res) => {
 })
 
 app.listen(PORT, () => {
-  console.log(`CreatorPilot running on http://localhost:${PORT}`)
+  console.log(`CreatorBloom running on http://localhost:${PORT}`)
 })
