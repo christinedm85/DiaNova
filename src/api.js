@@ -134,4 +134,11 @@ export const api = {
     stats: () => request('/admin/stats'),
     seedDemo: (userId) => request('/admin/seed-demo', { method: 'POST', body: JSON.stringify({ userId }) }),
   },
+
+  youtube: {
+    status: () => request('/integrations/youtube/status'),
+    stats: () => request('/integrations/youtube/stats'),
+    disconnect: () => request('/integrations/youtube/disconnect', { method: 'DELETE' }),
+    clearCache: () => request('/integrations/youtube/clear-cache', { method: 'POST' }),
+  },
 }

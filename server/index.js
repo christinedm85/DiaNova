@@ -38,7 +38,9 @@ import opportunitiesRouter from './routes/opportunities.js'
 import insightsRouter from './routes/insights.js'
 import demoRouter from './routes/demo.js'
 import adminRouter from './routes/admin.js'
+import youtubeRouter from './routes/youtube.js'
 import { teamScope, logError, authMiddleware, adminMiddleware } from './middleware.js'
+import './migrate-youtube.js'
 
 const app = express()
 const PORT = process.env.PORT || 3001
@@ -61,6 +63,7 @@ app.use('/api/analytics', analyticsRouter)
 app.use('/api/ai', aiRouter)
 app.use('/api/opportunities', opportunitiesRouter)
 app.use('/api/insights', insightsRouter)
+app.use('/api/integrations/youtube', youtubeRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/billing', billingRouter)
 app.use('/api/demo', demoRouter)
