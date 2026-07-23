@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { api } from '../api.js'
 
-const TABS = ['Pricing', 'Brand Match', 'Follow-up', 'Ideas', 'Discovery', '🤝 Coach']
+const TABS = ['Pricing', 'Brand Match', 'Follow-up', 'Ideas', 'Discovery', '🤝 Coach', '📊 Benchmark', '📄 Scan']
 
 export default function AIPanel({ show, onClose }) {
   const [tab, setTab] = useState(0)
@@ -16,6 +16,8 @@ export default function AIPanel({ show, onClose }) {
   const [ideasForm, setIdeasForm] = useState({ niche: '', audienceSize: '' })
   const [discoveryForm, setDiscoveryForm] = useState({ niche: '', demographics: '' })
   const [negotiationForm, setNegotiationForm] = useState({ emailText: '', niche: '', audienceSize: '' })
+  const [benchmarkForm, setBenchmarkForm] = useState({ contentType: 'TikTok sponsorship', niche: '', audienceSize: '' })
+  const [scannerForm, setScannerForm] = useState({ contractText: '' })
 
   async function generate(apiCall, data) {
     setLoading(true); setError(null); setResult(null)
@@ -176,6 +178,69 @@ export default function AIPanel({ show, onClose }) {
               </button>
             </div>
           )}
+          {tab === 6 && (
+            <div className="space-y-3">
+              <label className="block text-xs text-surface-400">Content type</label>
+              <select
+                value={benchmarkForm.contentType}
+                onChange={e => setBenchmarkForm({ ...benchmarkForm, contentType: e.target.value })}
+                className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none"
+              >
+                <option value="TikTok sponsorship">TikTok sponsorship</option>
+                <option value="YouTube integration">YouTube integration</option>
+                <option value="Instagram post">Instagram post</option>
+                <option value="UGC">UGC</option>
+                <option value="Podcast ad">Podcast ad</option>
+              </select>
+              <label className="block text-xs text-surface-400">Your niche (optional)</label>
+              <input
+                value={benchmarkForm.niche}
+                onChange={e => setBenchmarkForm({ ...benchmarkForm, niche: e.target.value })}
+                placeholder="e.g. fitness, tech reviews"
+                className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-accent-500/50"
+              />
+              <label className="block text-xs text-surface-400">Audience size (optional)</label>
+              <input
+                value={benchmarkForm.audienceSize}
+                onChange={e => setBenchmarkForm({ ...benchmarkForm, audienceSize: e.target.value })}
+                placeholder="e.g. 142K"
+                className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-accent-500/50"
+              />
+              <button
+                onClick={() => generate(api.ai.creatorBenchmarking, {
+                  contentType: benchmarkForm.contentType,
+                  niche: benchmarkForm.niche || undefined,
+                  audienceSize: benchmarkForm.audienceSize || undefined,
+                })}
+                disabled={loading}
+                className="w-full rounded-xl bg-accent-500/20 text-accent-400 py-2 text-sm font-medium hover:bg-accent-500/30 transition-all disabled:opacity-50"
+              >
+                {loading ? 'Comparing...' : '📊 Compare Rates'}
+              </button>
+            </div>
+          )}
+          {tab === 7 && (
+            <div className="space-y-3">
+              <label className="block text-xs text-surface-400">Paste the full sponsorship contract text here</label>
+              <textarea
+                value={scannerForm.contractText}
+                onChange={e => setScannerForm({ ...scannerForm, contractText: e.target.value })}
+                placeholder={'SPONSORSHIP AGREEMENT\n\n1. Exclusivity: Creator agrees to a 6-month exclusivity period for all fitness-related content...\n\n2. Usage Rights: Brand retains perpetual, worldwide rights to all content created...\n\n3. Payment: Net-60 payment terms apply...'}
+                rows={10}
+                className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-accent-500/50 resize-none font-mono text-xs"
+              />
+              <p className="text-xs text-surface-500 -mt-2">{scannerForm.contractText.length} characters</p>
+              <button
+                onClick={() => generate(api.ai.contractScanner, {
+                  contractText: scannerForm.contractText,
+                })}
+                disabled={loading || scannerForm.contractText.trim().length < 50}
+                className="w-full rounded-xl bg-accent-500/20 text-accent-400 py-2 text-sm font-medium hover:bg-accent-500/30 transition-all disabled:opacity-50"
+              >
+                {loading ? 'Scanning...' : '📄 Scan Contract'}
+              </button>
+            </div>
+          )}
           {/* Loading */}
           {loading && (
             <div className="mt-4 space-y-2 animate-pulse">
@@ -264,6 +329,128 @@ export default function AIPanel({ show, onClose }) {
                           <li key={i} className="text-sm text-rose-300 flex items-start gap-2">
                             <span className="text-rose-400 mt-0.5 shrink-0">⚠</span>
                             <span>{flag}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* Disclaimer */}
+                  {result._disclaimer && (
+                    <p className="text-xs text-surface-500 text-center italic mt-2">{result._disclaimer}</p>
+                  )}
+                </div>
+              ) : result.typicalRange && result.comparisons ? (
+                /* Creator Benchmarking structured result */
+                <div className="space-y-3 animate-[fadeIn_0.4s_ease-out]">
+                  {/* Typical Range Card */}
+                  <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/40 ring-1 ring-emerald-500/20">
+                    <p className="text-xs text-emerald-400 font-semibold uppercase tracking-wide mb-1">Typical Market Range</p>
+                    <p className="font-display text-2xl font-bold text-emerald-300">{result.typicalRange}</p>
+                    <div className="flex items-center gap-2 mt-2">
+                      <span className={`text-xs font-bold uppercase px-2 py-0.5 rounded-full ${
+                        result.yourPosition === 'above_average' ? 'bg-emerald-500/20 text-emerald-400' :
+                        result.yourPosition === 'below_average' ? 'bg-amber-500/20 text-amber-400' :
+                        'bg-surface-500/20 text-surface-400'
+                      }`}>
+                        {result.yourPosition === 'above_average' ? 'Above Average' : result.yourPosition === 'below_average' ? 'Below Average' : 'Average'}
+                      </span>
+                      {result.percentile != null && (
+                        <span className="text-xs text-surface-400">{result.percentile}th percentile</span>
+                      )}
+                    </div>
+                    <p className="text-xs text-surface-400 mt-2">{result.summary}</p>
+                  </div>
+
+                  {/* Percentile Bar */}
+                  {result.percentile != null && (
+                    <div className="p-4 rounded-xl bg-surface-800/50 border border-surface-700/30">
+                      <p className="text-xs text-surface-400 font-semibold uppercase tracking-wide mb-3">Market Position</p>
+                      <div className="relative h-4 bg-surface-700/50 rounded-full overflow-hidden">
+                        <div
+                          className="absolute inset-y-0 left-0 bg-gradient-to-r from-emerald-500 to-emerald-400 rounded-full transition-all duration-700"
+                          style={{ width: `${result.percentile}%` }}
+                        />
+                      </div>
+                      <div className="flex justify-between mt-1.5 text-xs text-surface-500">
+                        <span>0th</span>
+                        <span className="font-semibold text-emerald-400">{result.percentile}th</span>
+                        <span>100th</span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Comparison Breakdown */}
+                  {result.comparisons?.length > 0 && (
+                    <div className="space-y-2">
+                      <p className="text-xs text-surface-400 font-semibold uppercase tracking-wide">Rate Comparison</p>
+                      {result.comparisons.map((comp, i) => (
+                        <div
+                          key={i}
+                          className={`p-3 rounded-xl border ${
+                            comp.gap ? 'bg-surface-800/50 border-surface-700/30' :
+                            comp.label === 'Your range' ? 'bg-emerald-500/10 border-emerald-500/40 ring-1 ring-emerald-500/20' :
+                            'bg-surface-800/30 border-surface-700/20'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between">
+                            <span className="text-sm text-surface-200">{comp.label}</span>
+                            <span className="text-sm font-semibold text-surface-100">{comp.amount}</span>
+                          </div>
+                          {comp.gap && (
+                            <p className="text-xs text-surface-500 mt-0.5">{comp.gap}</p>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ) : result.clauses ? (
+                /* Contract Scanner structured result */
+                <div className="space-y-3 animate-[fadeIn_0.4s_ease-out]">
+                  {/* Summary Card */}
+                  <div className="p-4 rounded-xl bg-surface-800/50 border border-surface-700/30">
+                    <p className="text-xs text-surface-400 font-semibold uppercase tracking-wide mb-1">Scan Summary</p>
+                    <p className="text-sm text-surface-200">{result.summary}</p>
+                  </div>
+
+                  {/* Clauses */}
+                  {result.clauses?.length > 0 && (
+                    <div className="space-y-2">
+                      <p className="text-xs text-surface-400 font-semibold uppercase tracking-wide">Clauses Found</p>
+                      {result.clauses.map((clause, i) => {
+                        const severityStyles = {
+                          info: { bg: 'bg-blue-500/10 border-blue-500/30', badgeBg: 'bg-blue-500/20 text-blue-400', dot: 'text-blue-400' },
+                          warning: { bg: 'bg-amber-500/10 border-amber-500/30', badgeBg: 'bg-amber-500/20 text-amber-400', dot: 'text-amber-400' },
+                          danger: { bg: 'bg-rose-500/10 border-rose-500/30', badgeBg: 'bg-rose-500/20 text-rose-400', dot: 'text-rose-400' },
+                        }
+                        const s = severityStyles[clause.severity] || severityStyles.info
+                        return (
+                          <div key={i} className={`p-3 rounded-xl border ${s.bg}`}>
+                            <div className="flex items-center gap-2 mb-1">
+                              <span className={`text-xs font-bold uppercase px-2 py-0.5 rounded-full ${s.badgeBg}`}>
+                                {clause.severity}
+                              </span>
+                              <span className="text-xs text-surface-400 capitalize">{clause.type?.replace(/_/g, ' ')}</span>
+                            </div>
+                            <p className="text-sm text-surface-200">{clause.detail}</p>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  )}
+
+                  {/* Missing Protections */}
+                  {result.missing?.length > 0 && (
+                    <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/20">
+                      <p className="text-xs text-amber-400 font-semibold uppercase tracking-wide mb-2 flex items-center gap-1">
+                        <span>⚠️</span> Missing Protections
+                      </p>
+                      <ul className="space-y-1.5">
+                        {result.missing.map((item, i) => (
+                          <li key={i} className="text-sm text-amber-300 flex items-start gap-2">
+                            <span className="text-amber-400 mt-0.5 shrink-0">⚠</span>
+                            <span>{item}</span>
                           </li>
                         ))}
                       </ul>

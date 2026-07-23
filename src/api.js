@@ -125,7 +125,9 @@ export const api = {
     contentIdeas: (data) => request('/ai/content-ideas', { method: 'POST', body: JSON.stringify(data) }),
     brandDiscovery: (data) => request('/ai/brand-discovery', { method: 'POST', body: JSON.stringify(data) }),
     negotiationCoach: (data) => request('/ai/negotiation-coach', { method: 'POST', body: JSON.stringify(data) }),
-  },
+    creatorBenchmarking: (data) => request('/ai/creator-benchmarking', { method: 'POST', body: JSON.stringify(data) }),
+    contractScanner: (data) => request('/ai/contract-scanner', { method: 'POST', body: JSON.stringify(data) }),
+    },
 
   admin: {
     users: () => request('/admin/users'),

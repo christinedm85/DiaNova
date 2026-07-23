@@ -549,6 +549,18 @@ function DemoAI() {
       sample: 'FitLife Apparel → Underpriced by ~35%\nCounter: $2,200–$2,800',
       description: 'Paste a brand offer and get instant analysis, counteroffer strategy, and a draft reply.',
     },
+    {
+      icon: '📊',
+      title: 'Creator Benchmarking',
+      sample: 'Tech/Gadgets · 85K · YouTube\n$1,800–$2,400 · 68th percentile',
+      description: 'Compare your rates against the market. See where you stand and what top creators charge.',
+    },
+    {
+      icon: '📄',
+      title: 'Contract Scanner',
+      sample: '4 clauses flagged · 3 missing protections\n1 danger: perpetual usage rights',
+      description: 'Paste a contract and get instant analysis of risky clauses and missing protections.',
+    },
   ]
 
   return (
@@ -607,6 +619,12 @@ function DemoAI() {
 
       {/* Negotiation Coach Showcase */}
       <DemoNegotiationCoach />
+
+      {/* Creator Benchmarking Showcase */}
+      <DemoCreatorBenchmarking />
+
+      {/* Contract Scanner Showcase */}
+      <DemoContractScanner />
     </div>
   )
 }
@@ -701,6 +719,172 @@ function DemoNegotiationCoach() {
       {/* Disclaimer */}
       <p className="text-xs text-surface-500 text-center italic">
         ⚠️ This is AI-generated guidance, not legal advice. Review contracts with a lawyer before signing.
+      </p>
+    </div>
+  )
+}
+
+function DemoCreatorBenchmarking() {
+  return (
+    <div className="glass p-6 space-y-5" id="demo-benchmarking-section">
+      <div>
+        <h3 className="font-display text-lg font-semibold text-surface-100 flex items-center gap-2">
+          <span>📊</span> Creator Benchmarking — Sample Analysis
+        </h3>
+        <p className="text-sm text-surface-400 mt-1">
+          Here's what the AI Benchmarking tool looks like. Compare your rates against market data for any content type.
+        </p>
+      </div>
+
+      {/* Query params */}
+      <div className="p-4 rounded-xl bg-surface-800/50 border border-surface-700/30">
+        <p className="text-xs text-surface-500 font-semibold uppercase tracking-wide mb-1">Search Parameters</p>
+        <div className="flex flex-wrap gap-3 text-sm">
+          <span className="text-surface-300"><span className="text-surface-500">Niche:</span> Tech/Gadgets</span>
+          <span className="text-surface-300"><span className="text-surface-500">Audience:</span> 85K</span>
+          <span className="text-surface-300"><span className="text-surface-500">Content:</span> YouTube integration</span>
+        </div>
+      </div>
+
+      {/* Typical Range Card */}
+      <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/40 ring-1 ring-emerald-500/20">
+        <p className="text-xs text-emerald-400 font-semibold uppercase tracking-wide mb-1">Typical Market Range</p>
+        <p className="font-display text-2xl font-bold text-emerald-300">$1,800 – $2,400</p>
+        <div className="flex items-center gap-2 mt-2">
+          <span className="text-xs font-bold uppercase px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400">
+            Above Average
+          </span>
+          <span className="text-xs text-surface-400">68th percentile</span>
+        </div>
+        <p className="text-xs text-surface-400 mt-2">
+          Creators with similar audiences (50K-150K) in tech/gadgets typically charge $1,800-$2,400 for YouTube integrations. You're in the 68th percentile — earning more than two-thirds of comparable creators.
+        </p>
+      </div>
+
+      {/* Percentile Bar */}
+      <div className="p-4 rounded-xl bg-surface-800/50 border border-surface-700/30">
+        <p className="text-xs text-surface-400 font-semibold uppercase tracking-wide mb-3">Market Position</p>
+        <div className="relative h-4 bg-surface-700/50 rounded-full overflow-hidden">
+          <div
+            className="absolute inset-y-0 left-0 bg-gradient-to-r from-emerald-500 to-emerald-400 rounded-full"
+            style={{ width: '68%' }}
+          />
+        </div>
+        <div className="flex justify-between mt-1.5 text-xs text-surface-500">
+          <span>0th</span>
+          <span className="font-semibold text-emerald-400">68th</span>
+          <span>100th</span>
+        </div>
+      </div>
+
+      {/* Comparison Breakdown */}
+      <div className="space-y-2">
+        <p className="text-xs text-surface-400 font-semibold uppercase tracking-wide">Rate Comparison</p>
+        <div className="p-3 rounded-xl border bg-surface-800/50 border-surface-700/30">
+          <div className="flex items-center justify-between">
+            <span className="text-sm text-surface-200">Top 10%</span>
+            <span className="text-sm font-semibold text-surface-100">$3,500+</span>
+          </div>
+          <p className="text-xs text-surface-500 mt-0.5">+$1,100 from your current range</p>
+        </div>
+        <div className="p-3 rounded-xl border bg-emerald-500/10 border-emerald-500/40 ring-1 ring-emerald-500/20">
+          <div className="flex items-center justify-between">
+            <span className="text-sm text-surface-200">Your range</span>
+            <span className="text-sm font-semibold text-surface-100">$1,800–$2,400</span>
+          </div>
+        </div>
+        <div className="p-3 rounded-xl border bg-surface-800/30 border-surface-700/20">
+          <div className="flex items-center justify-between">
+            <span className="text-sm text-surface-200">Bottom 25%</span>
+            <span className="text-sm font-semibold text-surface-100">$600–$1,000</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function DemoContractScanner() {
+  return (
+    <div className="glass p-6 space-y-5" id="demo-contract-section">
+      <div>
+        <h3 className="font-display text-lg font-semibold text-surface-100 flex items-center gap-2">
+          <span>📄</span> Contract Scanner — Sample Analysis
+        </h3>
+        <p className="text-sm text-surface-400 mt-1">
+          Here's what the AI Contract Scanner looks like when you paste a sponsorship contract. This shows a real sample analysis.
+        </p>
+      </div>
+
+      {/* Summary */}
+      <div className="p-4 rounded-xl bg-surface-800/50 border border-surface-700/30">
+        <p className="text-xs text-surface-400 font-semibold uppercase tracking-wide mb-1">Scan Summary</p>
+        <p className="text-sm text-surface-200">
+          This contract has 3 significant concerns: perpetual usage rights that strip creator ownership, a restrictive 6-month exclusivity on all fitness content, and Net-60 payment terms. The exclusivity and usage clauses should be negotiated before signing.
+        </p>
+      </div>
+
+      {/* Clauses */}
+      <div className="space-y-2">
+        <p className="text-xs text-surface-400 font-semibold uppercase tracking-wide">Clauses Found</p>
+
+        <div className="p-3 rounded-xl border bg-rose-500/10 border-rose-500/30">
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-xs font-bold uppercase px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-400">danger</span>
+            <span className="text-xs text-surface-400 capitalize">Usage Rights</span>
+          </div>
+          <p className="text-sm text-surface-200">Brand retains perpetual, worldwide rights to all content created — you lose ownership of your work indefinitely.</p>
+        </div>
+
+        <div className="p-3 rounded-xl border bg-amber-500/10 border-amber-500/30">
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-xs font-bold uppercase px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400">warning</span>
+            <span className="text-xs text-surface-400 capitalize">Exclusivity</span>
+          </div>
+          <p className="text-sm text-surface-200">6-month exclusivity on all fitness content — very restrictive and blocks you from working with competitors in your main niche.</p>
+        </div>
+
+        <div className="p-3 rounded-xl border bg-amber-500/10 border-amber-500/30">
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-xs font-bold uppercase px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400">warning</span>
+            <span className="text-xs text-surface-400 capitalize">Non Compete</span>
+          </div>
+          <p className="text-sm text-surface-200">12-month non-compete clause prevents you from working with any brand in the "health and wellness" space — overly broad.</p>
+        </div>
+
+        <div className="p-3 rounded-xl border bg-blue-500/10 border-blue-500/30">
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-xs font-bold uppercase px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400">info</span>
+            <span className="text-xs text-surface-400 capitalize">Payment Terms</span>
+          </div>
+          <p className="text-sm text-surface-200">Net-60 payment terms — slower than the industry standard Net-30. You'll wait 2 months to get paid.</p>
+        </div>
+      </div>
+
+      {/* Missing Protections */}
+      <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/20">
+        <p className="text-xs text-amber-400 font-semibold uppercase tracking-wide mb-2 flex items-center gap-1">
+          <span>⚠️</span> Missing Protections
+        </p>
+        <ul className="space-y-1.5">
+          <li className="text-sm text-amber-300 flex items-start gap-2">
+            <span className="text-amber-400 mt-0.5 shrink-0">⚠</span>
+            <span>No termination clause specified — you could be locked in indefinitely</span>
+          </li>
+          <li className="text-sm text-amber-300 flex items-start gap-2">
+            <span className="text-amber-400 mt-0.5 shrink-0">⚠</span>
+            <span>No content approval process defined — brand could reject content arbitrarily</span>
+          </li>
+          <li className="text-sm text-amber-300 flex items-start gap-2">
+            <span className="text-amber-400 mt-0.5 shrink-0">⚠</span>
+            <span>No performance metrics or deliverables timeline — scope is undefined</span>
+          </li>
+        </ul>
+      </div>
+
+      {/* Disclaimer */}
+      <p className="text-xs text-surface-500 text-center italic">
+        ⚠️ This is AI-generated analysis, not legal advice. Always have a lawyer review contracts before signing.
       </p>
     </div>
   )

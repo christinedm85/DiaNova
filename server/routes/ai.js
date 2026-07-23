@@ -111,6 +111,90 @@ Return ONLY valid JSON: {"categories": [{"name": "string", "examples": ["string"
   res.json(parseAIResponse(result))
 })
 
+// ── 7. Creator Benchmarking ───────────────────────────────
+// POST /creator-benchmarking — body: {niche?, audienceSize?, contentType}
+router.post('/creator-benchmarking', async (req, res) => {
+  const { niche, audienceSize, contentType } = req.body
+  if (!contentType) {
+    return res.status(400).json({ error: 'contentType is required' })
+  }
+
+  const contextParts = []
+  if (niche) contextParts.push(`Creator's niche: ${niche}`)
+  if (audienceSize) contextParts.push(`Audience size: ${audienceSize}`)
+  const context = contextParts.length ? '\n\nContext:\n' + contextParts.join('\n') : ''
+
+  const prompt = `Compare this creator's rates against the market for ${contentType}.${context}
+
+Return ONLY valid JSON with this exact structure:
+{
+  "typicalRange": "$X – $Y (realistic market range string)",
+  "yourPosition": "above_average|average|below_average",
+  "percentile": number (0-100),
+  "summary": "1-2 sentence summary with context about the niche and content type",
+  "comparisons": [
+    { "label": "Top 10%", "amount": "$X+", "gap": "+$Y from your current" },
+    { "label": "Your range", "amount": "$X-$Y", "gap": null },
+    { "label": "Bottom 25%", "amount": "$X-$Y", "gap": null }
+  ]
+}
+
+Make the dollar amounts realistic for the niche and content type provided. If no niche or audience size is given, use reasonable industry averages.`
+
+  const systemPrompt = 'You are a creator monetization expert who benchmarks creator rates against industry data. You provide realistic market rate comparisons for different content types and niches. Be specific with dollar amounts and always give actionable context.'
+
+  const result = await askAI(prompt, systemPrompt)
+  res.json(parseAIResponse(result))
+})
+
+// ── 8. Contract Scanner ────────────────────────────────────
+// POST /contract-scanner — body: {contractText}
+router.post('/contract-scanner', async (req, res) => {
+  const { contractText } = req.body
+  if (!contractText || typeof contractText !== 'string' || contractText.trim().length < 50) {
+    return res.status(400).json({ error: 'contractText is required and must be at least 50 characters' })
+  }
+
+  const prompt = `Analyze this sponsorship contract for a content creator. Identify problematic clauses, missing protections, and provide a plain-English summary.
+
+CONTRACT TEXT:
+"""
+${contractText}
+"""
+
+Return ONLY valid JSON with this exact structure:
+{
+  "clauses": [
+    {
+      "type": "exclusivity|usage_rights|payment_terms|termination|content_approval|deliverables|ownership|non_compete|other",
+      "severity": "info|warning|danger",
+      "detail": "Clear, plain-English explanation of what this clause means and why it matters"
+    }
+  ],
+  "missing": [
+    "Brief description of a missing protection that should be in the contract"
+  ],
+  "summary": "1-3 sentence overall assessment highlighting the most important concerns"
+}
+
+Rules:
+- severity: "info" for standard/expected clauses, "warning" for restrictive but common clauses, "danger" for clauses that could harm the creator
+- Focus on what actually matters: unfair payment terms, excessive exclusivity, loss of content ownership, vague deliverables
+- Only flag real issues — don't fabricate problems
+- "missing" should list protections that are genuinely absent (minimum 0, maximum 5)`
+
+  const systemPrompt = 'You are a legal analyst specializing in creator/sponsor contracts. You translate legal jargon into plain English and flag clauses that could harm content creators. Be practical, specific, and focus on real risks. You are NOT providing legal advice — you are an AI assistant helping creators understand what they are signing.'
+
+  const result = await askAI(prompt, systemPrompt)
+  const parsed = parseAIResponse(result)
+
+  // Add disclaimer to every response
+  if (!parsed.error && !parsed.raw) {
+    parsed._disclaimer = '⚠️ This is AI-generated analysis, not legal advice. Always have a lawyer review contracts before signing.'
+  }
+  res.json(parsed)
+})
+
 // ── 6. Negotiation Coach ──────────────────────────────────
 // POST /negotiation-coach — body: {emailText, niche?, audienceSize?}
 router.post('/negotiation-coach', async (req, res) => {
