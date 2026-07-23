@@ -49,7 +49,7 @@ export default function BrandBuilder() {
   return (
     <div className="page-enter space-y-8">
       <div>
-        <h2 className="font-display text-3xl font-bold text-surface-50">Brand Builder</h2>
+        <h2 id="sales-tour-brand" className="font-display text-3xl font-bold text-surface-50">Brand Builder</h2>
         <p className="text-surface-400 mt-1">Define and grow your unique creator brand identity.</p>
       </div>
 

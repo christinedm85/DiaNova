@@ -276,7 +276,7 @@ export default function Dashboard({ onNavigate }) {
       )}
 
       {/* ═══ Hero Section ═══ */}
-      <div className="flex items-start justify-between flex-wrap gap-4">
+      <div id="sales-tour-dashboard-hero" className="flex items-start justify-between flex-wrap gap-4">
         <div>
           <h2 className="font-display text-3xl font-bold text-surface-50">
             👋 {insights?.greeting || `Good morning, ${user?.name || 'there'}`}
@@ -288,6 +288,7 @@ export default function Dashboard({ onNavigate }) {
           </p>
         </div>
         <button
+          id="sales-tour-ai-button"
           onClick={() => setShowAI(true)}
           className="flex items-center gap-2 px-4 py-2 rounded-xl bg-accent-500/10 text-accent-400 text-sm font-medium hover:bg-accent-500/20 transition-all border border-accent-500/20"
         >
@@ -363,7 +364,7 @@ export default function Dashboard({ onNavigate }) {
 
       {/* ═══ Revenue Forecast ═══ */}
       {insights?.forecast && (
-        <section>
+        <section id="sales-tour-forecast">
           <div className="glass p-6 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-accent-500/5 rounded-full -translate-y-1/2 translate-x-1/4 blur-3xl" />
             <div className="relative">

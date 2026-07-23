@@ -23,6 +23,7 @@ import Onboarding from './components/Onboarding.jsx'
 import DemoPage from './components/DemoPage.jsx'
 import OpportunityFeed from './components/OpportunityFeed.jsx'
 import AdminDashboard from './components/AdminDashboard.jsx'
+import SalesTour from './components/SalesTour.jsx'
 
 const SECTIONS = {
   dashboard: { label: 'Dashboard', icon: DashboardIcon, component: Dashboard },
@@ -45,10 +46,20 @@ export default function App() {
   const [active, setActive] = useState('dashboard')
   const [authPage, setAuthPage] = useState('landing')
   const [showOnboarding, setShowOnboarding] = useState(false)
+  const [showSalesTour, setShowSalesTour] = useState(false)
 
   useEffect(() => {
     if (user && user.onboarding_complete === 0) {
       setShowOnboarding(true)
+    }
+  }, [user])
+
+  // Check if sales tour should auto-start
+  useEffect(() => {
+    if (user && !localStorage.getItem('creatorbloom_tour_complete')) {
+      // Delay slightly so the dashboard renders first
+      const t = setTimeout(() => setShowSalesTour(true), 800)
+      return () => clearTimeout(t)
     }
   }, [user])
 
@@ -100,13 +111,23 @@ export default function App() {
 
   return (
     <div className="flex h-screen overflow-hidden">
-      <Sidebar active={active} onSelect={setActive} sections={visibleSections} user={user} onLogout={logout} onProfile={() => setActive('profile')} />
+      <Sidebar active={active} onSelect={setActive} sections={visibleSections} user={user} onLogout={logout} onProfile={() => setActive('profile')} onTourRestart={() => setShowSalesTour(true)} />
       <main className="flex-1 overflow-y-auto p-8">
         <div className="max-w-6xl mx-auto" key={active}>
           <Component onNavigate={setActive} />
         </div>
       </main>
       {showOnboarding && <Onboarding onComplete={() => setShowOnboarding(false)} />}
+      {showSalesTour && (
+        <SalesTour
+          user={user}
+          active={active}
+          onNavigate={setActive}
+          onComplete={() => setShowSalesTour(false)}
+          onSkip={() => setShowSalesTour(false)}
+          onRestart={() => setShowSalesTour(true)}
+        />
+      )}
     </div>
   )
 }

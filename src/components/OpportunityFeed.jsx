@@ -64,7 +64,7 @@ export default function OpportunityFeed() {
     <div className="page-enter space-y-6">
       {/* Header */}
       <div>
-        <h2 className="font-display text-3xl font-bold text-surface-50">Opportunities</h2>
+        <h2 id="sales-tour-opportunities" className="font-display text-3xl font-bold text-surface-50">Opportunities</h2>
         <p className="text-surface-400 mt-1">AI-curated opportunities matched to your niche</p>
       </div>
 

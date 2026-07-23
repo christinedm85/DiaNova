@@ -6,7 +6,7 @@ function planEmoji(plan) {
   return ''
 }
 
-export default function Sidebar({ active, onSelect, sections, user, onLogout, onProfile }) {
+export default function Sidebar({ active, onSelect, sections, user, onLogout, onProfile, onTourRestart }) {
   const { theme, toggle } = useTheme()
   const emoji = planEmoji(user?.plan)
 
@@ -47,6 +47,12 @@ export default function Sidebar({ active, onSelect, sections, user, onLogout, on
       </nav>
 
       <div className="px-4 py-3 border-t border-surface-700/50 space-y-2">
+        <button
+          onClick={onTourRestart}
+          className="flex items-center gap-2 w-full text-xs text-surface-500 hover:text-surface-300 transition-colors px-1"
+        >
+          🎓 Restart Tour
+        </button>
         <button
           onClick={toggle}
           className="flex items-center gap-2 w-full text-xs text-surface-500 hover:text-surface-300 transition-colors px-1"

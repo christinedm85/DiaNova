@@ -134,7 +134,7 @@ export default function AdminDashboard() {
     <div className="page-enter space-y-6">
       {/* Header */}
       <div>
-        <h2 className="font-display text-3xl font-bold text-surface-50 flex items-center gap-3">
+        <h2 id="sales-tour-admin" className="font-display text-3xl font-bold text-surface-50 flex items-center gap-3">
           <span className="w-10 h-10 rounded-xl bg-accent-500/10 flex items-center justify-center text-xl">🛡️</span>
           Admin Dashboard
         </h2>

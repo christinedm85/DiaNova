@@ -47,7 +47,7 @@ export default function Leads() {
     <div className="page-enter space-y-8">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="font-display text-3xl font-bold text-surface-50">Lead Generation</h2>
+          <h2 id="sales-tour-leads" className="font-display text-3xl font-bold text-surface-50">Lead Generation</h2>
           <p className="text-surface-400 mt-1">Capture and nurture leads to grow your brand.</p>
         </div>
         <div className="flex gap-2">
