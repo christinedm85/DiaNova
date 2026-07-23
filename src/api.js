@@ -1,5 +1,9 @@
 const BASE = '/api'
 
+export async function getOpportunities(niche) {
+  return request(`/opportunities?niche=${encodeURIComponent(niche || 'content creation')}`)
+}
+
 function getToken() {
   return localStorage.getItem('token')
 }

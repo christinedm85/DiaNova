@@ -21,6 +21,7 @@ import ProfilePage from './components/ProfilePage.jsx'
 import TeamPage from './components/TeamPage.jsx'
 import Onboarding from './components/Onboarding.jsx'
 import DemoPage from './components/DemoPage.jsx'
+import OpportunityFeed from './components/OpportunityFeed.jsx'
 
 const SECTIONS = {
   dashboard: { label: 'Dashboard', icon: DashboardIcon, component: Dashboard },
@@ -31,6 +32,7 @@ const SECTIONS = {
   products: { label: 'Products', icon: ProductsIcon, component: Products },
   brand: { label: 'Brand', icon: BrandIcon, component: BrandBuilder },
   inbox: { label: 'Inbox', icon: InboxIcon, component: Inbox },
+  opportunities: { label: 'Opportunities', icon: OpportunitiesIcon, component: OpportunityFeed },
   billing: { label: 'Billing', icon: BillingIcon, component: BillingPage },
   profile: { label: 'Profile', icon: ProfileIcon, component: ProfilePage },
   team: { label: 'Team', icon: TeamIcon, component: TeamPage },
@@ -202,6 +204,15 @@ function TeamIcon({ active }) {
       <circle cx="9" cy="7" r="4" />
       <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
       <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+    </svg>
+  )
+}
+
+function OpportunitiesIcon({ active }) {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={active ? '#818cf8' : '#64748b'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10" />
+      <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
     </svg>
   )
 }

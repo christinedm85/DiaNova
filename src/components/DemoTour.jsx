@@ -44,6 +44,13 @@ const TOUR_STEPS = [
     position: 'top',
   },
   {
+    id: 'opportunities',
+    title: 'Opportunity Feed',
+    description: 'Stop hunting for work. Our AI surfaces brand deals, seasonal trends, and content opportunities matched to your niche — so you never miss a chance to earn.',
+    target: 'demo-opportunities-section',
+    position: 'top',
+  },
+  {
     id: 'cta',
     title: 'Ready to try it yourself?',
     description: 'Join 2,400+ creators already using CreatorBloom. Start free — no credit card required.',
@@ -128,6 +135,7 @@ export default function DemoTour({ onComplete, onSkip, currentSection, onNavigat
       'demo-leads-section': 'leads',
       'demo-products-section': 'products',
       'demo-ai-section': 'ai',
+      'demo-opportunities-section': 'opportunities',
     }
     const targetSection = sectionMap[s.target]
     if (targetSection && currentSection !== targetSection) {

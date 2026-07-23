@@ -34,6 +34,7 @@ import exportRouter from './routes/export.js'
 import teamRouter from './routes/team.js'
 import analyticsRouter from './routes/analytics.js'
 import aiRouter from './routes/ai.js'
+import opportunitiesRouter from './routes/opportunities.js'
 import { teamScope, logError, authMiddleware } from './middleware.js'
 
 const app = express()
@@ -55,6 +56,7 @@ app.use('/api/export', exportRouter)
 app.use('/api/team', teamRouter)
 app.use('/api/analytics', analyticsRouter)
 app.use('/api/ai', aiRouter)
+app.use('/api/opportunities', opportunitiesRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/billing', billingRouter)
 

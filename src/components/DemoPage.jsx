@@ -25,6 +25,7 @@ const DEMO_SECTIONS = {
   leads: { label: 'Lead Gen', icon: LeadIcon },
   products: { label: 'Products', icon: ProductsIcon },
   ai: { label: 'AI Tools', icon: AIIcon },
+  opportunities: { label: 'Opportunities', icon: OpportunitiesIcon },
 }
 
 export default function DemoPage({ onGetStarted }) {
@@ -124,6 +125,7 @@ export default function DemoPage({ onGetStarted }) {
           {active === 'leads' && <DemoLeads />}
           {active === 'products' && <DemoProducts />}
           {active === 'ai' && <DemoAI />}
+          {active === 'opportunities' && <DemoOpportunities />}
         </div>
       </main>
 
@@ -600,6 +602,176 @@ function DemoAI() {
   )
 }
 
+/* ─── Demo Opportunities ──────────────────────────────────── */
+
+function DemoOpportunities() {
+  const demoSampleOpportunities = [
+    {
+      id: 'demo-opp-1',
+      type: 'brand_deal',
+      title: 'A skincare brand is looking for TikTok creators in your niche',
+      description: 'GlowUp Skincare is actively seeking beauty and lifestyle creators for a 3-video sponsorship. Budget ranges from $800–$2,500 per video.',
+      category: 'Brand Deal',
+      urgency: 'high',
+      actionLabel: 'Pitch Now',
+    },
+    {
+      id: 'demo-opp-2',
+      type: 'seasonal',
+      title: 'Amazon Prime Day is 30 days away. Here\'s what to pitch.',
+      description: 'Prime Day deal guides get 3x engagement in the tech niche. Prep your affiliate content now and lock in brands for exclusive promo slots.',
+      category: 'Seasonal',
+      urgency: 'high',
+      actionLabel: 'Prepare',
+    },
+    {
+      id: 'demo-opp-3',
+      type: 'trend',
+      title: 'UGC demand for pet products is up this month',
+      description: 'Brands in the pet space are shifting budget to UGC-style content. Your audience demographics are a strong match for 6+ active campaigns.',
+      category: 'Trend Alert',
+      urgency: 'medium',
+      actionLabel: 'Learn More',
+    },
+    {
+      id: 'demo-opp-4',
+      type: 'affiliate',
+      title: 'Notion just raised their creator commission to 30%',
+      description: 'Productivity tool Notion now offers 30% recurring commissions for new sign-ups. Your audience over-indexes on productivity content.',
+      category: 'Affiliate',
+      urgency: 'medium',
+      actionLabel: 'Apply',
+    },
+    {
+      id: 'demo-opp-5',
+      type: 'content_idea',
+      title: 'Your "morning routine" video has 142K views — turn it into a product',
+      description: 'Viewers are asking for your exact planner layout. Package it as a $12 digital download with Notion and PDF versions.',
+      category: 'Content',
+      urgency: 'low',
+      actionLabel: 'Learn More',
+    },
+    {
+      id: 'demo-opp-6',
+      type: 'brand_deal',
+      title: '3 fitness apparel brands are reviewing creator pitches this week',
+      description: 'Gymshark, Alphalete, and NVGTN all have open casting calls. Your engagement rate puts you in the top tier for consideration.',
+      category: 'Brand Deal',
+      urgency: 'high',
+      actionLabel: 'Apply',
+    },
+  ]
+
+  const TYPE_CONFIG = {
+    brand_deal: { badge: 'Brand Deal', color: 'bg-amber-500/15 text-amber-400 border-amber-500/20' },
+    seasonal: { badge: 'Seasonal', color: 'bg-blue-500/15 text-blue-400 border-blue-500/20' },
+    trend: { badge: 'Trend Alert', color: 'bg-rose-500/15 text-rose-400 border-rose-500/20' },
+    affiliate: { badge: 'Affiliate', color: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/20' },
+    content_idea: { badge: 'Content', color: 'bg-violet-500/15 text-violet-400 border-violet-500/20' },
+  }
+
+  const URGENCY_DOT = {
+    high: 'bg-red-400',
+    medium: 'bg-amber-400',
+    low: 'bg-emerald-400',
+  }
+
+  return (
+    <div className="page-enter space-y-6" id="demo-opportunities-section">
+      <div>
+        <h2 className="font-display text-3xl font-bold text-surface-50">Opportunities</h2>
+        <p className="text-surface-400 mt-1">AI-curated opportunities matched to your niche</p>
+      </div>
+
+      {/* Filter bar */}
+      <div className="flex flex-wrap gap-2">
+        {['All', 'Brand Deals', 'Seasonal', 'Trends', 'Affiliates', 'Content'].map(label => (
+          <button
+            key={label}
+            disabled
+            className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-all duration-200 cursor-not-allowed opacity-60 ${
+              label === 'All'
+                ? 'bg-accent-600/20 text-accent-400 border border-accent-500/30'
+                : 'text-surface-400 border border-transparent'
+            }`}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+
+      {/* Cards Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {demoSampleOpportunities.map((opp, i) => {
+          const config = TYPE_CONFIG[opp.type] || TYPE_CONFIG.content_idea
+          const dotColor = URGENCY_DOT[opp.urgency] || URGENCY_DOT.medium
+
+          return (
+            <div
+              key={opp.id}
+              className="glass glass-hover p-5 group relative flex flex-col"
+              style={{ animationDelay: `${i * 0.06}s` }}
+            >
+              <div className="flex items-center gap-2 mb-3">
+                <span className={`text-xs font-semibold px-2 py-0.5 rounded-full border ${config.color}`}>
+                  {config.badge}
+                </span>
+                <span className="flex items-center gap-1 text-xs text-surface-500">
+                  <span className={`w-2 h-2 rounded-full ${dotColor}`} />
+                  {opp.urgency === 'high' ? 'Urgent' : opp.urgency === 'medium' ? 'Soon' : 'Evergreen'}
+                </span>
+              </div>
+
+              <h4 className="font-semibold text-surface-100 text-sm leading-snug mb-2">
+                {opp.title}
+              </h4>
+
+              <p className="text-xs text-surface-400 leading-relaxed flex-1 mb-4">
+                {opp.description}
+              </p>
+
+              <div className="flex items-center justify-between pt-3 border-t border-surface-700/30">
+                <span className="text-xs text-surface-500">{opp.category}</span>
+                <div className="relative group/tip">
+                  <button
+                    disabled
+                    className={`px-3 py-1.5 text-xs font-semibold rounded-lg cursor-not-allowed ${
+                      opp.urgency === 'high'
+                        ? 'bg-accent-600/30 text-white/40'
+                        : 'bg-surface-800/60 text-surface-500'
+                    }`}
+                  >
+                    {opp.actionLabel}
+                  </button>
+                  <div className="absolute -top-9 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-surface-800 text-surface-200 text-xs rounded-lg opacity-0 group-hover/tip:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-10">
+                    Sign up to unlock
+                  </div>
+                </div>
+              </div>
+            </div>
+          )
+        })}
+      </div>
+
+      {/* CTA */}
+      <div className="glass p-6 text-center">
+        <h3 className="font-display text-lg font-semibold text-surface-100 mb-2">
+          Never miss an opportunity again
+        </h3>
+        <p className="text-sm text-surface-400 mb-4">
+          Our AI scans trends, seasons, and brand campaigns to surface opportunities matched to your niche — updated in real time.
+        </p>
+        <a
+          href="/?signup=1"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-accent-600 hover:bg-accent-500 text-white text-sm font-semibold rounded-xl transition-all duration-200 shadow-lg shadow-accent-600/25 active:scale-95"
+        >
+          Get your opportunities →
+        </a>
+      </div>
+    </div>
+  )
+}
+
 /* ─── Shared Demo Components ─────────────────────────────── */
 
 function DemoStatCard({ label, value, change, positive, color }) {
@@ -749,6 +921,15 @@ function AIIcon({ active }) {
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={active ? '#818cf8' : '#64748b'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M12 2l1.5 4.5L18 8l-4.5 1.5L12 14l-1.5-4.5L6 8l4.5-1.5z" />
       <path d="M12 22l1-3 3-1-3-1-1-3-1 3-3 1 3 1z" opacity="0.5" />
+    </svg>
+  )
+}
+
+function OpportunitiesIcon({ active }) {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={active ? '#818cf8' : '#64748b'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10" />
+      <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
     </svg>
   )
 }
