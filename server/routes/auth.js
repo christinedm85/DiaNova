@@ -75,8 +75,8 @@ router.post('/register', authLimiter, (req, res) => {
         .run(hashed, name, bcrypt.hashSync(password, 10), existing.id)
 
       const verifyUrl = `${origin()}/verify-email?token=${raw}`
-      void sendEmail(email, name, 'Verify your CreatorPilot account',
-        `Hi ${name},\n\nWelcome to CreatorPilot! Click the link below to verify your email and activate your account:\n\n${verifyUrl}\n\n— The CreatorPilot Team`,
+      void sendEmail(email, name, 'Verify your CreatorBloom account',
+        `Hi ${name},\n\nWelcome to CreatorBloom! Click the link below to verify your email and activate your account:\n\n${verifyUrl}\n\n— The CreatorBloom Team`,
         'email-verification', existing.id)
       logLink('Verification re-sent', verifyUrl)
 
@@ -95,8 +95,8 @@ router.post('/register', authLimiter, (req, res) => {
   db.prepare('UPDATE users SET verification_token = ? WHERE id = ?').run(hashed, info.lastInsertRowid)
 
   const verifyUrl = `${origin()}/verify-email?token=${raw}`
-  void sendEmail(email, name, 'Verify your CreatorPilot account',
-    `Hi ${name},\n\nWelcome to CreatorPilot! Click the link below to verify your email and activate your account:\n\n${verifyUrl}\n\n— The CreatorPilot Team`,
+  void sendEmail(email, name, 'Verify your CreatorBloom account',
+    `Hi ${name},\n\nWelcome to CreatorBloom! Click the link below to verify your email and activate your account:\n\n${verifyUrl}\n\n— The CreatorBloom Team`,
     'email-verification', info.lastInsertRowid)
   logLink('Verification', verifyUrl)
 
@@ -143,8 +143,8 @@ router.post('/resend-verification', emailLimiter, (req, res) => {
   db.prepare('UPDATE users SET verification_token = ? WHERE id = ?').run(hashed, user.id)
 
   const verifyUrl = `${origin()}/verify-email?token=${raw}`
-  void sendEmail(email, user.name, 'Verify your CreatorPilot account',
-    `Hi ${user.name},\n\nClick the link below to verify your email and activate your account:\n\n${verifyUrl}\n\n— The CreatorPilot Team`,
+  void sendEmail(email, user.name, 'Verify your CreatorBloom account',
+    `Hi ${user.name},\n\nClick the link below to verify your email and activate your account:\n\n${verifyUrl}\n\n— The CreatorBloom Team`,
     'email-verification', user.id)
   logLink('Verification re-sent', verifyUrl)
 
@@ -237,8 +237,8 @@ router.post('/forgot-password', emailLimiter, (req, res) => {
     .run(hashed, user.id)
 
   const resetUrl = `${origin()}/reset-password?token=${raw}`
-  void sendEmail(email, user.name, 'Reset your CreatorPilot password',
-    `Hi ${user.name},\n\nWe received a request to reset your password. Click the link below to choose a new one:\n\n${resetUrl}\n\nThis link expires in 1 hour. If you didn't request this, you can safely ignore this email.\n\n— The CreatorPilot Team`,
+  void sendEmail(email, user.name, 'Reset your CreatorBloom password',
+    `Hi ${user.name},\n\nWe received a request to reset your password. Click the link below to choose a new one:\n\n${resetUrl}\n\nThis link expires in 1 hour. If you didn't request this, you can safely ignore this email.\n\n— The CreatorBloom Team`,
     'password-reset', user.id)
   logLink('Password reset', resetUrl)
 

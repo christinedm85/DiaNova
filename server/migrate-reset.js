@@ -2,7 +2,7 @@ import Database from 'better-sqlite3'
 import path from 'path'
 import { fileURLToPath } from 'url'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const db = new Database(path.join(__dirname, 'creatorpilot.db'))
+const db = new Database(path.join(__dirname, 'creatorbloom.db'))
 
 // Add reset_token + reset_expires to users
 const usersCols = db.prepare(`PRAGMA table_info(users)`).all().map(c => c.name)

@@ -37,7 +37,7 @@ router.post('/', (req, res) => {
   if (user && user.notify_new_lead) {
     void sendEmail(user.email, user.name,
       `🎯 New lead: ${name}`,
-      `Hi ${user.name},\n\n${name} (${email}) just signed up via ${source || 'Direct'}.\n\nView all leads in CreatorPilot: ${process.env.APP_URL || 'http://localhost:' + (process.env.PORT || 3001)}/\n\n— The CreatorPilot Team`,
+      `Hi ${user.name},\n\n${name} (${email}) just signed up via ${source || 'Direct'}.\n\nView all leads in CreatorBloom: ${process.env.APP_URL || 'http://localhost:' + (process.env.PORT || 3001)}/\n\n— The CreatorBloom Team`,
       'new-lead', user.id)
   }
 

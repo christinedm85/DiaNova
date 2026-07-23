@@ -51,9 +51,9 @@ export default function DemoPage({ onGetStarted }) {
       <aside className="w-64 h-full glass rounded-none border-t-0 border-b-0 border-l-0 flex flex-col shrink-0">
         <div className="px-6 py-7 border-b border-surface-700/50">
           <div className="flex items-center gap-3">
-            <img src="/icon-192.png" alt="CreatorPilot" className="w-11 h-11 rounded-2xl ring-1 ring-surface-700/50" />
+            <img src="/icon-192.png" alt="CreatorBloom" className="w-11 h-11 rounded-2xl ring-1 ring-surface-700/50" />
             <div>
-              <h1 className="font-display text-lg font-bold text-surface-50 tracking-tight">CreatorPilot</h1>
+              <h1 className="font-display text-lg font-bold text-surface-50 tracking-tight">CreatorBloom</h1>
               <p className="text-[10px] text-surface-500 tracking-widest uppercase">Monetize Your Craft</p>
             </div>
           </div>

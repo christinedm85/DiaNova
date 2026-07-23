@@ -5,7 +5,7 @@ import FormField from './FormField.jsx'
 
 const STEPS = [
   {
-    title: 'Welcome to CreatorPilot',
+    title: 'Welcome to CreatorBloom',
     subtitle: 'Your all-in-one monetization command center. Let\'s get you set up in 60 seconds.',
     emoji: '🚀',
   },

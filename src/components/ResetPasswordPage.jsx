@@ -101,7 +101,7 @@ export default function ResetPasswordPage({ onBack }) {
         <div className="text-center mb-8">
           <h1 className="font-display text-3xl font-bold">
             <span className="gradient-text">Creator</span>
-            <span className="text-surface-50">Pilot</span>
+            <span className="text-surface-50">Bloom</span>
           </h1>
           <p className="text-surface-500 text-sm mt-2">Choose a new password</p>
         </div>

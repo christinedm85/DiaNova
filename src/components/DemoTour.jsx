@@ -3,8 +3,8 @@ import { useState, useEffect, useCallback } from 'react'
 const TOUR_STEPS = [
   {
     id: 'welcome',
-    title: 'Welcome to CreatorPilot',
-    description: 'In the next 60 seconds, we\'ll show you how CreatorPilot helps you manage your entire creator business in one place.',
+    title: 'Welcome to CreatorBloom',
+    description: 'In the next 60 seconds, we\'ll show you how CreatorBloom helps you manage your entire creator business in one place.',
     target: null,
     position: 'center',
   },
@@ -46,7 +46,7 @@ const TOUR_STEPS = [
   {
     id: 'cta',
     title: 'Ready to try it yourself?',
-    description: 'Join 2,400+ creators already using CreatorPilot. Start free — no credit card required.',
+    description: 'Join 2,400+ creators already using CreatorBloom. Start free — no credit card required.',
     target: null,
     position: 'center',
     isCTA: true,
