@@ -4,10 +4,11 @@ export async function getOpportunities(niche) {
   return request(`/opportunities?niche=${encodeURIComponent(niche || 'content creation')}`)
 }
 
-export async function demoSeed() {
+export async function demoSeed(accessCode) {
   const res = await fetch(`${BASE}/demo/seed`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ accessCode }),
   })
   if (!res.ok) {
     const err = await res.json().catch(() => ({ error: res.statusText }))

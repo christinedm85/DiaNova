@@ -37,6 +37,9 @@ const FEATURES = [
 export default function LandingPage({ onGetStarted, onLogin }) {
   const [scrolled, setScrolled] = useState(false)
   const [demoLoading, setDemoLoading] = useState(false)
+  const [showAccessModal, setShowAccessModal] = useState(false)
+  const [accessCode, setAccessCode] = useState('')
+  const [accessError, setAccessError] = useState('')
 
   useEffect(() => {
     const handle = () => setScrolled(window.scrollY > 50)
@@ -44,16 +47,34 @@ export default function LandingPage({ onGetStarted, onLogin }) {
     return () => window.removeEventListener('scroll', handle)
   }, [])
 
-  const handleTryDemo = async () => {
+  const handleTryDemo = () => {
+    setShowAccessModal(true)
+    setAccessCode('')
+    setAccessError('')
+  }
+
+  const handleAccessDemo = async () => {
+    if (!accessCode.trim()) {
+      setAccessError('Please enter the access code.')
+      return
+    }
     setDemoLoading(true)
+    setAccessError('')
     try {
-      const data = await demoSeed()
+      const data = await demoSeed(accessCode.trim())
       localStorage.setItem('token', data.token)
       window.location.reload()
     } catch (err) {
       setDemoLoading(false)
-      alert('Failed to load demo. Please try again.')
+      setAccessError(err.message || 'Invalid access code')
     }
+  }
+
+  const handleModalCancel = () => {
+    setShowAccessModal(false)
+    setDemoLoading(false)
+    setAccessError('')
+    setAccessCode('')
   }
 
   return (
@@ -209,6 +230,65 @@ export default function LandingPage({ onGetStarted, onLogin }) {
           </div>
         </div>
       </footer>
+
+      {/* Access Code Modal */}
+      {showAccessModal && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          {/* Dark overlay backdrop */}
+          <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={handleModalCancel} />
+          {/* Modal */}
+          <div className="relative z-10 w-full max-w-md glass p-8 rounded-2xl border border-surface-700/50 shadow-2xl">
+            <div className="text-center mb-6">
+              <span className="text-4xl">🔐</span>
+              <h3 className="font-display text-2xl font-bold text-surface-50 mt-3">Buyer Access</h3>
+              <p className="text-surface-400 text-sm mt-2 leading-relaxed">
+                Enter the access code to explore the demo workspace.
+              </p>
+            </div>
+            <div className="space-y-4">
+              <div>
+                <input
+                  type="password"
+                  value={accessCode}
+                  onChange={(e) => { setAccessCode(e.target.value); setAccessError('') }}
+                  onKeyDown={(e) => { if (e.key === 'Enter') handleAccessDemo() }}
+                  placeholder="Enter access code"
+                  autoFocus
+                  className="w-full px-4 py-3 bg-surface-800/60 border border-surface-700 rounded-xl text-surface-100 placeholder-surface-500 focus:outline-none focus:ring-2 focus:ring-accent-500/50 focus:border-accent-500/50 transition-all text-lg text-center tracking-widest"
+                />
+                {accessError && (
+                  <p className="text-red-400 text-sm mt-2 text-center">{accessError}</p>
+                )}
+              </div>
+              <div className="flex gap-3">
+                <button
+                  onClick={handleModalCancel}
+                  className="flex-1 px-4 py-3 bg-surface-800 hover:bg-surface-700 text-surface-300 font-medium rounded-xl transition-colors text-sm"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleAccessDemo}
+                  disabled={demoLoading}
+                  className="flex-1 px-4 py-3 bg-accent-600 hover:bg-accent-500 text-white font-semibold rounded-xl transition-all duration-200 shadow-lg shadow-accent-600/25 active:scale-95 text-sm disabled:opacity-60"
+                >
+                  {demoLoading ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                      </svg>
+                      Verifying...
+                    </span>
+                  ) : (
+                    'Access Demo'
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

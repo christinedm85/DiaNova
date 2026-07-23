@@ -67,10 +67,16 @@ function seedDemoData(userId) {
   for (const p of products) seedProd.run(...p)
 }
 
-// ── POST /api/demo/seed (public, no auth) ──────────────
+// ── POST /api/demo/seed (access code protected) ────────
 
 router.post('/seed', (req, res) => {
   try {
+    // Validate access code
+    const { accessCode } = req.body
+    if (!accessCode || accessCode !== process.env.DEMO_ACCESS_CODE) {
+      return res.status(403).json({ error: 'Invalid access code' })
+    }
+
     // Find or create demo user
     let demoUser = db.prepare('SELECT id, name, email, plan, email_verified, onboarding_complete, is_admin FROM users WHERE email = ?').get(DEMO_EMAIL)
 
