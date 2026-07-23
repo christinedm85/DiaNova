@@ -65,7 +65,38 @@ function seedDemoData(userId) {
     ['Brand Pitch Kit', 'Templates', 49, 56, 2744, '+22%', userId],
   ]
   for (const p of products) seedProd.run(...p)
-}
+
+  // ── Brand Kit (via brand_settings) ──
+  // brand_settings is a singleton table — update it with demo-branded data
+  db.prepare(`UPDATE brand_settings SET
+    primary_color = '#6366F1',
+    accent_color = '#F59E0B',
+    neutral_color = '#0F172A',
+    pillars = ?,
+    tone = ?,
+    audience = ?,
+    health_score = 82
+  WHERE id = 1`).run(
+    JSON.stringify(['Tech & Lifestyle', 'Creator Economy', 'Product Reviews', 'Tutorials', 'Behind the Scenes']),
+    JSON.stringify(['Educational', 'Authentic', 'Inspirational', 'Humorous', 'Professional']),
+    JSON.stringify(['Aspiring Creators', 'Freelancers', 'Small Business', 'Tech Enthusiasts'])
+  )
+
+  // Re-seed content ideas for the demo
+  db.prepare('DELETE FROM content_ideas').run()
+  const seedIdea = db.prepare('INSERT INTO content_ideas (title, format, score, reason) VALUES (?, ?, ?, ?)')
+  const ideas = [
+    ['My $12K/Month Sponsorship Stack (Full Breakdown)', 'YouTube Video', 94, 'Topical + monetization angle'],
+    ['How I Landed Nike as a 50K Creator', 'Short-form Video', 91, 'High share potential'],
+    ['Affiliate Programs That Pay 20%+ Commissions', 'Blog / Newsletter', 88, 'Evergreen + affiliate potential'],
+    ['Pricing Tier: When to Charge More', 'Thread / Carousel', 85, 'High save & share rate'],
+    ['Behind the Scenes: Negotiating a $5K Brand Deal', 'Short-form Video', 90, 'Trending format + authenticity'],
+    ['My Exact Content Calendar System', 'Templates', 87, 'Lead magnet potential'],
+    ['Creator Tools I Can\'t Live Without in 2026', 'YouTube Video', 83, 'Affiliate linking opportunity'],
+    ['How to Turn 1 Video into 5 Income Streams', 'Thread / Carousel', 89, 'Monetization focus'],
+  ]
+  for (const i of ideas) seedIdea.run(...i)
+  }
 
 // ── POST /api/demo/seed (access code protected) ────────
 

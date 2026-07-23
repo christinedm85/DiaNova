@@ -10,6 +10,18 @@ router.use(teamScope)
 
 // GET /api/opportunities?niche=...
 router.get('/', async (req, res) => {
+  // Demo user: return hardcoded opportunities immediately (skip AI)
+  if (req.user?.email === 'demo@creatorbloom.app') {
+    return res.json([
+      { id: 'demo-opp-1', type: 'brand_deal', title: 'A skincare brand is looking for TikTok creators in your niche', description: 'A mid-tier skincare brand is actively seeking 3-5 creators for a 30-day campaign. Budget: $2,000-3,500 per creator.', category: 'Brand Deal', urgency: 'high', actionLabel: 'Pitch Now', createdAt: new Date().toISOString() },
+      { id: 'demo-opp-2', type: 'seasonal', title: 'Amazon Prime Day is 30 days away. Here\'s what to pitch', description: 'Prime Day drives massive affiliate revenue. Prepare your product roundups and deals content now to maximize commissions.', category: 'Seasonal', urgency: 'high', actionLabel: 'Prepare', createdAt: new Date().toISOString() },
+      { id: 'demo-opp-3', type: 'trend', title: 'UGC demand for pet products is up this month', description: 'Pet brands increased UGC spend by 40% this quarter. Your audience demographics match the target profile.', category: 'Trend Alert', urgency: 'medium', actionLabel: 'Learn More', createdAt: new Date().toISOString() },
+      { id: 'demo-opp-4', type: 'affiliate', title: '3 affiliate programs matching your audience offer 20%+ commissions', description: 'Based on your content niche, these programs have high conversion potential and recurring commission structures.', category: 'Affiliate', urgency: 'medium', actionLabel: 'Apply', createdAt: new Date().toISOString() },
+      { id: 'demo-opp-5', type: 'content_idea', title: 'Your top video topic could become a $3,200/mo digital product', description: 'Your lighting tutorial has 84K views. Package it as a premium PDF guide with setup diagrams and presets.', category: 'Content', urgency: 'low', actionLabel: 'Learn More', createdAt: new Date().toISOString() },
+      { id: 'demo-opp-6', type: 'brand_deal', title: '3 fitness brands actively seeking creators with 50K-150K followers', description: 'Your audience size and engagement rate are in the sweet spot. These brands have open casting calls this month.', category: 'Brand Deal', urgency: 'medium', actionLabel: 'Apply', createdAt: new Date().toISOString() }
+    ])
+  }
+
   const niche = req.query.niche || 'general content creation'
 
   const prompt = `Generate 5-8 monetization opportunities for a content creator in the "${niche}" niche. 
