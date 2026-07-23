@@ -1,0 +1,99 @@
+import { Router } from 'express'
+import bcrypt from 'bcryptjs'
+import db from '../db.js'
+import { generateToken } from '../middleware.js'
+
+const router = Router()
+
+// Demo credentials
+const DEMO_EMAIL = 'demo@creatorbloom.app'
+const DEMO_PASSWORD = 'demo123'
+const DEMO_NAME = 'Demo Creator'
+
+// ── Helpers ──────────────────────────────────────────────
+
+function clearUserData(userId) {
+  db.prepare('DELETE FROM sponsorships WHERE user_id = ?').run(userId)
+  db.prepare('DELETE FROM affiliates WHERE user_id = ?').run(userId)
+  db.prepare('DELETE FROM leads WHERE user_id = ?').run(userId)
+  db.prepare('DELETE FROM products WHERE user_id = ?').run(userId)
+}
+
+function seedDemoData(userId) {
+  // ── Sponsorships (8 across all pipeline stages) ──
+  const seedSponsor = db.prepare("INSERT INTO sponsorships (brand, amount, status, notes, user_id, created_at, updated_at) VALUES (?, ?, ?, ?, ?, datetime('now'), datetime('now'))")
+  const sponsors = [
+    ['Nike', 4500, 'confirmed', 'Campaign brief approved. Content due in 2 weeks. 2 Instagram posts + 1 Reel.', userId],
+    ['Sephora', 2800, 'negotiating', 'Counter-offer sent. Requesting $3,200 for exclusive 30-day window.', userId],
+    ['Adobe', 3200, 'confirmed', 'Annual partnership renewal. Creative Cloud ambassador program.', userId],
+    ['Gymshark', 1900, 'prospecting', 'Initial outreach sent. Waiting for brand manager response.', userId],
+    ['Skillshare', 2100, 'negotiating', 'Discussing affiliate commission bump from 30% to 40%.', userId],
+    ['Samsung', 5200, 'completed', 'Galaxy S25 launch campaign. Paid $5,200 + free device.', userId],
+    ['Audible', 1600, 'completed', 'Q2 audiobook promo. 3 stories + 1 post. Paid on time.', userId],
+    ['HelloFresh', 2400, 'prospecting', 'Applied via their creator portal. Demo metrics attached.', userId],
+  ]
+  for (const s of sponsors) seedSponsor.run(...s)
+
+  // ── Affiliates (5 with realistic data) ──
+  const seedAff = db.prepare("INSERT INTO affiliates (program, commission, clicks, conversions, revenue, trend, user_id, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, datetime('now'))")
+  const affiliates = [
+    ['Amazon Associates', '4%', 8500, 312, 850, '+12%', userId],
+    ['Skillshare', '30%', 4200, 98, 620, '+8%', userId],
+    ['Epidemic Sound', '$20 flat', 3100, 45, 370, '+22%', userId],
+    ['TubeBuddy', '25%', 2800, 34, 290, '-3%', userId],
+    ['Notion', '$15 flat', 1900, 28, 420, '+18%', userId],
+  ]
+  for (const a of affiliates) seedAff.run(...a)
+
+  // ── Leads (6 with funnel data) ──
+  const seedLead = db.prepare("INSERT INTO leads (name, email, source, user_id, created_at) VALUES (?, ?, ?, ?, datetime('now'))")
+  const leads = [
+    ['Jessica Park', 'jessica@beautybrand.co', 'Instagram DM', userId],
+    ['Tomás Rivera', 'tomas@rivermedia.io', 'YouTube About Page', userId],
+    ['Amara Osei', 'amara@osei.agency', 'LinkedIn Inbound', userId],
+    ['Kevin Lu', 'kevin@techreview.gg', 'CreatorBloom Referral', userId],
+    ['Priya Sharma', 'priya.sharma@glowbeauty.in', 'Google Search', userId],
+    ['Marcus Webb', 'marcus@webbmedia.co', 'Podcast Guest Appearance', userId],
+  ]
+  for (const l of leads) seedLead.run(...l)
+
+  // ── Digital Products (3) ──
+  const seedProd = db.prepare("INSERT INTO products (title, type, price, sales, revenue, trend, user_id, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, datetime('now'))")
+  const products = [
+    ['Ultimate Lighting Guide', 'PDF Guide', 29, 142, 4118, '+18%', userId],
+    ['Content Calendar Templates', 'Templates', 19, 89, 1691, '+8%', userId],
+    ['Brand Pitch Kit', 'Templates', 49, 56, 2744, '+22%', userId],
+  ]
+  for (const p of products) seedProd.run(...p)
+}
+
+// ── POST /api/demo/seed (public, no auth) ──────────────
+
+router.post('/seed', (req, res) => {
+  try {
+    // Find or create demo user
+    let demoUser = db.prepare('SELECT id, name, email, plan, email_verified, onboarding_complete, is_admin FROM users WHERE email = ?').get(DEMO_EMAIL)
+
+    if (!demoUser) {
+      const hash = bcrypt.hashSync(DEMO_PASSWORD, 10)
+      const info = db.prepare('INSERT INTO users (name, email, password, plan, email_verified, onboarding_complete) VALUES (?, ?, ?, ?, 1, 1)').run(DEMO_NAME, DEMO_EMAIL, hash, 'pro')
+      demoUser = db.prepare('SELECT id, name, email, plan, email_verified, onboarding_complete, is_admin FROM users WHERE id = ?').get(info.lastInsertRowid)
+    }
+
+    // Clear and re-seed demo data
+    clearUserData(demoUser.id)
+    seedDemoData(demoUser.id)
+
+    // Generate token
+    const token = generateToken(demoUser)
+    const { ...safeUser } = demoUser
+    safeUser.is_admin = demoUser.is_admin || 0
+
+    res.json({ user: safeUser, token })
+  } catch (err) {
+    console.error('Demo seed error:', err)
+    res.status(500).json({ error: 'Failed to seed demo data' })
+  }
+})
+
+export default router

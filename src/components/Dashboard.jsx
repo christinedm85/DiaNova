@@ -136,6 +136,9 @@ export default function Dashboard({ onNavigate }) {
   const [error, setError] = useState(null)
   const [showAI, setShowAI] = useState(false)
   const [showDetails, setShowDetails] = useState(false)
+  const [dismissDemo, setDismissDemo] = useState(false)
+
+  const isDemoUser = user?.email?.includes('demo')
 
   const fetchAll = () => {
     setLoading(true)
@@ -240,6 +243,38 @@ export default function Dashboard({ onNavigate }) {
 
   return (
     <div className="page-enter space-y-8">
+      {/* ═══ Demo Banner ═══ */}
+      {isDemoUser && !dismissDemo && (
+        <div className="glass p-4 border border-amber-500/30 bg-amber-500/5 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <span className="text-2xl">👋</span>
+            <div>
+              <p className="text-sm font-medium text-amber-300">Welcome! This is a pre-loaded demo workspace.</p>
+              <p className="text-xs text-surface-400 mt-0.5">All data is sample data. Explore the features and see how CreatorBloom works for your business.</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              onClick={() => {
+                localStorage.removeItem('token')
+                window.location.reload()
+              }}
+              className="px-3 py-1.5 text-xs font-medium rounded-lg bg-surface-800 text-surface-300 hover:text-surface-100 hover:bg-surface-700 transition-colors"
+            >
+              Start fresh
+            </button>
+            <button
+              onClick={() => setDismissDemo(true)}
+              className="p-1.5 rounded-lg hover:bg-surface-700/50 text-surface-500 hover:text-surface-300 transition-colors"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* ═══ Hero Section ═══ */}
       <div className="flex items-start justify-between flex-wrap gap-4">
         <div>

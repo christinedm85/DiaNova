@@ -36,7 +36,9 @@ import analyticsRouter from './routes/analytics.js'
 import aiRouter from './routes/ai.js'
 import opportunitiesRouter from './routes/opportunities.js'
 import insightsRouter from './routes/insights.js'
-import { teamScope, logError, authMiddleware } from './middleware.js'
+import demoRouter from './routes/demo.js'
+import adminRouter from './routes/admin.js'
+import { teamScope, logError, authMiddleware, adminMiddleware } from './middleware.js'
 
 const app = express()
 const PORT = process.env.PORT || 3001
@@ -61,6 +63,8 @@ app.use('/api/opportunities', opportunitiesRouter)
 app.use('/api/insights', insightsRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/billing', billingRouter)
+app.use('/api/demo', demoRouter)
+app.use('/api/admin', adminRouter)
 
 // Health check
 app.get('/api/health', (_req, res) => {

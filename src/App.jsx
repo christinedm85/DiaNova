@@ -22,6 +22,7 @@ import TeamPage from './components/TeamPage.jsx'
 import Onboarding from './components/Onboarding.jsx'
 import DemoPage from './components/DemoPage.jsx'
 import OpportunityFeed from './components/OpportunityFeed.jsx'
+import AdminDashboard from './components/AdminDashboard.jsx'
 
 const SECTIONS = {
   dashboard: { label: 'Dashboard', icon: DashboardIcon, component: Dashboard },
@@ -36,6 +37,7 @@ const SECTIONS = {
   billing: { label: 'Billing', icon: BillingIcon, component: BillingPage },
   profile: { label: 'Profile', icon: ProfileIcon, component: ProfilePage },
   team: { label: 'Team', icon: TeamIcon, component: TeamPage },
+  admin: { label: 'Admin', icon: ShieldIcon, component: AdminDashboard },
 }
 
 export default function App() {
@@ -88,9 +90,17 @@ export default function App() {
 
   const Component = SECTIONS[active].component
 
+  // Filter sections based on user permissions
+  const visibleSections = Object.fromEntries(
+    Object.entries(SECTIONS).filter(([key]) => {
+      if (key === 'admin') return user?.is_admin
+      return true
+    })
+  )
+
   return (
     <div className="flex h-screen overflow-hidden">
-      <Sidebar active={active} onSelect={setActive} sections={SECTIONS} user={user} onLogout={logout} onProfile={() => setActive('profile')} />
+      <Sidebar active={active} onSelect={setActive} sections={visibleSections} user={user} onLogout={logout} onProfile={() => setActive('profile')} />
       <main className="flex-1 overflow-y-auto p-8">
         <div className="max-w-6xl mx-auto" key={active}>
           <Component onNavigate={setActive} />
@@ -213,6 +223,14 @@ function OpportunitiesIcon({ active }) {
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={active ? '#818cf8' : '#64748b'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <circle cx="12" cy="12" r="10" />
       <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" />
+    </svg>
+  )
+}
+
+function ShieldIcon({ active }) {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={active ? '#818cf8' : '#64748b'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
     </svg>
   )
 }

@@ -174,7 +174,7 @@ router.post('/login', authLimiter, (req, res) => {
 // ── Me ───────────────────────────────────────────────────
 
 router.get('/me', authMiddleware, (req, res) => {
-  const user = db.prepare('SELECT id, name, email, plan, onboarding_complete, notify_deal_moved, notify_new_lead FROM users WHERE id = ?').get(req.user.id)
+  const user = db.prepare('SELECT id, name, email, plan, onboarding_complete, notify_deal_moved, notify_new_lead, is_admin FROM users WHERE id = ?').get(req.user.id)
   if (!user) return res.status(404).json({ error: 'User not found' })
   res.json({ user })
 })

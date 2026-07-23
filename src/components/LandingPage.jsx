@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { demoSeed } from '../api.js'
 
 const PLANS = [
   {
@@ -35,12 +36,25 @@ const FEATURES = [
 
 export default function LandingPage({ onGetStarted, onLogin }) {
   const [scrolled, setScrolled] = useState(false)
+  const [demoLoading, setDemoLoading] = useState(false)
 
   useEffect(() => {
     const handle = () => setScrolled(window.scrollY > 50)
     window.addEventListener('scroll', handle)
     return () => window.removeEventListener('scroll', handle)
   }, [])
+
+  const handleTryDemo = async () => {
+    setDemoLoading(true)
+    try {
+      const data = await demoSeed()
+      localStorage.setItem('token', data.token)
+      window.location.reload()
+    } catch (err) {
+      setDemoLoading(false)
+      alert('Failed to load demo. Please try again.')
+    }
+  }
 
   return (
     <div className="min-h-screen bg-surface-950">
@@ -78,12 +92,12 @@ export default function LandingPage({ onGetStarted, onLogin }) {
           all from one dashboard.
         </p>
         <div className="flex items-center justify-center gap-4 mt-8">
-          <button onClick={onGetStarted} className="px-7 py-3 bg-accent-600 hover:bg-accent-500 text-white font-semibold rounded-xl transition-all duration-200 shadow-xl shadow-accent-600/30 active:scale-95 text-lg">
-            Start Free →
+          <button onClick={handleTryDemo} disabled={demoLoading} className="px-7 py-3 bg-amber-500 hover:bg-amber-400 text-amber-950 font-semibold rounded-xl transition-all duration-200 shadow-xl shadow-amber-500/30 active:scale-95 text-lg disabled:opacity-60">
+            {demoLoading ? 'Loading...' : '👋 Try Demo Workspace'}
           </button>
-          <a href="/demo" className="inline-block px-7 py-3 bg-surface-800 hover:bg-surface-700 text-surface-200 font-semibold rounded-xl transition-colors text-lg">
-            Watch Demo
-          </a>
+          <button onClick={onGetStarted} className="px-7 py-3 bg-surface-800 hover:bg-surface-700 text-surface-200 font-semibold rounded-xl transition-colors text-lg">
+            Get Started Free
+          </button>
         </div>
         <p className="text-surface-600 text-sm mt-4">No credit card required · Free plan forever</p>
       </section>
@@ -173,9 +187,14 @@ export default function LandingPage({ onGetStarted, onLogin }) {
         <div className="glass p-12 bg-gradient-to-br from-accent-600/10 to-purple-600/10">
           <h3 className="font-display text-3xl font-bold text-surface-50">Ready to earn more from your content?</h3>
           <p className="text-surface-400 mt-3 mb-8">Join 2,400+ creators who are already using CreatorBloom.</p>
-          <button onClick={onGetStarted} className="px-8 py-3.5 bg-accent-600 hover:bg-accent-500 text-white font-semibold rounded-xl transition-all duration-200 shadow-xl shadow-accent-600/30 active:scale-95 text-lg">
-            Get Started Free →
-          </button>
+          <div className="flex items-center justify-center gap-4">
+            <button onClick={handleTryDemo} disabled={demoLoading} className="px-8 py-3.5 bg-amber-500 hover:bg-amber-400 text-amber-950 font-semibold rounded-xl transition-all duration-200 shadow-xl shadow-amber-500/30 active:scale-95 text-lg disabled:opacity-60">
+              {demoLoading ? 'Loading...' : '👋 Try Demo Workspace'}
+            </button>
+            <button onClick={onGetStarted} className="px-8 py-3.5 bg-surface-800 hover:bg-surface-700 text-surface-200 font-semibold rounded-xl transition-colors text-lg">
+              Get Started Free
+            </button>
+          </div>
         </div>
       </section>
 

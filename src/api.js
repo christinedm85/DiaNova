@@ -4,6 +4,18 @@ export async function getOpportunities(niche) {
   return request(`/opportunities?niche=${encodeURIComponent(niche || 'content creation')}`)
 }
 
+export async function demoSeed() {
+  const res = await fetch(`${BASE}/demo/seed`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+  })
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ error: res.statusText }))
+    throw new Error(err.error || res.statusText)
+  }
+  return res.json()
+}
+
 function getToken() {
   return localStorage.getItem('token')
 }
@@ -111,5 +123,11 @@ export const api = {
     smartFollowup: (data) => request('/ai/smart-followup', { method: 'POST', body: JSON.stringify(data) }),
     contentIdeas: (data) => request('/ai/content-ideas', { method: 'POST', body: JSON.stringify(data) }),
     brandDiscovery: (data) => request('/ai/brand-discovery', { method: 'POST', body: JSON.stringify(data) }),
+  },
+
+  admin: {
+    users: () => request('/admin/users'),
+    stats: () => request('/admin/stats'),
+    seedDemo: (userId) => request('/admin/seed-demo', { method: 'POST', body: JSON.stringify({ userId }) }),
   },
 }
