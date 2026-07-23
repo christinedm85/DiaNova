@@ -93,7 +93,7 @@ export default function App() {
       <Sidebar active={active} onSelect={setActive} sections={SECTIONS} user={user} onLogout={logout} onProfile={() => setActive('profile')} />
       <main className="flex-1 overflow-y-auto p-8">
         <div className="max-w-6xl mx-auto" key={active}>
-          <Component />
+          <Component onNavigate={setActive} />
         </div>
       </main>
       {showOnboarding && <Onboarding onComplete={() => setShowOnboarding(false)} />}

@@ -5,7 +5,7 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const db = new Database(path.join(__dirname, 'creatorbloom.db'))
+const db = new Database(path.join(__dirname, 'creatorpilot.db'))
 
 let JWT_SECRET = process.env.JWT_SECRET
 

@@ -28,6 +28,7 @@ async function request(path, options = {}) {
 export const api = {
   dashboard: () => request('/dashboard'),
   trend: () => request('/dashboard/trend'),
+  insights: () => request('/insights'),
 
   sponsorships: {
     list: () => request('/sponsorships'),
