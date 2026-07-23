@@ -21,6 +21,7 @@ import ProfilePage from './components/ProfilePage.jsx'
 import TeamPage from './components/TeamPage.jsx'
 import Onboarding from './components/Onboarding.jsx'
 import DemoPage from './components/DemoPage.jsx'
+import YouTubeIntegration from './components/YouTubeIntegration.jsx'
 
 const SECTIONS = {
   dashboard: { label: 'Dashboard', icon: DashboardIcon, component: Dashboard },
@@ -34,6 +35,7 @@ const SECTIONS = {
   billing: { label: 'Billing', icon: BillingIcon, component: BillingPage },
   profile: { label: 'Profile', icon: ProfileIcon, component: ProfilePage },
   team: { label: 'Team', icon: TeamIcon, component: TeamPage },
+  youtube: { label: 'YouTube', icon: YouTubeIcon, component: YouTubeIntegration, group: 'integrations' },
 }
 
 export default function App() {
@@ -202,6 +204,15 @@ function TeamIcon({ active }) {
       <circle cx="9" cy="7" r="4" />
       <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
       <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+    </svg>
+  )
+}
+
+function YouTubeIcon({ active }) {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={active ? '#818cf8' : '#64748b'} strokeWidth="2">
+      <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29.94 29.94 0 0 0 1 12a29.94 29.94 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.94 2C5.12 20 12 20 12 20s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2A29.94 29.94 0 0 0 23 12a29.94 29.94 0 0 0-.46-5.58z" fill="none" />
+      <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill={active ? '#818cf8' : '#64748b'} stroke="none" />
     </svg>
   )
 }

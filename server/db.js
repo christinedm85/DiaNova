@@ -12,6 +12,22 @@ db.pragma('foreign_keys = ON')
 // ── Create tables ──────────────────────────────────────────
 
 db.exec(`
+  CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    email TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL,
+    plan TEXT DEFAULT 'free',
+    onboarding_complete INTEGER DEFAULT 0,
+    notify_deal_moved INTEGER DEFAULT 1,
+    notify_new_lead INTEGER DEFAULT 1,
+    email_verified INTEGER DEFAULT 0,
+    verification_token TEXT DEFAULT NULL,
+    reset_token TEXT DEFAULT NULL,
+    reset_expires TEXT DEFAULT NULL,
+    created_at TEXT DEFAULT (datetime('now'))
+  );
+
   CREATE TABLE IF NOT EXISTS sponsorships (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     brand TEXT NOT NULL,
@@ -75,6 +91,49 @@ db.exec(`
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     month TEXT NOT NULL,
     avg_rate REAL NOT NULL
+  );
+
+  CREATE TABLE IF NOT EXISTS conversions (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    type TEXT NOT NULL,
+    user_id INTEGER,
+    metadata TEXT DEFAULT '',
+    created_at TEXT DEFAULT (datetime('now'))
+  );
+
+  CREATE TABLE IF NOT EXISTS error_logs (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    message TEXT,
+    stack TEXT,
+    route TEXT,
+    method TEXT,
+    user_id INTEGER,
+    status_code INTEGER,
+    created_at TEXT DEFAULT (datetime('now'))
+  );
+
+  CREATE TABLE IF NOT EXISTS sent_emails (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    to_email TEXT NOT NULL,
+    to_name TEXT DEFAULT '',
+    subject TEXT DEFAULT '',
+    body TEXT DEFAULT '',
+    type TEXT DEFAULT '',
+    created_at TEXT DEFAULT (datetime('now'))
+  );
+
+  CREATE TABLE IF NOT EXISTS inbox_messages (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    message_id TEXT,
+    from_email TEXT DEFAULT '',
+    from_name TEXT DEFAULT '',
+    subject TEXT DEFAULT '',
+    body TEXT DEFAULT '',
+    read INTEGER DEFAULT 0,
+    received_at TEXT DEFAULT (datetime('now')),
+    created_at TEXT DEFAULT (datetime('now'))
   );
 `)
 

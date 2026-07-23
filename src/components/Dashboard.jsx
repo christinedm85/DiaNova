@@ -15,11 +15,13 @@ export default function Dashboard() {
   const { user } = useAuth()
   const [data, setData] = useState(null)
   const [trend, setTrend] = useState(null)
+  const [youtubeStatus, setYoutubeStatus] = useState(null)
   const [showAI, setShowAI] = useState(false)
 
   useEffect(() => {
     api.dashboard().then(setData).catch(console.error)
     api.trend().then(setTrend).catch(console.error)
+    api.youtube.status().then(setYoutubeStatus).catch(() => {})
   }, [])
 
   if (!data || !trend) {
@@ -58,11 +60,28 @@ export default function Dashboard() {
 
       {/* Stat Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard label="Monthly Revenue" value={`$${monthly_revenue.toLocaleString()}`} change="+12.5%" positive color="accent" />
+        <StatCard label="Monthly Revenue" value={`${monthly_revenue.toLocaleString()}`} change="+12.5%" positive color="accent" />
         <StatCard label="Active Sponsors" value={String(active_sponsors)} change="+2 this month" positive color="emerald" />
-        <StatCard label="Affiliate Rev" value={`$${affiliate_revenue.toLocaleString()}`} change="+8.2%" positive color="amber" />
-        <StatCard label="Product Sales" value={`$${product_sales.toLocaleString()}`} change="-3.1%" positive={false} color="rose" />
+        <StatCard label="Affiliate Rev" value={`${affiliate_revenue.toLocaleString()}`} change="+8.2%" positive color="amber" />
+        <StatCard label="Product Sales" value={`${product_sales.toLocaleString()}`} change="-3.1%" positive={false} color="rose" />
       </div>
+
+      {/* YouTube integration card */}
+      {youtubeStatus && youtubeStatus.connected && (
+        <div className="glass p-5 flex items-center gap-4 border-l-3 border-l-red-500">
+          <div className="w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center shrink-0">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#ef4444"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29.94 29.94 0 0 0 1 12a29.94 29.94 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.94 2C5.12 20 12 20 12 20s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2A29.94 29.94 0 0 0 23 12a29.94 29.94 0 0 0-.46-5.58z"/><polygon fill="#1e293b" points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm text-surface-400">YouTube Channel</p>
+            <p className="font-display text-xl font-bold text-surface-50">{youtubeStatus.channel?.title || 'Connected'}</p>
+            <p className="text-xs text-surface-400 mt-0.5">
+              {(youtubeStatus.channel?.subscriberCount || 0).toLocaleString()} subscribers
+            </p>
+          </div>
+          <a href="#" onClick={(e) => { e.preventDefault(); window.location.hash = '#youtube' }} className="text-xs text-accent-400 hover:text-accent-300 whitespace-nowrap">View analytics →</a>
+        </div>
+      )}
 
       {/* Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

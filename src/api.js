@@ -107,4 +107,11 @@ export const api = {
     contentIdeas: (data) => request('/ai/content-ideas', { method: 'POST', body: JSON.stringify(data) }),
     brandDiscovery: (data) => request('/ai/brand-discovery', { method: 'POST', body: JSON.stringify(data) }),
   },
+
+  youtube: {
+    status: () => request('/integrations/youtube/status'),
+    stats: () => request('/integrations/youtube/stats'),
+    disconnect: () => request('/integrations/youtube/disconnect', { method: 'DELETE' }),
+    clearCache: () => request('/integrations/youtube/clear-cache', { method: 'POST' }),
+  },
 }

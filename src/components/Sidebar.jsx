@@ -23,7 +23,7 @@ export default function Sidebar({ active, onSelect, sections, user, onLogout, on
       </div>
 
       <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
-        {Object.entries(sections).flatMap(([key, { label, icon: Icon }]) => {
+        {Object.entries(sections).flatMap(([key, { label, icon: Icon, group }]) => {
           const isActive = active === key
           const btn = (
             <button
@@ -39,10 +39,19 @@ export default function Sidebar({ active, onSelect, sections, user, onLogout, on
               {label}
             </button>
           )
-          if (key === 'inbox') {
-            return [btn, <div key="nav-sep" className="my-2 border-t border-surface-800" />]
+          const result = []
+          if (group === 'integrations') {
+            result.push(
+              <div key="integrations-header" className="pt-3 pb-1 px-3">
+                <span className="text-[10px] font-semibold text-surface-500 tracking-widest uppercase">Integrations</span>
+              </div>
+            )
           }
-          return [btn]
+          result.push(btn)
+          if (key === 'inbox') {
+            result.push(<div key="nav-sep" className="my-2 border-t border-surface-800" />)
+          }
+          return result
         })}
       </nav>
 
