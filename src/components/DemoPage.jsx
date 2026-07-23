@@ -543,6 +543,12 @@ function DemoAI() {
       sample: '8 brands found in\n"tech review" niche',
       description: 'Find brands actively looking for creators like you to partner with.',
     },
+    {
+      icon: '🤝',
+      title: 'Negotiation Coach',
+      sample: 'FitLife Apparel → Underpriced by ~35%\nCounter: $2,200–$2,800',
+      description: 'Paste a brand offer and get instant analysis, counteroffer strategy, and a draft reply.',
+    },
   ]
 
   return (
@@ -589,7 +595,7 @@ function DemoAI() {
           Ready to unlock the AI tools?
         </h3>
         <p className="text-sm text-surface-400 mb-4">
-          Get pricing suggestions, brand matches, follow-up drafts, content ideas, and brand discovery — all powered by AI.
+          Get pricing suggestions, brand matches, follow-up drafts, content ideas, brand discovery, and negotiation coaching — all powered by AI.
         </p>
         <a
           href="/?signup=1"
@@ -598,6 +604,104 @@ function DemoAI() {
           Unlock AI tools →
         </a>
       </div>
+
+      {/* Negotiation Coach Showcase */}
+      <DemoNegotiationCoach />
+    </div>
+  )
+}
+
+function DemoNegotiationCoach() {
+  return (
+    <div className="glass p-6 space-y-5" id="demo-negotiation-section">
+      <div>
+        <h3 className="font-display text-lg font-semibold text-surface-100 flex items-center gap-2">
+          <span>🤝</span> Negotiation Coach — Sample Analysis
+        </h3>
+        <p className="text-sm text-surface-400 mt-1">
+          Here's what the AI Negotiation Coach looks like when you paste a brand email. This is a real sample output.
+        </p>
+      </div>
+
+      {/* The offer being analyzed */}
+      <div className="p-4 rounded-xl bg-surface-800/50 border border-surface-700/30">
+        <p className="text-xs text-surface-500 font-semibold uppercase tracking-wide mb-1">Brand Email Pasted</p>
+        <p className="text-sm text-surface-300 font-medium">FitLife Apparel</p>
+        <blockquote className="text-sm text-surface-400 italic mt-1 border-l-2 border-surface-600 pl-3">
+          "We'd love to work with you! We're offering $1,200 for 2 Instagram posts + 1 TikTok video showcasing our new spring collection. Let us know if you're interested!"
+        </blockquote>
+      </div>
+
+      {/* Fairness Verdict */}
+      <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30">
+        <div className="flex items-center gap-2 mb-1">
+          <span className="text-xs font-bold uppercase px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-400">Underpriced</span>
+          <span className="text-xs text-surface-400">Fairness Verdict</span>
+        </div>
+        <p className="text-sm text-surface-200">This offer is approximately 35% below market rate for a creator with your audience size and engagement. Similar deals in fitness/apparel typically range $2,000–$3,000 for this scope.</p>
+      </div>
+
+      {/* Counteroffer */}
+      <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/40 ring-1 ring-emerald-500/20">
+        <p className="text-xs text-emerald-400 font-semibold uppercase tracking-wide mb-1">Suggested Counteroffer</p>
+        <p className="font-display text-2xl font-bold text-emerald-300">$2,200 – $2,800</p>
+        <p className="text-xs text-surface-400 mt-1">Based on standard CPM rates for Instagram + TikTok combo deals in the fitness apparel niche, with a 4.8% engagement rate.</p>
+      </div>
+
+      {/* Negotiation Tips */}
+      <div className="p-4 rounded-xl bg-surface-800/50 border border-surface-700/30">
+        <p className="text-xs text-surface-400 font-semibold uppercase tracking-wide mb-2">Negotiation Tips</p>
+        <ol className="space-y-1.5 list-decimal list-inside">
+          <li className="text-sm text-surface-200 pl-1">Ask for performance bonuses: $500 extra if the TikTok exceeds 500K views</li>
+          <li className="text-sm text-surface-200 pl-1">Request a 30-day usage window rather than perpetual rights</li>
+          <li className="text-sm text-surface-200 pl-1">Bundle a dedicated Instagram Story series as an upsell (+$800)</li>
+        </ol>
+      </div>
+
+      {/* Draft Reply */}
+      <div className="p-4 rounded-xl bg-surface-800/50 border border-surface-700/30">
+        <div className="flex items-center justify-between mb-2">
+          <p className="text-xs text-surface-400 font-semibold uppercase tracking-wide">Draft Reply</p>
+          <button
+            disabled
+            className="text-xs text-surface-600 cursor-not-allowed flex items-center gap-1"
+          >
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+            </svg>
+            Copy
+          </button>
+        </div>
+        <blockquote className="text-sm text-surface-200 whitespace-pre-wrap border-l-2 border-accent-500/30 pl-3 py-1 italic">
+          {'Hi FitLife Team,\n\nThank you so much for reaching out — I love the spring collection and would be excited to collaborate!\n\nFor 2 Instagram posts + 1 TikTok, my standard rate is $2,500 given my audience size and 4.8% engagement rate. I\'d also be happy to discuss a performance bonus structure if the content exceeds view targets.\n\nCould we also confirm the usage rights window? I typically work with a 30-day usage term for brand content.\n\nLooking forward to hearing your thoughts!\n\nBest,\n[Your Name]'}
+        </blockquote>
+      </div>
+
+      {/* Red Flags */}
+      <div className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/20">
+        <p className="text-xs text-rose-400 font-semibold uppercase tracking-wide mb-2 flex items-center gap-1">
+          <span>⚠️</span> Red Flags Detected
+        </p>
+        <ul className="space-y-1.5">
+          <li className="text-sm text-rose-300 flex items-start gap-2">
+            <span className="text-rose-400 mt-0.5 shrink-0">⚠</span>
+            <span>No usage rights specified — you could lose control of where and how long your content is used</span>
+          </li>
+          <li className="text-sm text-rose-300 flex items-start gap-2">
+            <span className="text-rose-400 mt-0.5 shrink-0">⚠</span>
+            <span>Exclusivity not defined — the brand could block you from working with competitors without stating it</span>
+          </li>
+          <li className="text-sm text-rose-300 flex items-start gap-2">
+            <span className="text-rose-400 mt-0.5 shrink-0">⚠</span>
+            <span>No payment timeline mentioned — always get payment terms in writing before creating content</span>
+          </li>
+        </ul>
+      </div>
+
+      {/* Disclaimer */}
+      <p className="text-xs text-surface-500 text-center italic">
+        ⚠️ This is AI-generated guidance, not legal advice. Review contracts with a lawyer before signing.
+      </p>
     </div>
   )
 }

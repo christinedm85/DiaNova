@@ -124,6 +124,7 @@ export const api = {
     smartFollowup: (data) => request('/ai/smart-followup', { method: 'POST', body: JSON.stringify(data) }),
     contentIdeas: (data) => request('/ai/content-ideas', { method: 'POST', body: JSON.stringify(data) }),
     brandDiscovery: (data) => request('/ai/brand-discovery', { method: 'POST', body: JSON.stringify(data) }),
+    negotiationCoach: (data) => request('/ai/negotiation-coach', { method: 'POST', body: JSON.stringify(data) }),
   },
 
   admin: {

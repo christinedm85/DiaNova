@@ -111,4 +111,58 @@ Return ONLY valid JSON: {"categories": [{"name": "string", "examples": ["string"
   res.json(parseAIResponse(result))
 })
 
+// ── 6. Negotiation Coach ──────────────────────────────────
+// POST /negotiation-coach — body: {emailText, niche?, audienceSize?}
+router.post('/negotiation-coach', async (req, res) => {
+  const { emailText, niche, audienceSize } = req.body
+  if (!emailText || typeof emailText !== 'string' || emailText.trim().length < 20) {
+    return res.status(400).json({ error: 'emailText is required and must be at least 20 characters' })
+  }
+
+  const contextParts = []
+  if (niche) contextParts.push(`Creator's niche: ${niche}`)
+  if (audienceSize) contextParts.push(`Audience size: ${audienceSize}`)
+  const context = contextParts.length ? '\n\nCreator context:\n' + contextParts.join('\n') : ''
+
+  const prompt = `Analyze this brand offer email and provide a negotiation coaching response.${context}
+
+BRAND EMAIL:
+"""
+${emailText}
+"""
+
+Return ONLY valid JSON with this exact structure:
+{
+  "fairness": {
+    "rating": "underpriced|fair|overpriced",
+    "summary": "1-2 sentence assessment of the offer's fairness"
+  },
+  "counteroffer": {
+    "suggestedRange": "$X - $Y",
+    "rationale": "1-2 sentence explanation of the suggested range"
+  },
+  "negotiationTips": [
+    "Specific actionable tip 1",
+    "Specific actionable tip 2",
+    "Specific actionable tip 3"
+  ],
+  "draftReply": "Professional email draft reply that the creator can send back",
+  "redFlags": [
+    "Specific red flag with explanation",
+    "Another red flag with explanation"
+  ]
+}`
+
+  const systemPrompt = `You are a creator monetization expert who coaches content creators through brand deal negotiations. You analyze brand offers and provide actionable counteroffer strategies, negotiation tips, draft replies, and red flag detection. Be specific, data-driven when possible, and always err on the side of protecting the creator's interests.`
+
+  const result = await askAI(prompt, systemPrompt)
+  const parsed = parseAIResponse(result)
+
+  // Add disclaimer to every response
+  if (!parsed.error && !parsed.raw) {
+    parsed._disclaimer = '⚠️ This is AI-generated guidance, not legal advice. Review contracts with a lawyer before signing.'
+  }
+  res.json(parsed)
+})
+
 export default router

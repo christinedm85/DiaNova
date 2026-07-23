@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { api } from '../api.js'
 
-const TABS = ['Pricing', 'Brand Match', 'Follow-up', 'Ideas', 'Discovery']
+const TABS = ['Pricing', 'Brand Match', 'Follow-up', 'Ideas', 'Discovery', '🤝 Coach']
 
 export default function AIPanel({ show, onClose }) {
   const [tab, setTab] = useState(0)
@@ -15,6 +15,7 @@ export default function AIPanel({ show, onClose }) {
   const [followupForm, setFollowupForm] = useState({ brandName: '', stage: 'prospecting', daysStale: 7 })
   const [ideasForm, setIdeasForm] = useState({ niche: '', audienceSize: '' })
   const [discoveryForm, setDiscoveryForm] = useState({ niche: '', demographics: '' })
+  const [negotiationForm, setNegotiationForm] = useState({ emailText: '', niche: '', audienceSize: '' })
 
   async function generate(apiCall, data) {
     setLoading(true); setError(null); setResult(null)
@@ -137,6 +138,44 @@ export default function AIPanel({ show, onClose }) {
               </button>
             </div>
           )}
+          {tab === 5 && (
+            <div className="space-y-3">
+              <label className="block text-xs text-surface-400">Paste the brand's email or offer here</label>
+              <textarea
+                value={negotiationForm.emailText}
+                onChange={e => setNegotiationForm({ ...negotiationForm, emailText: e.target.value })}
+                placeholder="Hi [Creator],&#10;&#10;We'd love to partner with you on a campaign. We're offering $1,200 for 2 Instagram posts and 1 TikTok video..."
+                rows={8}
+                className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-accent-500/50 resize-none"
+              />
+              <p className="text-xs text-surface-500 -mt-2">{negotiationForm.emailText.length} characters</p>
+              <label className="block text-xs text-surface-400">Your niche (optional)</label>
+              <input
+                value={negotiationForm.niche}
+                onChange={e => setNegotiationForm({ ...negotiationForm, niche: e.target.value })}
+                placeholder="e.g. tech reviews, fitness"
+                className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-accent-500/50"
+              />
+              <label className="block text-xs text-surface-400">Audience reach (optional)</label>
+              <input
+                value={negotiationForm.audienceSize}
+                onChange={e => setNegotiationForm({ ...negotiationForm, audienceSize: e.target.value })}
+                placeholder="e.g. 142K avg views, 250K followers"
+                className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-accent-500/50"
+              />
+              <button
+                onClick={() => generate(api.ai.negotiationCoach, {
+                  emailText: negotiationForm.emailText,
+                  niche: negotiationForm.niche || undefined,
+                  audienceSize: negotiationForm.audienceSize || undefined,
+                })}
+                disabled={loading || negotiationForm.emailText.trim().length < 20}
+                className="w-full rounded-xl bg-accent-500/20 text-accent-400 py-2 text-sm font-medium hover:bg-accent-500/30 transition-all disabled:opacity-50"
+              >
+                {loading ? 'Analyzing...' : '🤝 Analyze Offer'}
+              </button>
+            </div>
+          )}
           {/* Loading */}
           {loading && (
             <div className="mt-4 space-y-2 animate-pulse">
@@ -153,8 +192,94 @@ export default function AIPanel({ show, onClose }) {
           )}
           {/* Result */}
           {result && !loading && (
-            <div className="mt-4 p-4 rounded-xl bg-surface-800/50 border border-surface-700/30">
-              <p className="text-sm text-surface-200 whitespace-pre-wrap">{result.text || result.reason || JSON.stringify(result, null, 2)}</p>
+            <div className="mt-4 space-y-3">
+              {/* Negotiation Coach structured result */}
+              {result.fairness && result.counteroffer ? (
+                <div className="space-y-3 animate-[fadeIn_0.4s_ease-out]">
+                  {/* Fairness Verdict Card */}
+                  <div className={`p-4 rounded-xl border ${
+                    result.fairness.rating === 'underpriced' ? 'bg-amber-500/10 border-amber-500/30' :
+                    result.fairness.rating === 'overpriced' ? 'bg-rose-500/10 border-rose-500/30' :
+                    'bg-emerald-500/10 border-emerald-500/30'
+                  }`}>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className={`text-xs font-bold uppercase px-2 py-0.5 rounded-full ${
+                        result.fairness.rating === 'underpriced' ? 'bg-amber-500/20 text-amber-400' :
+                        result.fairness.rating === 'overpriced' ? 'bg-rose-500/20 text-rose-400' :
+                        'bg-emerald-500/20 text-emerald-400'
+                      }`}>{result.fairness.rating}</span>
+                      <span className="text-xs text-surface-400">Fairness Verdict</span>
+                    </div>
+                    <p className="text-sm text-surface-200">{result.fairness.summary}</p>
+                  </div>
+
+                  {/* Counteroffer Card — visually prominent */}
+                  <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/40 ring-1 ring-emerald-500/20">
+                    <p className="text-xs text-emerald-400 font-semibold uppercase tracking-wide mb-1">Suggested Counteroffer</p>
+                    <p className="font-display text-2xl font-bold text-emerald-300">{result.counteroffer.suggestedRange}</p>
+                    <p className="text-xs text-surface-400 mt-1">{result.counteroffer.rationale}</p>
+                  </div>
+
+                  {/* Negotiation Tips */}
+                  {result.negotiationTips?.length > 0 && (
+                    <div className="p-4 rounded-xl bg-surface-800/50 border border-surface-700/30">
+                      <p className="text-xs text-surface-400 font-semibold uppercase tracking-wide mb-2">Negotiation Tips</p>
+                      <ol className="space-y-1.5 list-decimal list-inside">
+                        {result.negotiationTips.map((tip, i) => (
+                          <li key={i} className="text-sm text-surface-200 pl-1">{tip}</li>
+                        ))}
+                      </ol>
+                    </div>
+                  )}
+
+                  {/* Draft Reply */}
+                  {result.draftReply && (
+                    <div className="p-4 rounded-xl bg-surface-800/50 border border-surface-700/30">
+                      <div className="flex items-center justify-between mb-2">
+                        <p className="text-xs text-surface-400 font-semibold uppercase tracking-wide">Draft Reply</p>
+                        <button
+                          onClick={() => {
+                            navigator.clipboard.writeText(result.draftReply)
+                          }}
+                          className="text-xs text-accent-400 hover:text-accent-300 transition-colors flex items-center gap-1"
+                        >
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                          </svg>
+                          Copy
+                        </button>
+                      </div>
+                      <blockquote className="text-sm text-surface-200 whitespace-pre-wrap border-l-2 border-accent-500/30 pl-3 py-1 italic">{result.draftReply}</blockquote>
+                    </div>
+                  )}
+
+                  {/* Red Flags */}
+                  {result.redFlags?.length > 0 && (
+                    <div className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/20">
+                      <p className="text-xs text-rose-400 font-semibold uppercase tracking-wide mb-2 flex items-center gap-1">
+                        <span>⚠️</span> Red Flags
+                      </p>
+                      <ul className="space-y-1.5">
+                        {result.redFlags.map((flag, i) => (
+                          <li key={i} className="text-sm text-rose-300 flex items-start gap-2">
+                            <span className="text-rose-400 mt-0.5 shrink-0">⚠</span>
+                            <span>{flag}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* Disclaimer */}
+                  {result._disclaimer && (
+                    <p className="text-xs text-surface-500 text-center italic mt-2">{result._disclaimer}</p>
+                  )}
+                </div>
+              ) : (
+                <div className="p-4 rounded-xl bg-surface-800/50 border border-surface-700/30">
+                  <p className="text-sm text-surface-200 whitespace-pre-wrap">{result.text || result.reason || JSON.stringify(result, null, 2)}</p>
+                </div>
+              )}
             </div>
           )}
         </div>
