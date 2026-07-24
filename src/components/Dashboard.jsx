@@ -587,12 +587,12 @@ export default function Dashboard({ onNavigate }) {
         ) : (
           <div>
             <p className="text-sm text-surface-400 mb-4">
-              Connect one social account and CreatorBloom will surface personalized opportunities — brands that match your vibe, deals you'd actually want. ✨
+              Connect one social account and I&apos;ll surface personalized opportunities — brands that match your vibe, deals you&apos;d actually want. ✨
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <PreviewInsightCard emoji="📈" text="Engagement increased 12% this week." color="emerald" />
-              <PreviewInsightCard emoji="💰" text="You're likely underpricing sponsorships." color="amber" />
-              <PreviewInsightCard emoji="🌸" text="Beauty content is outperforming lifestyle content." color="accent" />
+              <PreviewInsightCard emoji="📈" text="I spotted a 12% engagement bump this week — that's the kind of momentum sponsors notice." color="emerald" />
+              <PreviewInsightCard emoji="💰" text="Based on your reach and engagement, you're probably leaving money on the table with your current rates." color="amber" />
+              <PreviewInsightCard emoji="🌸" text="Your beauty content is connecting way better than lifestyle — brands in that space would love your audience." color="accent" />
             </div>
           </div>
         )}
@@ -1025,10 +1025,10 @@ function AIBrief({ forecast, insights, monthlyRevenue, pipelinePotential, follow
 
   // ── Row 3: Recommended Action ───────────────────────────
   const fallbackActions = [
-    "Increase sponsorship pricing 12%",
-    "Reach out to 3 beauty brands this week",
-    "Review your engagement analytics for partnership pitches",
-    "Diversify into affiliate programs for passive income",
+    "I'd test raising your sponsorship rates by 12% — your engagement supports it",
+    "Three beauty brands in your niche are actively looking for creators right now",
+    "Your engagement data is trending up — that's a strong card to play in your next pitch",
+    "Diversifying into affiliate programs could add passive income alongside your sponsorships",
   ]
   const recommendedAction = hasInsights && insights?.length > 0
     ? (insights[0].action || fallbackActions[0])
@@ -1036,13 +1036,13 @@ function AIBrief({ forecast, insights, monthlyRevenue, pipelinePotential, follow
 
   // ── Row 4: Priority ─────────────────────────────────────
   const priorityFallbacks = [
-    "Reply to Glow Labs today",
-    "Follow up with Nike before their deadline",
-    "Send contract revision to Sephora",
-    "Schedule demo call with prospective sponsor",
+    "Glow Labs is waiting on your reply — a quick response keeps the momentum",
+    "Nike's deadline is coming up. A follow-up today shows you're serious about the partnership",
+    "Sephora's contract has a few clauses worth revising before you sign",
+    "Set up a quick call with that prospective sponsor while the interest is fresh",
   ]
   const priorityItem = hasData && followUpsDue > 0
-    ? followUpsDue + " follow-up" + (followUpsDue > 1 ? "s" : "") + " overdue — act now"
+    ? "I'm seeing " + followUpsDue + " conversation" + (followUpsDue > 1 ? "s" : "") + " that need your attention"
     : priorityFallbacks[Math.floor(Date.now() / 10000) % priorityFallbacks.length]
 
   // ── Brand context for personalized priority ──────────────
@@ -1124,10 +1124,10 @@ function AIBrief({ forecast, insights, monthlyRevenue, pipelinePotential, follow
         </div>
         <div>
           <p className="text-sm font-semibold text-surface-100">
-            Here&apos;s what CreatorBloom discovered today
+            Here&apos;s what I found for you today
           </p>
           <p className="text-xs text-surface-500 mt-0.5">
-            Your daily AI briefing — personalized insights for your creator business
+            Your personalized briefing — pulled from your real data, not a template
           </p>
         </div>
         <span className="ml-auto inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-[10px] font-semibold text-violet-400 uppercase tracking-wider">

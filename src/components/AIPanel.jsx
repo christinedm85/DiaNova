@@ -69,7 +69,7 @@ export default function AIPanel({ show, onClose }) {
                 placeholder="e.g. 2000, 2500, 1800" className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-violet-500/50" />
               <button onClick={() => generate(api.ai.pricingSuggestion, { niche: pricingForm.niche, dealType: pricingForm.dealType, pastAmounts: pricingForm.pastAmounts.split(',').map(s => parseInt(s.trim())).filter(n => !isNaN(n)) })}
                 disabled={loading} className="w-full rounded-xl bg-violet-500/20 text-violet-400 py-2 text-sm font-medium hover:bg-violet-500/30 transition-all disabled:opacity-50">
-                {loading ? 'Crunching numbers...' : '✨ What Should I Charge?'}
+                {loading ? 'Running the numbers...' : '✨ What Should I Charge?'}
               </button>
             </div>
           )}
@@ -86,7 +86,7 @@ export default function AIPanel({ show, onClose }) {
                 placeholder="e.g. fitness and running" className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-violet-500/50" />
               <button onClick={() => generate(api.ai.brandMatch, brandForm)}
                 disabled={loading} className="w-full rounded-xl bg-violet-500/20 text-violet-400 py-2 text-sm font-medium hover:bg-violet-500/30 transition-all disabled:opacity-50">
-                {loading ? 'Analyzing fit...' : '✨ Is This Brand a Match?'}
+                {loading ? 'Checking compatibility...' : '✨ Is This Brand a Match?'}
               </button>
             </div>
           )}
@@ -108,7 +108,7 @@ export default function AIPanel({ show, onClose }) {
                 className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-violet-500/50" />
               <button onClick={() => generate(api.ai.smartFollowup, followupForm)}
                 disabled={loading} className="w-full rounded-xl bg-violet-500/20 text-violet-400 py-2 text-sm font-medium hover:bg-violet-500/30 transition-all disabled:opacity-50">
-                {loading ? 'Crafting your message...' : '✨ Write My Follow-up'}
+                {loading ? 'Writing something you\'ll actually want to send...' : '✨ Write My Follow-up'}
               </button>
             </div>
           )}
@@ -122,7 +122,7 @@ export default function AIPanel({ show, onClose }) {
                 placeholder="e.g. 50000" className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-violet-500/50" />
               <button onClick={() => generate(api.ai.contentIdeas, { niche: ideasForm.niche, audienceSize: parseInt(ideasForm.audienceSize) || 0 })}
                 disabled={loading} className="w-full rounded-xl bg-violet-500/20 text-violet-400 py-2 text-sm font-medium hover:bg-violet-500/30 transition-all disabled:opacity-50">
-                {loading ? 'Dreaming up ideas...' : '✨ Spark Product Ideas'}
+                {loading ? 'Brainstorming...' : '✨ Spark Product Ideas'}
               </button>
             </div>
           )}
@@ -136,7 +136,7 @@ export default function AIPanel({ show, onClose }) {
                 placeholder="e.g. 25-34, mostly female, urban" className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-violet-500/50" />
               <button onClick={() => generate(api.ai.brandDiscovery, discoveryForm)}
                 disabled={loading} className="w-full rounded-xl bg-violet-500/20 text-violet-400 py-2 text-sm font-medium hover:bg-violet-500/30 transition-all disabled:opacity-50">
-                {loading ? 'Hunting for brands...' : '✨ Find My Dream Brands'}
+                {loading ? 'Searching for your next partner...' : '✨ Find My Dream Brands'}
               </button>
             </div>
           )}
@@ -174,7 +174,7 @@ export default function AIPanel({ show, onClose }) {
                 disabled={loading || negotiationForm.emailText.trim().length < 20}
                 className="w-full rounded-xl bg-violet-500/20 text-violet-400 py-2 text-sm font-medium hover:bg-violet-500/30 transition-all disabled:opacity-50"
               >
-                {loading ? 'Reading the fine print...' : '🤝 Is This a Good Deal?'}
+                {loading ? 'Reading between the lines...' : '🤝 Is This a Good Deal?'}
               </button>
             </div>
           )}
@@ -215,7 +215,7 @@ export default function AIPanel({ show, onClose }) {
                 disabled={loading}
                 className="w-full rounded-xl bg-violet-500/20 text-violet-400 py-2 text-sm font-medium hover:bg-violet-500/30 transition-all disabled:opacity-50"
               >
-                {loading ? 'Comparing rates...' : '📊 How Do I Stack Up?'}
+                {loading ? 'Checking market rates...' : '📊 How Do I Stack Up?'}
               </button>
             </div>
           )}
@@ -237,7 +237,7 @@ export default function AIPanel({ show, onClose }) {
                 disabled={loading || scannerForm.contractText.trim().length < 50}
                 className="w-full rounded-xl bg-violet-500/20 text-violet-400 py-2 text-sm font-medium hover:bg-violet-500/30 transition-all disabled:opacity-50"
               >
-                {loading ? 'Scanning for red flags...' : '📄 What\u2019s Hiding in This Contract?'}
+                {loading ? 'Hunting for gotchas...' : '📄 What\u2019s Hiding in This Contract?'}
               </button>
             </div>
           )}
@@ -460,7 +460,7 @@ export default function AIPanel({ show, onClose }) {
                 <div className="p-4 rounded-xl bg-surface-800/50 border border-surface-700/30">
                   <p className="text-sm text-surface-200 whitespace-pre-wrap">{result.text || result.reason || JSON.stringify(result, null, 2)}</p>
                   <p className="text-xs text-surface-500 mt-3 pt-3 border-t border-surface-700/30 italic">
-                    Pro tip: The more data you share, the smarter these insights get. 💫
+                    Pro tip: The more you share with me, the sharper these insights get. 💫
                   </p>
                 </div>
               )}
@@ -475,14 +475,14 @@ export default function AIPanel({ show, onClose }) {
 // ── Personality Loader Component ──────────────────────────
 
 const LOADER_MESSAGES = [
-  '🌸 Crunching your creator numbers...',
-  'Comparing your engagement with similar creators...',
-  'Building personalized sponsorship recommendations...',
-  'Scanning market trends for your niche...',
-  'Calculating what you\'re actually worth...',
-  'Matching your audience with dream brands...',
-  'Reviewing your content performance data...',
-  'Generating insights tailored just for you...',
+  '🌸 Looking through your latest numbers...',
+  'I\'m comparing your engagement against creators in your niche — seeing where you shine',
+  'Pulling together sponsorship matches based on your audience and content style...',
+  'Scanning what\'s working in your niche right now...',
+  'Running the math on what your reach and engagement are actually worth — hint: probably more than you think',
+  'Cross-referencing your audience with brands that are actively sponsoring creators like you...',
+  'Digging into your content performance to spot what\'s resonating...',
+  'Almost there — wrapping these insights into something you can act on...',
 ]
 
 function PersonalityLoader({ tab }) {

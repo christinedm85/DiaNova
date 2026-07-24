@@ -134,35 +134,35 @@ RULES:
     if (overdueFollowUps > 0) {
       insights.push({
         type: 'alert',
-        message: `You have ${overdueFollowUps} deal${overdueFollowUps > 1 ? 's' : ''} that need a follow-up`,
+        message: `I noticed ${overdueFollowUps} conversation${overdueFollowUps > 1 ? 's' : ''} that could use a follow-up — a quick message could reopen the door`,
         action: 'Send follow-ups'
       })
     }
     if (pipelineStages.prospecting.count > 0 && pipelineStages.prospecting.total > 0) {
       insights.push({
         type: 'opportunity',
-        message: `$${pipelineStages.prospecting.total.toLocaleString()} in early-stage deals — reach out to move them forward`,
+        message: `There's ${pipelineStages.prospecting.total.toLocaleString()} sitting in early-stage deals. A quick reach-out could move some of that your way`,
         action: 'Move deals forward'
       })
     }
     if (pipelineStages.negotiating.count > 0) {
       insights.push({
         type: 'warning',
-        message: `${pipelineStages.negotiating.count} deal${pipelineStages.negotiating.count > 1 ? 's are' : ' is'} in negotiation — review your pricing`,
+        message: `${pipelineStages.negotiating.count} deal${pipelineStages.negotiating.count > 1 ? 's are' : ' is'} in negotiation — I'd double-check your pricing before you lock anything in`,
         action: 'Review pricing'
       })
     }
     if (productTotal > 0 && affiliateTotal === 0) {
       insights.push({
         type: 'trend',
-        message: 'Products are performing but affiliate revenue is untapped — diversify your income',
+        message: 'Your products are doing well, but I see affiliate revenue is still untapped. Adding even one affiliate program could smooth out your income',
         action: 'View affiliates'
       })
     }
     if (monthlyRevenue === 0 && pipelinePotential === 0) {
       insights.push({
         type: 'opportunity',
-        message: 'Connect your first sponsorship to unlock AI-powered insights and revenue forecasts',
+        message: 'Welcome! Your dashboard will light up once you connect your first deal. I\'ve got insights waiting as soon as there\'s data to work with',
         action: 'Add sponsorship'
       })
     }
