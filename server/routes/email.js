@@ -6,7 +6,7 @@ const router = Router()
 router.use(authMiddleware); router.use(teamScope)
 
 router.get('/sent', (req, res) => {
-  res.json(db.prepare('SELECT * FROM sent_emails WHERE user_id = ? ORDER BY sent_at DESC').all(req.scopeUserId))
+  res.json(db.prepare('SELECT * FROM sent_emails WHERE user_id = ? ORDER BY created_at DESC').all(req.scopeUserId))
 })
 
 router.get('/inbox', (req, res) => {
