@@ -100,17 +100,16 @@ export default function LandingPage({ onGetStarted, onLogin }) {
       {/* Hero */}
       <section className="pt-32 pb-20 px-6 text-center max-w-4xl mx-auto">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-500/10 border border-accent-500/20 text-accent-400 text-xs font-medium mb-6">
-          🚀 Now in public beta
+          ✨ All-in-one creator platform
         </div>
         <h2 className="font-display text-5xl md:text-6xl font-bold text-surface-50 leading-tight">
-          Turn your content
+          The <span className="gradient-text">AI Operating System</span>
           <br />
-          <span className="gradient-text">into a business</span>
+          for Creator Businesses
         </h2>
         <p className="text-surface-400 text-lg mt-6 max-w-2xl mx-auto leading-relaxed">
-          CreatorBloom is the all-in-one monetization platform for content creators.
-          Manage sponsorships, optimize affiliates, sell products, and build your brand —
-          all from one dashboard.
+          Connect your social platforms, discover better brand deals, optimize pricing,
+          and grow your creator income from one intelligent dashboard.
         </p>
         <div className="flex items-center justify-center gap-4 mt-8">
           <button onClick={handleTryDemo} disabled={demoLoading} className="px-7 py-3 bg-amber-500 hover:bg-amber-400 text-amber-950 font-semibold rounded-xl transition-all duration-200 shadow-xl shadow-amber-500/30 active:scale-95 text-lg disabled:opacity-60">
