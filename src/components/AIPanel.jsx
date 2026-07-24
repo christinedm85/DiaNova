@@ -241,15 +241,8 @@ export default function AIPanel({ show, onClose }) {
               </button>
             </div>
           )}
-          {/* Loading — typing indicator */}
-          {loading && (
-            <div className="mt-4 flex items-center gap-1.5 p-4 rounded-xl bg-surface-800/50 border border-surface-700/30">
-              <span className="text-xs text-surface-400 mr-1">AI is thinking</span>
-              <span className="typing-dot" />
-              <span className="typing-dot" />
-              <span className="typing-dot" />
-            </div>
-          )}
+          {/* Loading — personality messages */}
+          {loading && <PersonalityLoader tab={tab} />}
           {/* Error */}
           {error && (
             <div className="mt-4 p-3 rounded-xl bg-rose-500/10 border border-rose-500/20">
@@ -470,6 +463,46 @@ export default function AIPanel({ show, onClose }) {
               )}
             </div>
           )}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ── Personality Loader Component ──────────────────────────
+
+const LOADER_MESSAGES = [
+  '🌸 CreatorBloom AI is analyzing your creator business...',
+  'Comparing your engagement with similar creators...',
+  'Building your sponsorship recommendations...',
+  'Scanning market trends for your niche...',
+  'Calculating optimal pricing strategies...',
+  'Matching your audience with brand opportunities...',
+  'Reviewing your content performance data...',
+  'Generating personalized growth insights...',
+]
+
+function PersonalityLoader({ tab }) {
+  const [msgIndex, setMsgIndex] = useState(0)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setMsgIndex(prev => (prev + 1) % LOADER_MESSAGES.length)
+    }, 2200)
+    return () => clearInterval(interval)
+  }, [])
+
+  return (
+    <div className="mt-4 p-4 rounded-xl bg-surface-800/50 border border-surface-700/30 animate-[fadeIn_0.4s_ease-out]">
+      <div className="flex items-start gap-2.5">
+        <span className="text-lg shrink-0 mt-0.5">🌸</span>
+        <div className="flex-1 min-w-0">
+          <p className="text-sm text-surface-200 leading-relaxed">{LOADER_MESSAGES[msgIndex]}</p>
+          <div className="flex items-center gap-1 mt-2">
+            <span className="typing-dot" />
+            <span className="typing-dot" />
+            <span className="typing-dot" />
+          </div>
         </div>
       </div>
     </div>

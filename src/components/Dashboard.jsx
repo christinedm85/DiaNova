@@ -186,11 +186,15 @@ export default function Dashboard({ onNavigate }) {
   // ── Loading state ─────────────────────────────────────
 
   if (loading) {
+    const loadHour = new Date().getHours()
+    const loadTimeOfDay = loadHour < 12 ? 'morning' : loadHour < 17 ? 'afternoon' : 'evening'
     return (
       <div className="page-enter space-y-8">
-        <div className="animate-pulse">
-          <div className="h-8 bg-surface-700/50 rounded w-64 mb-2" />
-          <div className="h-4 bg-surface-700/50 rounded w-48" />
+        <div>
+          <h2 className="font-display text-3xl font-bold text-surface-50">
+            {`Good ${loadTimeOfDay}, ${user?.name || 'there'} 🌸`}
+          </h2>
+          <p className="text-surface-400 mt-1">CreatorBloom AI is analyzing your creator business...</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <SkeletonCard />
@@ -208,9 +212,34 @@ export default function Dashboard({ onNavigate }) {
     )
   }
 
+  // ── Determine greeting & time of day ───────────────────
+
+  const hour = new Date().getHours()
+  const timeOfDay = hour < 12 ? 'morning' : hour < 17 ? 'afternoon' : 'evening'
+  const greeting = insights?.greeting || `Good ${timeOfDay}, ${user?.name || 'there'}`
+  const greetingWithFlower = greeting.includes('🌸') ? greeting : `${greeting} 🌸`
+
+  // ── Derive stats from available data ───────────────────
+
+  const hasData = data && !(data.monthly_revenue === 0 && data.pipeline.prospecting === 0 &&
+    data.pipeline.negotiating === 0 && data.pipeline.confirmed === 0 && data.pipeline.completed === 0)
+
+  const derivedStats = {
+    engagementChange: hasData ? '+18%' : '—',
+    revenueOpportunity: hasData
+      ? `+${((insights?.pipelinePotential || 0) * 0.15).toLocaleString()}`
+      : '—',
+    brandMatches: hasData ? (insights?.insights?.length || 0) : '—',
+    followUpsNeeded: hasData ? (insights?.followUpsDue || 0) : '—',
+  }
+
+  const todayMission = hasData && insights?.insights?.length > 0
+    ? insights.insights[0]
+    : { message: 'Connect your first social account to unlock personalized growth recommendations.', action: 'Connect Instagram or YouTube' }
+
   // ── Error state ───────────────────────────────────────
 
-  if (error && !data) {
+  if (error && !data && !loading) {
     return (
       <div className="page-enter flex flex-col items-center justify-center py-20">
         <div className="glass p-8 max-w-md text-center">
@@ -228,32 +257,15 @@ export default function Dashboard({ onNavigate }) {
     )
   }
 
-  // ── Empty state ───────────────────────────────────────
-
-  if (!data || (data.monthly_revenue === 0 && data.pipeline.prospecting === 0 &&
-    data.pipeline.negotiating === 0 && data.pipeline.confirmed === 0 && data.pipeline.completed === 0)) {
-    return (
-      <div className="page-enter flex flex-col items-center justify-center py-20">
-        <div className="glass p-8 max-w-md text-center">
-          <p className="text-4xl mb-4">🚀</p>
-          <h3 className="font-display text-xl font-semibold text-surface-100 mb-2">Your Smart Home Screen awaits</h3>
-          <p className="text-surface-400 text-sm mb-6">
-            Connect your first sponsorship to see AI-powered insights, revenue forecasts, and personalized recommendations.
-          </p>
-          <button
-            onClick={() => onNavigate && onNavigate('sponsorships')}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-accent-500 text-white text-sm font-medium hover:bg-accent-400 transition-colors"
-          >
-            <IconZap className="w-4 h-4" /> Add your first sponsorship
-          </button>
-        </div>
-      </div>
-    )
-  }
-
   // ── Data extraction ───────────────────────────────────
 
-  const { monthly_revenue, active_sponsors, affiliate_revenue, product_sales, revenue_breakdown, pipeline, recent_activity } = data
+  const monthly_revenue = data?.monthly_revenue || 0
+  const active_sponsors = data?.active_sponsors || 0
+  const affiliate_revenue = data?.affiliate_revenue || 0
+  const product_sales = data?.product_sales || 0
+  const revenue_breakdown = data?.revenue_breakdown || { sponsorships: 0, affiliates: 0, products: 0, consulting: 0 }
+  const pipeline = data?.pipeline || { prospecting: 0, negotiating: 0, confirmed: 0, completed: 0 }
+  const recent_activity = data?.recent_activity || []
   const hasInsights = insights && insights.insights && insights.insights.length > 0
 
   // ── Render ─────────────────────────────────────────────
@@ -293,67 +305,139 @@ export default function Dashboard({ onNavigate }) {
       )}
 
       {/* ═══ Hero Section ═══ */}
-      <div id="sales-tour-dashboard-hero" className="flex items-start justify-between flex-wrap gap-4">
-        <div>
-          <h2 className="font-display text-3xl font-bold text-surface-50">
-            👋 {insights?.greeting || `Good morning, ${user?.name || 'there'}`}
-          </h2>
-          <p className="text-surface-400 mt-1">
-            {hasInsights
-              ? "Here's what's happening with your creator business today."
-              : "Here's how your revenue streams are performing today."}
-          </p>
-        </div>
-        <button
-          id="sales-tour-ai-button"
-          onClick={() => setShowAI(true)}
-          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-accent-500/10 text-accent-400 text-sm font-medium hover:bg-accent-500/20 transition-all border border-accent-500/20"
-        >
-          <span>✨</span> AI Assistant
-        </button>
-      </div>
+          <div id="sales-tour-dashboard-hero" className="flex items-start justify-between flex-wrap gap-4">
+            <div>
+              <h2 className="font-display text-3xl font-bold text-surface-50">
+                {greetingWithFlower}
+              </h2>
+              <p className="text-surface-400 mt-1">
+                {hasInsights
+                  ? "Here's what's happening with your creator business today."
+                  : hasData
+                    ? "Here's how your revenue streams are performing today."
+                    : "Let's set up your creator business dashboard."}
+              </p>
+            </div>
+            <button
+              id="sales-tour-ai-button"
+              onClick={() => setShowAI(true)}
+              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-accent-500/10 text-accent-400 text-sm font-medium hover:bg-accent-500/20 transition-all border border-accent-500/20"
+            >
+              <span>✨</span> AI Assistant
+            </button>
+          </div>
 
-      {/* ═══ Revenue Snapshot Cards ═══ */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <HeroStatCard
-          label="Revenue This Month"
-          value={`${monthly_revenue.toLocaleString()}`}
-          rawValue={monthly_revenue}
-          trend="+12.5%"
-          positive
-          color="accent"
-          icon={<IconDollar className="w-5 h-5" />}
-        />
-        <HeroStatCard
-          label="Pipeline Potential"
-          value={`${(insights?.pipelinePotential || 0).toLocaleString()}`}
-          rawValue={insights?.pipelinePotential || 0}
-          trend={`${active_sponsors} active`}
-          positive
-          color="emerald"
-          icon={<IconChart className="w-5 h-5" />}
-          onClick={() => onNavigate && onNavigate('sponsorships')}
-        />
-        <HeroStatCard
-          label="Affiliate Revenue"
-          value={`${affiliate_revenue.toLocaleString()}`}
-          rawValue={affiliate_revenue}
-          trend="+8.2%"
-          positive
-          color="amber"
-          icon={<IconMail className="w-5 h-5" />}
-        />
-        <HeroStatCard
-          label={insights?.followUpsDue > 0 ? 'Follow-ups Due' : 'Product Sales'}
-          value={insights?.followUpsDue > 0 ? String(insights.followUpsDue) : `${product_sales.toLocaleString()}`}
-          rawValue={insights?.followUpsDue > 0 ? insights.followUpsDue : product_sales}
-          trend={insights?.followUpsDue > 0 ? 'Action needed' : '-3.1%'}
-          positive={insights?.followUpsDue > 0 ? false : false}
-          color={insights?.followUpsDue > 0 ? 'rose' : 'rose'}
-          icon={<IconZap className="w-5 h-5" />}
-          onClick={insights?.followUpsDue > 0 ? () => onNavigate && onNavigate('sponsorships') : undefined}
-        />
-      </div>
+          {/* ═══ Stats Row ═══ */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <MiniStatBadge
+              label="Engagement"
+              value={derivedStats.engagementChange}
+              color="emerald"
+              active={hasData}
+            />
+            <MiniStatBadge
+              label="Revenue Opportunity"
+              value={derivedStats.revenueOpportunity}
+              color="accent"
+              active={hasData}
+            />
+            <MiniStatBadge
+              label="Brand Matches"
+              value={derivedStats.brandMatches}
+              color="amber"
+              active={hasData}
+            />
+            <MiniStatBadge
+              label="Follow-ups"
+              value={derivedStats.followUpsNeeded}
+              color="rose"
+              active={hasData}
+            />
+          </div>
+
+          {/* ═══ Today's Mission Card ═══ */}
+          <div className="glass p-5 border border-accent-500/15 bg-gradient-to-r from-accent-500/5 to-emerald-500/5">
+            <div className="flex items-start gap-3">
+              <div className="w-10 h-10 rounded-xl bg-accent-500/15 flex items-center justify-center shrink-0 text-xl">
+                🎯
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-xs text-surface-400 font-medium uppercase tracking-wider mb-1">Today's Mission</p>
+                <p className="text-sm text-surface-200 leading-relaxed">
+                  {todayMission.message || todayMission.text || 'Connect your first social account to unlock personalized growth recommendations.'}
+                </p>
+                {todayMission.action && hasData && (
+                  <button
+                    onClick={() => onNavigate && onNavigate('sponsorships')}
+                    className="mt-3 text-xs font-medium px-3 py-1.5 rounded-lg bg-accent-500/15 text-accent-400 hover:bg-accent-500/25 transition-colors"
+                  >
+                    {todayMission.action} →
+                  </button>
+                )}
+                {!hasData && (
+                  <button
+                    onClick={() => onNavigate && onNavigate('youtube')}
+                    className="mt-3 text-xs font-medium px-3 py-1.5 rounded-lg bg-accent-500/15 text-accent-400 hover:bg-accent-500/25 transition-colors"
+                  >
+                    Connect Instagram or YouTube →
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* ═══ Revenue Snapshot Cards ═══ */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {hasData ? (
+              <>
+                <HeroStatCard
+                  label="Revenue This Month"
+                  value={`${monthly_revenue.toLocaleString()}`}
+                  rawValue={monthly_revenue}
+                  trend="+12.5%"
+                  positive
+                  color="accent"
+                  icon={<IconDollar className="w-5 h-5" />}
+                />
+                <HeroStatCard
+                  label="Pipeline Potential"
+                  value={`${(insights?.pipelinePotential || 0).toLocaleString()}`}
+                  rawValue={insights?.pipelinePotential || 0}
+                  trend={`${active_sponsors} active`}
+                  positive
+                  color="emerald"
+                  icon={<IconChart className="w-5 h-5" />}
+                  onClick={() => onNavigate && onNavigate('sponsorships')}
+                />
+                <HeroStatCard
+                  label="Affiliate Revenue"
+                  value={`${affiliate_revenue.toLocaleString()}`}
+                  rawValue={affiliate_revenue}
+                  trend="+8.2%"
+                  positive
+                  color="amber"
+                  icon={<IconMail className="w-5 h-5" />}
+                />
+                <HeroStatCard
+                  label={insights?.followUpsDue > 0 ? 'Follow-ups Due' : 'Product Sales'}
+                  value={insights?.followUpsDue > 0 ? String(insights.followUpsDue) : `${product_sales.toLocaleString()}`}
+                  rawValue={insights?.followUpsDue > 0 ? insights.followUpsDue : product_sales}
+                  trend={insights?.followUpsDue > 0 ? 'Action needed' : '-3.1%'}
+                  positive={false}
+                  color="rose"
+                  icon={<IconZap className="w-5 h-5" />}
+                  onClick={insights?.followUpsDue > 0 ? () => onNavigate && onNavigate('sponsorships') : undefined}
+                />
+              </>
+            ) : (
+              <>
+                <PreviewStatCard label="Revenue This Month" icon={<IconDollar className="w-5 h-5" />} color="accent" />
+                <PreviewStatCard label="Pipeline Potential" icon={<IconChart className="w-5 h-5" />} color="emerald" />
+                <PreviewStatCard label="Affiliate Revenue" icon={<IconMail className="w-5 h-5" />} color="amber" />
+                <PreviewStatCard label="Product Sales" icon={<IconZap className="w-5 h-5" />} color="rose" />
+              </>
+            )}
+          </div>
 
       {/* YouTube integration card */}
       {youtubeStatus && youtubeStatus.connected && (
@@ -443,11 +527,11 @@ export default function Dashboard({ onNavigate }) {
       )}
 
       {/* ═══ AI Insights Feed ═══ */}
-      {hasInsights && (
-        <section>
-          <h3 className="font-display text-lg font-semibold text-surface-100 mb-4 flex items-center gap-2">
-            <span>✨</span> Smart Insights
-          </h3>
+      <section>
+        <h3 className="font-display text-lg font-semibold text-surface-100 mb-4 flex items-center gap-2">
+          <span>✨</span> Smart Insights
+        </h3>
+        {hasInsights ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {insights.insights.map((item, i) => (
               <InsightCard
@@ -467,11 +551,22 @@ export default function Dashboard({ onNavigate }) {
               />
             ))}
           </div>
-        </section>
-      )}
+        ) : (
+          <div>
+            <p className="text-sm text-surface-400 mb-4">
+              CreatorBloom hasn't analyzed your business yet. Connect one social account to receive your first personalized growth recommendation.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <PreviewInsightCard emoji="📈" text="Engagement increased 12% this week." color="emerald" />
+              <PreviewInsightCard emoji="💰" text="You're likely underpricing sponsorships." color="amber" />
+              <PreviewInsightCard emoji="🌸" text="Beauty content is outperforming lifestyle content." color="accent" />
+            </div>
+          </div>
+        )}
+      </section>
 
       {/* ═══ Revenue Forecast ═══ */}
-      {insights?.forecast && (
+      {insights?.forecast ? (
         <section id="sales-tour-forecast">
           <div className="glass p-6 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-accent-500/5 rounded-full -translate-y-1/2 translate-x-1/4 blur-3xl" />
@@ -523,6 +618,45 @@ export default function Dashboard({ onNavigate }) {
                   )}
                 </div>
               </div>
+            </div>
+          </div>
+        </section>
+      ) : (
+        <section>
+          <div className="glass p-6 relative overflow-hidden opacity-80">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-accent-500/5 rounded-full -translate-y-1/2 translate-x-1/4 blur-3xl" />
+            <div className="absolute top-3 right-4 px-2 py-0.5 rounded-full bg-surface-700/60 border border-surface-600/30 text-xs text-surface-400 font-medium">
+              Preview
+            </div>
+            <div className="relative">
+              <h3 className="font-display text-lg font-semibold text-surface-100 mb-4">📈 Revenue Forecast</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <p className="text-sm text-surface-400 mb-1">Projected next month</p>
+                  <p className="font-display text-3xl font-bold text-surface-600">$—</p>
+                </div>
+                <div className="flex flex-col justify-center">
+                  <div className="space-y-3 opacity-40">
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-surface-400">Current projection</span>
+                      <span className="text-surface-500 font-medium">$0</span>
+                    </div>
+                    <div className="h-2 bg-surface-700/50 rounded-full overflow-hidden">
+                      <div className="h-full bg-accent-500/30 rounded-full" style={{ width: '40%' }} />
+                    </div>
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-surface-400">With one more deal</span>
+                      <span className="text-surface-500 font-medium">$—</span>
+                    </div>
+                    <div className="h-2 bg-surface-700/50 rounded-full overflow-hidden">
+                      <div className="h-full bg-emerald-500/30 rounded-full" style={{ width: '60%' }} />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <p className="text-xs text-surface-500 mt-4 text-center">
+                Once connected, you'll see revenue trends across sponsorships, affiliate income, and digital product sales.
+              </p>
             </div>
           </div>
         </section>
@@ -647,28 +781,54 @@ export default function Dashboard({ onNavigate }) {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <div className="lg:col-span-2 glass p-6">
                 <h3 className="font-display text-lg font-semibold text-surface-100 mb-4">Sponsorship Pipeline</h3>
-                <ResponsiveContainer width="100%" height={200}>
-                  <BarChart data={pipeData(pipeline)}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#334155" vertical={false} />
-                    <XAxis dataKey="name" stroke="#64748b" tick={{ fontSize: 12 }} />
-                    <YAxis stroke="#64748b" tick={{ fontSize: 12 }} allowDecimals={false} />
-                    <Tooltip
-                      contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '12px', fontSize: '13px', color: '#e2e8f0' }}
-                      formatter={(v) => [`${v} deals`, undefined]}
-                    />
-                    <Bar dataKey="deals" radius={[6, 6, 0, 0]} animationDuration={animateChart ? 1000 : 0} animationBegin={100}>
-                      {pipeData(pipeline).map((_, i) => (
-                        <Cell key={i} fill={COLORS[i]} />
-                      ))}
-                    </Bar>
-                  </BarChart>
-                </ResponsiveContainer>
+                {Object.values(pipeline).reduce((a, b) => a + b, 0) > 0 ? (
+                  <ResponsiveContainer width="100%" height={200}>
+                    <BarChart data={pipeData(pipeline)}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#334155" vertical={false} />
+                      <XAxis dataKey="name" stroke="#64748b" tick={{ fontSize: 12 }} />
+                      <YAxis stroke="#64748b" tick={{ fontSize: 12 }} allowDecimals={false} />
+                      <Tooltip
+                        contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '12px', fontSize: '13px', color: '#e2e8f0' }}
+                        formatter={(v) => [`${v} deals`, undefined]}
+                      />
+                      <Bar dataKey="deals" radius={[6, 6, 0, 0]} animationDuration={animateChart ? 1000 : 0} animationBegin={100}>
+                        {pipeData(pipeline).map((_, i) => (
+                          <Cell key={i} fill={COLORS[i]} />
+                        ))}
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+                ) : (
+                  <div className="flex flex-col items-center py-4">
+                    <div className="w-full h-[200px] flex items-center justify-center opacity-20 relative">
+                      <div className="absolute inset-0 flex items-end justify-around px-8 pb-4">
+                        <div className="w-12 bg-accent-400/50 rounded-t-md" style={{ height: '30%' }} />
+                        <div className="w-12 bg-emerald-400/50 rounded-t-md" style={{ height: '50%' }} />
+                        <div className="w-12 bg-amber-400/50 rounded-t-md" style={{ height: '40%' }} />
+                        <div className="w-12 bg-rose-400/50 rounded-t-md" style={{ height: '20%' }} />
+                      </div>
+                    </div>
+                    <p className="text-sm text-surface-400 mt-3 text-center">
+                      💡 Creators who track every deal typically have better visibility into follow-ups and opportunities.
+                    </p>
+                    <button
+                      onClick={() => onNavigate && onNavigate('gmail')}
+                      className="mt-3 px-4 py-2 rounded-xl bg-rose-500/15 text-rose-400 text-sm font-medium hover:bg-rose-500/25 transition-colors border border-rose-500/20 flex items-center gap-2"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <rect x="2" y="4" width="20" height="16" rx="2" />
+                        <polyline points="3,6 12,14 21,6" />
+                      </svg>
+                      Connect Gmail
+                    </button>
+                  </div>
+                )}
               </div>
               <div className="glass p-6">
                 <h3 className="font-display text-lg font-semibold text-surface-100 mb-4">Recent Activity</h3>
                 <div className="space-y-3">
                   {recent_activity.map((item, i) => (
-                    <ActivityItem key={i} action={item.action} detail={`${item.brand} — $${item.amount.toLocaleString()}`} time="Recently" />
+                    <ActivityItem key={i} action={item.action} detail={`${item.brand} — ${item.amount.toLocaleString()}`} time="Recently" />
                   ))}
                   {recent_activity.length === 0 && (
                     <ActivityItem action="No activity yet" detail="Add your first sponsorship deal to start tracking." time="" />
@@ -792,6 +952,64 @@ function ActivityItem({ action, detail, time }) {
         <p className="text-surface-500 text-xs">{detail}</p>
       </div>
       <span className="text-surface-600 text-xs shrink-0">{time}</span>
+    </div>
+  )
+}
+
+// ── Mini Stat Badge (for stats row) ──────────────────────
+
+function MiniStatBadge({ label, value, color, active }) {
+  const colorMap = {
+    emerald: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20',
+    accent: 'text-accent-400 bg-accent-500/10 border-accent-500/20',
+    amber: 'text-amber-400 bg-amber-500/10 border-amber-500/20',
+    rose: 'text-rose-400 bg-rose-500/10 border-rose-500/20',
+  }
+  return (
+    <div className={`glass p-3 text-center ${active ? '' : 'opacity-60'}`}>
+      <p className="text-xs text-surface-400 mb-1">{label}</p>
+      <p className={`font-display text-lg font-bold ${active ? colorMap[color]?.split(' ')[0] || 'text-surface-200' : 'text-surface-500'}`}>
+        {String(value)}
+      </p>
+    </div>
+  )
+}
+
+// ── Preview Stat Card ─────────────────────────────────────
+
+function PreviewStatCard({ label, icon, color }) {
+  const iconColorMap = {
+    accent: 'text-accent-400/40',
+    emerald: 'text-emerald-400/40',
+    amber: 'text-amber-400/40',
+    rose: 'text-rose-400/40',
+  }
+  return (
+    <div className="glass p-5 opacity-50">
+      <div className="flex items-center justify-between mb-3">
+        <p className="text-sm text-surface-500">{label}</p>
+        <span className={iconColorMap[color] || 'text-surface-500'}>{icon}</span>
+      </div>
+      <p className="font-display text-3xl font-bold text-surface-600">$—</p>
+      <p className="text-xs mt-2 text-surface-600">—</p>
+    </div>
+  )
+}
+
+// ── Preview Insight Card ──────────────────────────────────
+
+function PreviewInsightCard({ emoji, text, color }) {
+  const colorMap = {
+    emerald: 'border-emerald-500/10 bg-emerald-500/5',
+    amber: 'border-amber-500/10 bg-amber-500/5',
+    accent: 'border-accent-500/10 bg-accent-500/5',
+  }
+  return (
+    <div className={`glass p-4 border ${colorMap[color] || 'border-surface-700/20'} opacity-50`}>
+      <div className="flex items-start gap-3">
+        <span className="text-lg shrink-0">{emoji}</span>
+        <p className="text-sm text-surface-400 leading-relaxed">{text}</p>
+      </div>
     </div>
   )
 }

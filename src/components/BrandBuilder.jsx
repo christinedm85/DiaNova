@@ -6,12 +6,42 @@ export default function BrandBuilder({ onNavigate }) {
   const [brand, setBrand] = useState(null)
   const [ideas, setIdeas] = useState([])
   const [loading, setLoading] = useState(true)
+  const [integrationStatuses, setIntegrationStatuses] = useState({})
 
   const fetch = () => Promise.all([api.brand.get(), api.brand.ideas()])
     .then(([b, i]) => { setBrand(b); setIdeas(i) })
     .finally(() => setLoading(false))
 
   useEffect(() => { fetch() }, [])
+
+  // Fetch integration statuses for health score checklist
+  useEffect(() => {
+    Promise.all([
+      api.meta.status().catch(() => ({ connected: false })),
+      api.youtube.status().catch(() => ({ connected: false })),
+      api.monetization.status().catch(() => ({ connected: false })),
+      api.sponsorships.pipeline().catch(() => ({})),
+    ]).then(([meta, yt, mon, pipeline]) => {
+      const totalDeals = pipeline ? Object.values(pipeline).reduce((sum, deals) => sum + deals.length, 0) : 0
+      setIntegrationStatuses({
+        instagram: meta?.connected || false,
+        youtube: yt?.connected || false,
+        sponsorships: totalDeals > 0,
+        revenue: mon?.stripe?.connected || mon?.shopify?.connected || false,
+      })
+    })
+  }, [])
+
+  // Calculate health score based on checklist
+  const checklistItems = [
+    { key: 'instagram', label: 'Connect Instagram', done: integrationStatuses.instagram || false },
+    { key: 'youtube', label: 'Connect YouTube', done: integrationStatuses.youtube || false },
+    { key: 'sponsorships', label: 'Add sponsorship history', done: integrationStatuses.sponsorships || false },
+    { key: 'revenue', label: 'Enable revenue tracking', done: integrationStatuses.revenue || false },
+  ]
+  const checklistDone = checklistItems.filter(c => c.done).length
+  const estimatedScore = 40 + checklistDone * 15 // Base 40, +15 per completed item
+  const currentScore = brand?.health_score || 0
 
   const togglePillar = async (pillar) => {
     const pillars = brand.pillars.includes(pillar)
@@ -136,26 +166,67 @@ export default function BrandBuilder({ onNavigate }) {
 
       <div className="glass p-6">
         <h3 className="font-display text-lg font-semibold text-surface-100 mb-4">Brand Health Score</h3>
-        <div className="flex items-center gap-8">
-          <div className="relative w-32 h-32 flex items-center justify-center">
-            <svg className="w-32 h-32 -rotate-90" viewBox="0 0 120 120">
-              <circle cx="60" cy="60" r="52" fill="none" stroke="currentColor" strokeWidth="8" className="text-surface-800" />
-              <circle cx="60" cy="60" r="52" fill="none" stroke="url(#scoreGrad2)" strokeWidth="8" strokeLinecap="round"
-                strokeDasharray={`${(brand.health_score / 100) * 327} 327`} />
-              <defs>
-                <linearGradient id="scoreGrad2" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stopColor="#6366f1" />
-                  <stop offset="100%" stopColor="#ec4899" />
-                </linearGradient>
-              </defs>
-            </svg>
-            <span className="absolute font-display text-3xl font-bold gradient-text">{brand.health_score}</span>
+        <div className="flex flex-col lg:flex-row items-start gap-8">
+          <div className="flex items-center gap-8">
+            <div className="relative w-32 h-32 flex items-center justify-center">
+              <svg className="w-32 h-32 -rotate-90" viewBox="0 0 120 120">
+                <circle cx="60" cy="60" r="52" fill="none" stroke="currentColor" strokeWidth="8" className="text-surface-800" />
+                <circle cx="60" cy="60" r="52" fill="none" stroke="url(#scoreGrad2)" strokeWidth="8" strokeLinecap="round"
+                  strokeDasharray={`${(currentScore / 100) * 327} 327`} />
+                <defs>
+                  <linearGradient id="scoreGrad2" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stopColor="#6366f1" />
+                    <stop offset="100%" stopColor="#ec4899" />
+                  </linearGradient>
+                </defs>
+              </svg>
+              <span className="absolute font-display text-3xl font-bold gradient-text">{currentScore}</span>
+            </div>
+            <div className="space-y-2 text-sm">
+              <ScoreItem label="Consistency" score={85} />
+              <ScoreItem label="Audience Fit" score={82} />
+              <ScoreItem label="Differentiation" score={70} />
+              <ScoreItem label="Monetization Readiness" score={75} />
+            </div>
           </div>
-          <div className="space-y-2 text-sm">
-            <ScoreItem label="Consistency" score={85} />
-            <ScoreItem label="Audience Fit" score={82} />
-            <ScoreItem label="Differentiation" score={70} />
-            <ScoreItem label="Monetization Readiness" score={75} />
+          {/* Checklist */}
+          <div className="flex-1 w-full lg:w-auto">
+            <p className="text-sm text-surface-400 mb-3">Complete these steps to boost your score:</p>
+            <div className="space-y-2.5">
+              {checklistItems.map(item => (
+                <div key={item.key} className="flex items-center gap-3 text-sm">
+                  <span className={`w-5 h-5 rounded-md flex items-center justify-center shrink-0 transition-colors ${
+                    item.done
+                      ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                      : 'bg-surface-700/40 text-surface-600 border border-surface-600/30'
+                  }`}>
+                    {item.done ? '✓' : '☐'}
+                  </span>
+                  <span className={item.done ? 'text-surface-300' : 'text-surface-500'}>{item.label}</span>
+                  {!item.done && (
+                    <button
+                      onClick={() => {
+                        if (item.key === 'instagram') onNavigate && onNavigate('meta')
+                        else if (item.key === 'youtube') onNavigate && onNavigate('youtube')
+                        else if (item.key === 'sponsorships') onNavigate && onNavigate('sponsorships')
+                        else if (item.key === 'revenue') onNavigate && onNavigate('monetization')
+                      }}
+                      className="ml-auto text-xs text-accent-400 hover:text-accent-300 font-medium"
+                    >
+                      Connect →
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+            <div className="mt-4 p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
+              <p className="text-xs text-emerald-400">
+                <span className="font-semibold">Estimated score after setup: {Math.min(estimatedScore, 100)}/100</span>
+                {estimatedScore > currentScore && (
+                  <span className="text-surface-500 ml-1">(+{estimatedScore - currentScore} from current)</span>
+                )}
+              </p>
+            </div>
           </div>
         </div>
       </div>

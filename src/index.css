@@ -355,6 +355,13 @@ body {
   to { transform: translateX(0); }
 }
 
+/* ── Fade in (for loader cards) ───────────────────────── */
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 /* ═══════════════════════════════════════════════════════
    Reduced motion: disable all animations
    ═══════════════════════════════════════════════════════ */
