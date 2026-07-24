@@ -348,11 +348,13 @@ export default function Dashboard({ onNavigate }) {
             </button>
           </div>
 
-          {/* ═══ Dashboard Hero Cards ═══ */}
-          <DashboardHeroCards
-            monthlyRevenue={monthly_revenue}
+          {/* ═══ AI Brief Hero ═══ */}
+          <AIBrief
             forecast={insights?.forecast}
             insights={insights?.insights}
+            monthlyRevenue={monthly_revenue}
+            pipelinePotential={insights?.pipelinePotential}
+            followUpsDue={insights?.followUpsDue}
             hasInsights={hasInsights}
             hasData={hasData}
             onNavigate={onNavigate}
@@ -987,156 +989,215 @@ function ActivityItem({ action, detail, time }) {
   )
 }
 
-// ── Dashboard Hero Cards ────────────────────────────────
+// ── AI Brief Hero ────────────────────────────────────────
 
-function DashboardHeroCards({ monthlyRevenue, forecast, insights, hasInsights, hasData, onNavigate }) {
-  // ── Card 1: Revenue data ───────────────────────────────
-  const heroRevenue = forecast?.nextMonth || monthlyRevenue || 8400
-  const heroTrend = forecast?.potentialIncrease || 18
+function AIBrief({ forecast, insights, monthlyRevenue, pipelinePotential, followUpsDue, hasInsights, hasData, onNavigate }) {
+  // ── Row 1: Revenue Opportunity ──────────────────────────
+  const projectedNext = forecast?.nextMonth || monthlyRevenue || 0
+  const revenueUpside = hasData && projectedNext > monthlyRevenue
+    ? projectedNext - monthlyRevenue
+    : pipelinePotential
+      ? Math.round(pipelinePotential * 0.15)
+      : 1250
+  const revenueOpportunity = hasData ? "$" + revenueUpside.toLocaleString() : "$1,250"
 
-  // ── Card 2: AI Insight ─────────────────────────────────
-  const fallbackInsights = [
-    'Beauty collaborations generated 34% higher revenue than lifestyle brands.',
-    'Creators who post consistently see 2.5x more brand deals.',
-    'Your affiliate revenue is growing faster than sponsorship income.',
-    'Short-form video content drives 60% more engagement for brand partnerships.',
+  // ── Row 2: Best Performing Content ──────────────────────
+  const contentFallbacks = [
+    "Skincare Tutorials",
+    "Affiliate Product Reviews",
+    "Brand Collaboration Reels",
+    "How-To Guides & Tutorials",
   ]
-  const insightMessage = hasInsights && insights?.length > 0
-    ? insights[0].message
-    : fallbackInsights[Math.floor(Date.now() / 12000) % fallbackInsights.length]
+  const contentMatch = hasInsights && insights
+    ? insights.find(i =>
+        i.message?.toLowerCase().includes("content") ||
+        i.message?.toLowerCase().includes("video") ||
+        i.message?.toLowerCase().includes("post") ||
+        i.message?.toLowerCase().includes("reel") ||
+        i.message?.toLowerCase().includes("tutorial") ||
+        i.message?.toLowerCase().includes("beauty") ||
+        i.message?.toLowerCase().includes("skincare")
+      )
+    : null
+  const bestContent = contentMatch
+    ? contentMatch.message.split(" ").slice(0, 3).join(" ")
+    : contentFallbacks[Math.floor(Date.now() / 15000) % contentFallbacks.length]
 
-  // ── Card 3: Suggested Action ───────────────────────────
+  // ── Row 3: Recommended Action ───────────────────────────
   const fallbackActions = [
-    'Increase outreach to beauty brands this week.',
-    'Review your sponsorship pricing — you may be undervaluing your reach.',
-    'Follow up with brands in your negotiation pipeline.',
-    'Diversify into affiliate programs for passive income.',
+    "Increase sponsorship pricing 12%",
+    "Reach out to 3 beauty brands this week",
+    "Review your engagement analytics for partnership pitches",
+    "Diversify into affiliate programs for passive income",
   ]
-  const actionText = hasInsights && insights?.length > 0
-    ? insights[0].action || fallbackActions[0]
-    : fallbackActions[Math.floor(Date.now() / 15000) % fallbackActions.length]
+  const recommendedAction = hasInsights && insights?.length > 0
+    ? (insights[0].action || fallbackActions[0])
+    : fallbackActions[Math.floor(Date.now() / 12000) % fallbackActions.length]
 
-  const handleActionClick = () => onNavigate && onNavigate('sponsorships')
+  // ── Row 4: Priority ─────────────────────────────────────
+  const priorityFallbacks = [
+    "Reply to Glow Labs today",
+    "Follow up with Nike before their deadline",
+    "Send contract revision to Sephora",
+    "Schedule demo call with prospective sponsor",
+  ]
+  const priorityItem = hasData && followUpsDue > 0
+    ? followUpsDue + " follow-up" + (followUpsDue > 1 ? "s" : "") + " overdue — act now"
+    : priorityFallbacks[Math.floor(Date.now() / 10000) % priorityFallbacks.length]
+
+  // ── Brand context for personalized priority ──────────────
+  const urgentBrand = hasInsights && insights?.find(i => i.type === "alert")
+  const priorityText = urgentBrand
+    ? urgentBrand.message.length > 50 ? (followUpsDue || 1) + " overdue follow-up" + (followUpsDue !== 1 ? "s" : "") + " — act now" : urgentBrand.message
+    : priorityItem
+
+  // ── Row config ──────────────────────────────────────────
+  const rows = [
+    {
+      icon: "💰",
+      label: "Revenue Opportunity",
+      value: revenueOpportunity,
+      suffix: hasData && revenueUpside > 0 ? (
+        <span className="text-emerald-400 text-xs font-semibold ml-1.5">+↑</span>
+      ) : null,
+      accent: {
+        dot: "bg-emerald-400",
+        iconBg: "bg-emerald-500/10",
+        iconText: "text-emerald-400",
+        valueColor: "text-emerald-400",
+      },
+    },
+    {
+      icon: "📊",
+      label: "Best Performing Content",
+      value: bestContent,
+      suffix: null,
+      accent: {
+        dot: "bg-blue-400",
+        iconBg: "bg-blue-500/10",
+        iconText: "text-blue-400",
+        valueColor: "text-blue-400",
+      },
+    },
+    {
+      icon: "💡",
+      label: "Recommended Action",
+      value: recommendedAction,
+      suffix: null,
+      accent: {
+        dot: "bg-amber-400",
+        iconBg: "bg-amber-500/10",
+        iconText: "text-amber-400",
+        valueColor: "text-amber-400",
+      },
+    },
+    {
+      icon: "🔔",
+      label: "Priority",
+      value: priorityText,
+      suffix: null,
+      accent: {
+        dot: "bg-rose-400",
+        iconBg: "bg-rose-500/10",
+        iconText: "text-rose-400",
+        valueColor: "text-rose-400",
+      },
+      urgent: hasData && followUpsDue > 0,
+    },
+  ]
+
+  const handleActionClick = () => onNavigate && onNavigate("sponsorships")
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-      {/* ── Revenue Card ──────────────────────────────── */}
-      <HeroCard
-        accentColor="emerald"
-        icon={
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="12" y1="1" x2="12" y2="23" />
-            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-          </svg>
-        }
-      >
-        <p className="text-xs font-medium text-surface-400 uppercase tracking-wider mb-2">Monthly Revenue</p>
-        <p className="font-display text-4xl font-bold text-surface-50 tracking-tight">
-          <AnimatedNumber value={heroRevenue} prefix="$" />
-        </p>
-        <div className="flex items-center gap-1.5 mt-2">
-          <span className="inline-flex items-center gap-1 text-sm font-semibold text-emerald-400">
-            ↗︎ +{heroTrend}%
-          </span>
-          <span className="text-xs text-surface-500">vs last month</span>
+    <div
+      className="glass p-6 sm:p-7 relative overflow-hidden animate-hero-fade-up"
+    >
+      {/* ── Ambient glow blobs ──────────────────────────── */}
+      <div className="absolute top-0 right-0 w-48 h-48 bg-emerald-500/5 rounded-full -translate-y-1/2 translate-x-1/4 blur-3xl" />
+      <div className="absolute bottom-0 left-0 w-48 h-48 bg-rose-500/5 rounded-full translate-y-1/2 -translate-x-1/4 blur-3xl" />
+      <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-accent-500/3 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl" />
+
+      {/* ── Header ──────────────────────────────────────── */}
+      <div className="relative flex items-center gap-3 mb-5">
+        <div className="w-9 h-9 rounded-xl bg-accent-500/15 flex items-center justify-center shrink-0">
+          <span className="text-lg">✨</span>
         </div>
-        {/* subtle glow bar */}
-        <div className="mt-4 h-1 rounded-full bg-gradient-to-r from-emerald-500/40 to-emerald-500/0" />
-      </HeroCard>
+        <div>
+          <p className="text-sm font-semibold text-surface-100">
+            Here&apos;s what CreatorBloom discovered today
+          </p>
+          <p className="text-xs text-surface-500 mt-0.5">
+            Your daily AI briefing — personalized insights for your creator business
+          </p>
+        </div>
+        <span className="ml-auto inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-accent-500/10 border border-accent-500/20 text-[10px] font-semibold text-accent-400 uppercase tracking-wider">
+          AI Brief
+        </span>
+      </div>
 
-      {/* ── AI Insight Card ────────────────────────────── */}
-      <HeroCard
-        accentColor="amber"
-        icon={<span className="text-xl">💡</span>}
-      >
-        <p className="text-xs font-medium text-surface-400 uppercase tracking-wider mb-2">AI Insight</p>
-        <p className="text-sm text-surface-200 leading-relaxed line-clamp-3">
-          {insightMessage}
-        </p>
-        <div className="mt-4 h-1 rounded-full bg-gradient-to-r from-amber-500/40 to-amber-500/0" />
-      </HeroCard>
+      {/* ── Divider ─────────────────────────────────────── */}
+      <div className="relative h-px bg-gradient-to-r from-transparent via-surface-700/50 to-transparent mb-5" />
 
-      {/* ── Suggested Action Card ──────────────────────── */}
-      <HeroCard
-        accentColor="purple"
-        icon={<span className="text-xl">🎯</span>}
-      >
-        <p className="text-xs font-medium text-surface-400 uppercase tracking-wider mb-2">Suggested Action</p>
-        <p className="text-sm text-surface-200 leading-relaxed line-clamp-3 flex-1">
-          {actionText}
+      {/* ── Insight Rows ────────────────────────────────── */}
+      <div className="relative space-y-0">
+        {rows.map((row, i) => (
+          <div key={row.label}>
+            {i > 0 && (
+              <div className="h-px bg-surface-700/30" />
+            )}
+            <div
+              className={`flex items-center gap-3 py-3.5 sm:py-4 px-1 transition-colors duration-300 hover:bg-surface-700/10 rounded-lg -mx-1 ${
+                row.urgent ? "bg-rose-500/5 rounded-lg -mx-1 px-1" : ""
+              }`}
+              style={{
+                opacity: 0,
+                animation: `fadeIn 0.4s ease-out ${200 + i * 100}ms forwards`,
+              }}
+            >
+              {/* ── Icon ─────────────────────────────── */}
+              <div className={`w-9 h-9 rounded-xl ${row.accent.iconBg} flex items-center justify-center shrink-0 text-base`}>
+                {row.icon}
+              </div>
+
+              {/* ── Label + Value ── */}
+              <div className="flex-1 min-w-0 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-3">
+                <span className="text-xs font-medium text-surface-400 uppercase tracking-wider shrink-0">
+                  {row.label}
+                </span>
+                <span className={`text-sm font-semibold ${row.accent.valueColor} truncate text-right`}>
+                  {row.value}
+                  {row.suffix}
+                </span>
+              </div>
+
+              {/* ── Status dot ──────────────────────── */}
+              <div className={`w-2 h-2 rounded-full ${row.accent.dot} shrink-0 ${
+                row.urgent ? "animate-pulse" : ""
+              }`} />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* ── CTA row ──────────────────────────────────────── */}
+      <div className="relative mt-4 pt-3 border-t border-surface-700/30 flex items-center justify-between">
+        <p className="text-xs text-surface-500">
+          Updated {new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })} · Powered by AI
         </p>
         <button
           onClick={handleActionClick}
-          className="mt-3 inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-purple-500/15 text-purple-400 text-xs font-semibold hover:bg-purple-500/25 transition-all border border-purple-500/20"
+          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-accent-500/15 text-accent-400 text-xs font-semibold hover:bg-accent-500/25 transition-all border border-accent-500/20"
         >
-          Take Action
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          View Opportunities
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <line x1="5" y1="12" x2="19" y2="12" />
             <polyline points="12 5 19 12 12 19" />
           </svg>
         </button>
-        <div className="mt-4 h-1 rounded-full bg-gradient-to-r from-purple-500/40 to-purple-500/0" />
-      </HeroCard>
-    </div>
-  )
-}
-
-// ── Hero Card (shared shell) ──────────────────────────────
-
-function HeroCard({ accentColor, icon, children }) {
-  const colorMap = {
-    emerald: {
-      border: 'border-emerald-500/25',
-      glow: 'shadow-emerald-500/10',
-      iconBg: 'bg-emerald-500/10',
-      iconText: 'text-emerald-400',
-      badgeBg: 'bg-emerald-500/10',
-      badgeBorder: 'border-emerald-500/20',
-      badgeText: 'text-emerald-400',
-      badgeLabel: 'Live',
-    },
-    amber: {
-      border: 'border-amber-500/25',
-      glow: 'shadow-amber-500/10',
-      iconBg: 'bg-amber-500/10',
-      iconText: 'text-amber-400',
-      badgeBg: 'bg-amber-500/10',
-      badgeBorder: 'border-amber-500/20',
-      badgeText: 'text-amber-400',
-      badgeLabel: 'AI',
-    },
-    purple: {
-      border: 'border-purple-500/25',
-      glow: 'shadow-purple-500/10',
-      iconBg: 'bg-purple-500/10',
-      iconText: 'text-purple-400',
-      badgeBg: 'bg-purple-500/10',
-      badgeBorder: 'border-purple-500/20',
-      badgeText: 'text-purple-400',
-      badgeLabel: 'Action',
-    },
-  }
-  const c = colorMap[accentColor] || colorMap.emerald
-
-  return (
-    <div
-      className={`glass card-lift p-6 border ${c.border} ${c.glow} flex flex-col transition-all duration-500`}
-      style={{ opacity: 0, animation: 'fadeIn 0.5s ease-out 150ms forwards' }}
-    >
-      <div className="flex items-center justify-between mb-3">
-        <div className={`w-10 h-10 rounded-xl ${c.iconBg} flex items-center justify-center shrink-0 ${c.iconText}`}>
-          {icon}
-        </div>
-        <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full ${c.badgeBg} ${c.badgeBorder} text-[10px] font-semibold ${c.badgeText} uppercase tracking-wider`}>
-          {c.badgeLabel}
-        </span>
       </div>
-      {children}
     </div>
   )
-}
-
-// ── Mini Stat Badge (for stats row) ──────────────────────
+}// ── Mini Stat Badge (for stats row) ──────────────────────
 
 function MiniStatBadge({ label, value, color, active }) {
   const colorMap = {
