@@ -125,7 +125,7 @@ export default function YouTubeIntegration() {
           </div>
           <h3 className="text-lg font-semibold text-surface-100 mb-2">Connect Your YouTube Channel</h3>
           <p className="text-surface-400 text-sm max-w-md mx-auto mb-6">
-            Link your YouTube account to see channel analytics, top videos, and revenue estimates — all inside CreatorBloom.
+            Connect YouTube to see your real views, watch time, and top-performing videos — all inside CreatorBloom.
           </p>
           <button
             onClick={handleConnect}

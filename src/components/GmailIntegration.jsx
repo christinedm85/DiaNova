@@ -166,7 +166,7 @@ export default function GmailIntegration() {
           </div>
           <h3 className="text-lg font-semibold text-surface-100 mb-2">Connect Your Gmail</h3>
           <p className="text-surface-400 text-sm max-w-md mx-auto mb-6">
-            Link your Gmail account so CreatorBloom can scan for sponsorship emails, brand deals, UGC requests, and affiliate opportunities — automatically categorized and ready for your pipeline.
+            Connect Gmail to automatically find sponsorship opportunities hiding in your inbox — categorized and ready for your pipeline.
           </p>
           <button
             onClick={handleConnect}

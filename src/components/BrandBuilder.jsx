@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import { api } from '../api.js'
+import EmptyState from './EmptyState.jsx'
 
-export default function BrandBuilder() {
+export default function BrandBuilder({ onNavigate }) {
   const [brand, setBrand] = useState(null)
   const [ideas, setIdeas] = useState([])
   const [loading, setLoading] = useState(true)
@@ -52,6 +53,17 @@ export default function BrandBuilder() {
         <h2 id="sales-tour-brand" className="font-display text-3xl font-bold text-surface-50">Brand Builder</h2>
         <p className="text-surface-400 mt-1">Define and grow your unique creator brand identity.</p>
       </div>
+
+      {brand.health_score < 40 && (
+        <EmptyState
+          icon="🎨"
+          title="Your brand kit is waiting"
+          description="A complete brand kit helps match you with the right sponsors. It only takes 2 minutes."
+          action={() => document.getElementById('sales-tour-brand')?.scrollIntoView({ behavior: 'smooth' })}
+          actionLabel="Complete Your Brand Kit"
+          color="purple"
+        />
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="glass p-6 lg:col-span-1">

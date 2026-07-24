@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { api } from '../api.js'
 import EmptyState from './EmptyState.jsx'
 import FormField from './FormField.jsx'
+import AIPanel from './AIPanel.jsx'
 
 function downloadCSV(type) {
   api.exportCSV(type).then(r => r.blob()).then(blob => {
@@ -12,11 +13,12 @@ function downloadCSV(type) {
   })
 }
 
-export default function Products() {
+export default function Products({ onNavigate }) {
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
   const [form, setForm] = useState({ title: '', type: 'Guide', price: '', sales: 0, revenue: 0, trend: '0%' })
   const [showForm, setShowForm] = useState(false)
+  const [showAI, setShowAI] = useState(false)
 
   const fetch = () => api.products.list().then(setProducts).finally(() => setLoading(false))
   useEffect(() => { fetch() }, [])
@@ -104,10 +106,13 @@ export default function Products() {
           <div className="col-span-3">
             <EmptyState
               icon="📦"
-              title="No products yet"
-              description="Create your first digital product and start selling to your audience."
-              action={() => setShowForm(true)}
-              actionLabel="+ New Product"
+              title="No digital products yet"
+              description="Get AI-powered pricing suggestions for your content. Products like presets, templates, and guides sell while you sleep."
+              action={() => setShowAI(true)}
+              actionLabel="Get Pricing Suggestions"
+              secondaryAction={() => setShowForm(true)}
+              secondaryLabel="Or add a product manually"
+              color="emerald"
             />
           </div>
         )}
@@ -121,6 +126,7 @@ export default function Products() {
           <IdeaCard title="Brand Pitch Kit" desc="12 companies have reached out this quarter. Sell your exact pitch deck template." potential="$2,500/mo est." confidence="High match" />
         </div>
       </div>
+      <AIPanel show={showAI} onClose={() => setShowAI(false)} />
     </div>
   )
 }

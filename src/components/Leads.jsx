@@ -12,7 +12,7 @@ function downloadCSV(type) {
   })
 }
 
-export default function Leads() {
+export default function Leads({ onNavigate }) {
   const [leads, setLeads] = useState([])
   const [funnel, setFunnel] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -112,10 +112,11 @@ export default function Leads() {
             {leads.length === 0 && (
               <EmptyState
                 icon="📧"
-                title="No leads yet"
-                description="Start capturing potential sponsors and grow your brand partnerships."
-                action={() => document.querySelector('#lead-name')?.focus()}
-                actionLabel="Capture a lead"
+                title="No leads in your funnel yet"
+                description="Opportunities appear here when brands reach out. Check your Opportunity Feed for active deals."
+                action={() => onNavigate && onNavigate('opportunities')}
+                actionLabel="Browse Opportunities"
+                color="blue"
               />
             )}
           </div>

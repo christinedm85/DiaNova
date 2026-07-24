@@ -15,7 +15,7 @@ function downloadCSV(type) {
   })
 }
 
-export default function Sponsorships() {
+export default function Sponsorships({ onNavigate }) {
   const { addToast } = useToast()
   const [pipeline, setPipeline] = useState(null)
   const [allPipeline, setAllPipeline] = useState(null)
@@ -145,11 +145,14 @@ export default function Sponsorships() {
       {totalDeals === 0 ? (
         <div className="glass p-6">
           <EmptyState
-            icon="📋"
-            title="No pipeline data"
-            description="Your sponsorship pipeline is empty. Add your first deal to start tracking brand partnerships."
-            action={() => setShowForm(true)}
-            actionLabel="+ New Deal"
+            icon="💌"
+            title="No brand deals in your pipeline yet"
+            description="Connect Gmail to automatically discover sponsorship opportunities from your inbox."
+            action={() => onNavigate && onNavigate('gmail')}
+            actionLabel="Connect Gmail"
+            secondaryAction={() => setShowForm(true)}
+            secondaryLabel="Or add your first deal manually"
+            color="rose"
           />
         </div>
       ) : (
@@ -186,7 +189,7 @@ export default function Sponsorships() {
                   </div>
                 </div>
               ))}
-              {deals.length === 0 && <EmptyState icon="📋" title="No deals" description="Deals in this stage will appear here" />}
+              {deals.length === 0 && <EmptyState icon="📋" title={`No ${title.toLowerCase()} deals`} description={`Deals at the ${title.toLowerCase()} stage will appear here.`} />}
             </div>
           )
         })}

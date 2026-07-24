@@ -122,7 +122,7 @@ export default function MetaIntegration() {
           </div>
           <h3 className="text-lg font-semibold text-surface-100 mb-2">Connect Instagram &amp; Facebook</h3>
           <p className="text-surface-400 text-sm max-w-md mx-auto mb-6">
-            Link your social accounts to see follower growth, engagement analytics, and post performance — all inside CreatorBloom.
+            Connect Instagram &amp; Facebook to unlock audience insights, engagement data, and post performance — all inside CreatorBloom.
           </p>
           <button
             onClick={handleConnect}

@@ -132,7 +132,7 @@ export default function MonetizationIntegration() {
     <div className="page-enter space-y-8">
       <div>
         <h2 className="font-display text-3xl font-bold text-surface-50">Monetization</h2>
-        <p className="text-surface-400 mt-1">Connect your Stripe and Shopify accounts to pull real revenue data into CreatorBloom.</p>
+        <p className="text-surface-400 mt-1">Connect Stripe or Shopify to see your real revenue, MRR, and top products — all inside CreatorBloom.</p>
       </div>
 
       {/* Combined Revenue Summary */}

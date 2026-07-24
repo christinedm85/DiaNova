@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { api } from '../api.js'
 import EmptyState from './EmptyState.jsx'
 
-export default function Affiliates() {
+export default function Affiliates({ onNavigate }) {
   const [programs, setPrograms] = useState([])
   const [loading, setLoading] = useState(true)
 
@@ -34,10 +34,12 @@ export default function Affiliates() {
         <h3 className="font-display text-lg font-semibold text-surface-100 mb-4">Top Performing Links</h3>
         {programs.length === 0 ? (
           <EmptyState
-            icon="👥"
-            title="No affiliate programs yet"
-            description="Add your first program to start tracking and optimizing affiliate revenue."
-            actionLabel="Add your first program"
+            icon="🔗"
+            title="No affiliate partnerships yet"
+            description="Affiliate programs like Amazon Associates, Skillshare, and Epidemic Sound pay you for every referral. Start earning passive income today."
+            action={() => onNavigate && onNavigate('products')}
+            actionLabel="Add Your First Affiliate"
+            color="amber"
           />
         ) : (
           <div className="overflow-x-auto">

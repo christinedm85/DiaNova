@@ -118,7 +118,7 @@ export default function TikTokIntegration() {
           </div>
           <h3 className="text-lg font-semibold text-surface-100 mb-2">Connect Your TikTok Account</h3>
           <p className="text-surface-400 text-sm max-w-md mx-auto mb-6">
-            Link your TikTok account to see follower growth, video performance, and audience insights — all inside CreatorBloom.
+            Connect TikTok to track video performance, creator analytics, and audience insights — all inside CreatorBloom.
           </p>
           <button
             onClick={handleConnect}

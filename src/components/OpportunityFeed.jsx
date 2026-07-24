@@ -120,17 +120,24 @@ export default function OpportunityFeed() {
 
       {/* Empty State */}
       {!loading && !error && filtered.length === 0 && (
-        <div className="glass p-12 text-center">
-          <div className="text-5xl mb-4">
-            <svg className="w-16 h-16 mx-auto text-surface-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="12" r="10" />
-              <path d="M8 14s1.5 2 4 2 4-2 4-2" />
-              <line x1="9" y1="9" x2="9.01" y2="9" />
-              <line x1="15" y1="9" x2="15.01" y2="9" />
-            </svg>
+        <div className="glass p-10 text-center">
+          <div className="w-16 h-16 rounded-2xl bg-surface-800/70 border border-surface-700/30 flex items-center justify-center mx-auto mb-5 text-2xl">
+            🔍
           </div>
-          <h3 className="font-semibold text-surface-200 text-lg mb-1">No opportunities found</h3>
-          <p className="text-surface-400 text-sm">No {filter !== 'all' ? FILTERS.find(f => f.key === filter)?.label?.toLowerCase() : ''} opportunities match your current filter. Try a different category.</p>
+          <h3 className="font-display text-xl font-semibold text-surface-100 mb-2">No opportunities found</h3>
+          <p className="text-surface-400 text-sm max-w-sm mx-auto mb-6 leading-relaxed">
+            {filter !== 'all'
+              ? `No ${FILTERS.find(f => f.key === filter)?.label?.toLowerCase() || ''} opportunities match your current filter. Try broadening your search.`
+              : "We're always scanning for new brand deals, trends, and affiliate opportunities matched to your niche. Check back soon!"}
+          </p>
+          {filter !== 'all' && (
+            <button
+              onClick={() => setFilter('all')}
+              className="px-5 py-2.5 text-sm font-semibold rounded-xl transition-all duration-200 active:scale-95 text-white bg-accent-600 hover:bg-accent-500 shadow-lg shadow-accent-600/25"
+            >
+              Show All Opportunities
+            </button>
+          )}
         </div>
       )}
 

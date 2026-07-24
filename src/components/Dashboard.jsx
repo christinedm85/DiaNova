@@ -671,7 +671,7 @@ export default function Dashboard({ onNavigate }) {
                     <ActivityItem key={i} action={item.action} detail={`${item.brand} — $${item.amount.toLocaleString()}`} time="Recently" />
                   ))}
                   {recent_activity.length === 0 && (
-                    <ActivityItem action="No activity yet" detail="Start tracking your deals" time="" />
+                    <ActivityItem action="No activity yet" detail="Add your first sponsorship deal to start tracking." time="" />
                   )}
                 </div>
               </div>
