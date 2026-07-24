@@ -1,7 +1,9 @@
 import { Router } from 'express'
 import db from '../db.js'
+import { authMiddleware } from '../middleware.js'
 
 const router = Router()
+router.use(authMiddleware)
 
 // Get brand settings
 router.get('/', (_req, res) => {

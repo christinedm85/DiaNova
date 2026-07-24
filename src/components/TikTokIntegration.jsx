@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { api } from '../api.js'
 import { useToast } from '../ToastContext.jsx'
+import { useAuth } from '../AuthContext.jsx'
 
 function formatNumber(n) {
   if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M'
@@ -19,6 +20,7 @@ export default function TikTokIntegration() {
   const [loading, setLoading] = useState(true)
   const [connecting, setConnecting] = useState(false)
   const toast = useToast()
+  const { user } = useAuth()
 
   const fetchData = useCallback(async () => {
     try {
@@ -41,7 +43,7 @@ export default function TikTokIntegration() {
 
   const handleConnect = () => {
     setConnecting(true)
-    window.location.href = '/api/integrations/tiktok/auth'
+    window.location.href = `/api/integrations/tiktok/auth?userId=${user.id}`
   }
 
   const handleDisconnect = async () => {

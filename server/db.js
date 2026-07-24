@@ -25,6 +25,8 @@ db.exec(`
     verification_token TEXT DEFAULT NULL,
     reset_token TEXT DEFAULT NULL,
     reset_expires TEXT DEFAULT NULL,
+    is_admin INTEGER DEFAULT 0,
+    stripe_customer_id TEXT,
     created_at TEXT DEFAULT (datetime('now'))
   );
 

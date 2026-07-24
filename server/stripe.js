@@ -44,8 +44,8 @@ export async function createCheckoutSession(user, planId) {
     payment_method_types: ['card'],
     customer_email: user.email,
     line_items: [{ price: plan.priceId, quantity: 1 }],
-    success_url: `${process.env.APP_URL || 'http://localhost:80'}/billing?success=true`,
-    cancel_url: `${process.env.APP_URL || 'http://localhost:80'}/billing?canceled=true`,
+    success_url: `${process.env.APP_URL || 'http://localhost:3000'}/billing?success=true`,
+    cancel_url: `${process.env.APP_URL || 'http://localhost:3000'}/billing?canceled=true`,
     metadata: { userId: String(user.id), planId },
   })
 
@@ -55,7 +55,7 @@ export async function createCheckoutSession(user, planId) {
 export async function createPortalSession(user) {
   const session = await stripe.billingPortal.sessions.create({
     customer: user.stripe_customer_id,
-    return_url: `${process.env.APP_URL || 'http://localhost:80'}/billing`,
+    return_url: `${process.env.APP_URL || 'http://localhost:3000'}/billing`,
   })
   return session
 }

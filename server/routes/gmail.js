@@ -490,7 +490,7 @@ router.get('/sponsorships', async (req, res) => {
     const afterEpoch = Math.floor(after.getTime() / 1000)
 
     const searchRes = await fetch(
-      `https://gmail.googleapis.com/gmail/v1/users/me/messages?q=${encodeURIComponent(query)}&maxResults=50&q=after:${afterEpoch}`,
+      `https://gmail.googleapis.com/gmail/v1/users/me/messages?q=${encodeURIComponent(query + ' after:' + afterEpoch)}&maxResults=50`,
       { headers: { Authorization: `Bearer ${accessToken}` } }
     )
 
@@ -617,7 +617,7 @@ router.get('/stats', async (req, res) => {
       const after = Math.floor((Date.now() - 30 * 24 * 60 * 60 * 1000) / 1000)
 
       const searchRes = await fetch(
-        `https://gmail.googleapis.com/gmail/v1/users/me/messages?q=${encodeURIComponent(query)}&maxResults=50`,
+        `https://gmail.googleapis.com/gmail/v1/users/me/messages?q=${encodeURIComponent(query + ' after:' + after)}&maxResults=50`,
         { headers: { Authorization: `Bearer ${accessToken}` } }
       )
 

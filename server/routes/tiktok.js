@@ -3,7 +3,6 @@ import db from '../db.js'
 import { authMiddleware } from '../middleware.js'
 
 const router = Router()
-router.use(authMiddleware)
 
 // ── Config ──────────────────────────────────────────────────
 const TIKTOK_CLIENT_KEY = process.env.TIKTOK_CLIENT_KEY
@@ -134,8 +133,14 @@ router.get('/auth', (req, res) => {
     return res.status(501).json({ error: 'TikTok integration not configured. Set TIKTOK_CLIENT_KEY and TIKTOK_CLIENT_SECRET.' })
   }
 
+  // Read userId from query param (browser navigation has no auth header)
+  const userId = req.query.userId ? parseInt(req.query.userId, 10) : null
+  if (!userId || isNaN(userId)) {
+    return res.status(400).json({ error: 'Missing userId parameter' })
+  }
+
   // TikTok requires a CSRF state token; we use the user ID for simplicity
-  const state = String(req.user.id)
+  const state = String(userId)
   const params = new URLSearchParams({
     client_key: TIKTOK_CLIENT_KEY,
     redirect_uri: TIKTOK_REDIRECT_URI,
@@ -245,6 +250,9 @@ router.get('/callback', async (req, res) => {
     res.redirect('/?tiktok_error=server_error')
   }
 })
+
+// ── Protected routes below ────────────────────────────────────
+router.use(authMiddleware)
 
 // ── Connection status ────────────────────────────────────────
 
