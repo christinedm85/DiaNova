@@ -28,6 +28,7 @@ import YouTubeIntegration from './components/YouTubeIntegration.jsx'
 import MetaIntegration from './components/MetaIntegration.jsx'
 import TikTokIntegration from './components/TikTokIntegration.jsx'
 import MonetizationIntegration from './components/MonetizationIntegration.jsx'
+import GmailIntegration from './components/GmailIntegration.jsx'
 
 const SECTIONS = {
   dashboard: { label: 'Dashboard', icon: DashboardIcon, component: Dashboard },
@@ -47,6 +48,7 @@ const SECTIONS = {
   meta: { label: 'Meta', icon: MetaIcon, component: MetaIntegration, group: 'integrations' },
   tiktok: { label: 'TikTok', icon: TikTokIcon, component: TikTokIntegration, group: 'integrations' },
   monetization: { label: 'Monetization', icon: MonetizationIcon, component: MonetizationIntegration, group: 'integrations' },
+  gmail: { label: 'Gmail', icon: GmailIcon, component: GmailIntegration, group: 'integrations' },
 }
 
 export default function App() {
@@ -297,6 +299,15 @@ function MonetizationIcon({ active }) {
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={active ? '#818cf8' : '#64748b'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <line x1="12" y1="1" x2="12" y2="23" />
       <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+    </svg>
+  )
+}
+
+function GmailIcon({ active }) {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={active ? '#818cf8' : '#64748b'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="2" y="4" width="20" height="16" rx="2" />
+      <polyline points="3,6 12,14 21,6" />
     </svg>
   )
 }

@@ -165,4 +165,12 @@ export const api = {
     shopifyStats: () => request('/integrations/shopify/stats'),
     shopifyDisconnect: () => request('/integrations/shopify/disconnect', { method: 'DELETE' }),
   },
+
+  gmail: {
+    status: () => request('/integrations/gmail/status'),
+    sponsorships: () => request('/integrations/gmail/sponsorships'),
+    stats: () => request('/integrations/gmail/stats'),
+    disconnect: () => request('/integrations/gmail/disconnect', { method: 'DELETE' }),
+    clearCache: () => request('/integrations/gmail/clear-cache', { method: 'POST' }),
+  },
 }

@@ -42,11 +42,13 @@ import youtubeRouter from './routes/youtube.js'
 import metaRouter from './routes/meta.js'
 import tiktokRouter from './routes/tiktok.js'
 import monetizationRouter from './routes/monetization.js'
+import gmailRouter from './routes/gmail.js'
 import { teamScope, logError, authMiddleware, adminMiddleware } from './middleware.js'
 import './migrate-youtube.js'
 import './migrate-meta.js'
 import './migrate-tiktok.js'
 import './migrate-monetization.js'
+import './migrate-gmail.js'
 
 const app = express()
 const PORT = process.env.PORT || 3001
@@ -73,6 +75,7 @@ app.use('/api/integrations/youtube', youtubeRouter)
 app.use('/api/integrations/meta', metaRouter)
 app.use('/api/integrations/tiktok', tiktokRouter)
 app.use('/api/integrations', monetizationRouter)
+app.use('/api/integrations/gmail', gmailRouter)
 app.use('/api/auth', authRouter)
 app.use('/api/billing', billingRouter)
 app.use('/api/demo', demoRouter)
