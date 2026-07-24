@@ -111,6 +111,9 @@ export default function LandingPage({ onGetStarted, onLogin }) {
           Connect your platforms, land better brand deals, price like a pro,
           and watch your creator income grow — all from one beautiful dashboard.
         </p>
+        <p className="text-surface-300 text-base md:text-lg mt-4 max-w-xl mx-auto font-medium animate-hero-fade-up-delay-2">
+          Know what to charge, discover better brand deals, and grow your creator income with AI.
+        </p>
         <div className="flex items-center justify-center gap-4 mt-8 animate-hero-fade-up-delay-2">
           <button onClick={handleTryDemo} disabled={demoLoading} className="px-7 py-3 bg-amber-500 hover:bg-amber-400 text-amber-950 font-semibold rounded-xl transition-all duration-200 shadow-xl shadow-amber-500/30 active:scale-95 text-lg disabled:opacity-60 animate-gentle-pulse">
             {demoLoading ? 'Loading...' : '👋 Try Demo Workspace'}
