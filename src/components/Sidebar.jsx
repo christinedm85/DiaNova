@@ -29,7 +29,7 @@ export default function Sidebar({ active, onSelect, sections, user, onLogout, on
             <button
               key={key}
               onClick={() => onSelect(key)}
-              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group ${
+              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group sidebar-nav-item ${
                 isActive
                   ? 'bg-accent-600/15 text-accent-400 border-l-3 border-l-accent-500'
                   : 'text-surface-400 hover:text-surface-200 hover:bg-surface-800/50'

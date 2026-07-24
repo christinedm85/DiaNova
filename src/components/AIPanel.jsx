@@ -241,12 +241,13 @@ export default function AIPanel({ show, onClose }) {
               </button>
             </div>
           )}
-          {/* Loading */}
+          {/* Loading — typing indicator */}
           {loading && (
-            <div className="mt-4 space-y-2 animate-pulse">
-              <div className="h-3 bg-surface-700/50 rounded w-3/4" />
-              <div className="h-3 bg-surface-700/50 rounded w-1/2" />
-              <div className="h-3 bg-surface-700/50 rounded w-5/6" />
+            <div className="mt-4 flex items-center gap-1.5 p-4 rounded-xl bg-surface-800/50 border border-surface-700/30">
+              <span className="text-xs text-surface-400 mr-1">AI is thinking</span>
+              <span className="typing-dot" />
+              <span className="typing-dot" />
+              <span className="typing-dot" />
             </div>
           )}
           {/* Error */}

@@ -144,7 +144,7 @@ export default function OpportunityFeed() {
             return (
               <div
                 key={opportunity.id || i}
-                className="glass glass-hover p-5 group relative flex flex-col"
+                className="glass glass-hover card-lift p-5 group relative flex flex-col"
                 style={{ animationDelay: `${i * 0.06}s` }}
               >
                 {/* Type badge */}

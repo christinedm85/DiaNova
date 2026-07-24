@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { api } from '../api.js'
 import { useAuth } from '../AuthContext.jsx'
 import AIPanel from './AIPanel.jsx'
+import useCountUp from '../hooks/useCountUp.js'
 import {
   PieChart, Pie, Cell, ResponsiveContainer, Tooltip,
   AreaChart, Area, XAxis, YAxis, CartesianGrid,
@@ -141,6 +142,8 @@ export default function Dashboard({ onNavigate }) {
   const [showAI, setShowAI] = useState(false)
   const [showDetails, setShowDetails] = useState(false)
   const [dismissDemo, setDismissDemo] = useState(false)
+  const [animateChart, setAnimateChart] = useState(false)
+  const [animateProgress, setAnimateProgress] = useState(false)
 
   const isDemoUser = user?.email?.includes('demo')
 
@@ -167,6 +170,9 @@ export default function Dashboard({ onNavigate }) {
         setTrend(t)
         setInsights(i)
         setLoading(false)
+        // Trigger animations after a brief delay for initial render
+        setTimeout(() => setAnimateProgress(true), 100)
+        setTimeout(() => setAnimateChart(true), 200)
       })
       .catch(e => {
         console.error('Dashboard fetch error:', e)
@@ -312,6 +318,7 @@ export default function Dashboard({ onNavigate }) {
         <HeroStatCard
           label="Revenue This Month"
           value={`${monthly_revenue.toLocaleString()}`}
+          rawValue={monthly_revenue}
           trend="+12.5%"
           positive
           color="accent"
@@ -320,6 +327,7 @@ export default function Dashboard({ onNavigate }) {
         <HeroStatCard
           label="Pipeline Potential"
           value={`${(insights?.pipelinePotential || 0).toLocaleString()}`}
+          rawValue={insights?.pipelinePotential || 0}
           trend={`${active_sponsors} active`}
           positive
           color="emerald"
@@ -329,6 +337,7 @@ export default function Dashboard({ onNavigate }) {
         <HeroStatCard
           label="Affiliate Revenue"
           value={`${affiliate_revenue.toLocaleString()}`}
+          rawValue={affiliate_revenue}
           trend="+8.2%"
           positive
           color="amber"
@@ -337,6 +346,7 @@ export default function Dashboard({ onNavigate }) {
         <HeroStatCard
           label={insights?.followUpsDue > 0 ? 'Follow-ups Due' : 'Product Sales'}
           value={insights?.followUpsDue > 0 ? String(insights.followUpsDue) : `${product_sales.toLocaleString()}`}
+          rawValue={insights?.followUpsDue > 0 ? insights.followUpsDue : product_sales}
           trend={insights?.followUpsDue > 0 ? 'Action needed' : '-3.1%'}
           positive={insights?.followUpsDue > 0 ? false : false}
           color={insights?.followUpsDue > 0 ? 'rose' : 'rose'}
@@ -347,7 +357,7 @@ export default function Dashboard({ onNavigate }) {
 
       {/* YouTube integration card */}
       {youtubeStatus && youtubeStatus.connected && (
-        <div className="glass p-5 flex items-center gap-4 border-l-3 border-l-red-500">
+        <div className="glass card-lift p-5 flex items-center gap-4 border-l-3 border-l-red-500">
           <div className="w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center shrink-0">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="#ef4444"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29.94 29.94 0 0 0 1 12a29.94 29.94 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.94 2C5.12 20 12 20 12 20s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2A29.94 29.94 0 0 0 23 12a29.94 29.94 0 0 0-.46-5.58z"/><polygon fill="#1e293b" points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
           </div>
@@ -364,7 +374,7 @@ export default function Dashboard({ onNavigate }) {
 
       {/* Meta integration card */}
       {metaStatus && metaStatus.connected && (
-        <div className="glass p-5 flex items-center gap-4 border-l-3 border-l-purple-500">
+        <div className="glass card-lift p-5 flex items-center gap-4 border-l-3 border-l-purple-500">
           <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500/20 to-rose-500/20 flex items-center justify-center shrink-0">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c084fc" strokeWidth="1.5">
               <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
@@ -388,7 +398,7 @@ export default function Dashboard({ onNavigate }) {
 
       {/* TikTok integration card */}
       {tiktokStatus && tiktokStatus.connected && (
-        <div className="glass p-5 flex items-center gap-4 border-l-3 border-l-cyan-500">
+        <div className="glass card-lift p-5 flex items-center gap-4 border-l-3 border-l-cyan-500">
           <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500/20 to-pink-500/20 flex items-center justify-center shrink-0">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="#06b6d4">
               <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
@@ -409,7 +419,7 @@ export default function Dashboard({ onNavigate }) {
 
       {/* Monetization integration card */}
       {monetizationStatus && (monetizationStatus.stripe?.connected || monetizationStatus.shopify?.connected) && (
-        <div className="glass p-5 flex items-center gap-4 border-l-3 border-l-emerald-500">
+        <div className="glass card-lift p-5 flex items-center gap-4 border-l-3 border-l-emerald-500">
           <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center shrink-0">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <line x1="12" y1="1" x2="12" y2="23" />
@@ -488,8 +498,8 @@ export default function Dashboard({ onNavigate }) {
                       </div>
                       <div className="h-2 bg-surface-700/50 rounded-full overflow-hidden">
                         <div
-                          className="h-full bg-accent-500 rounded-full transition-all duration-1000"
-                          style={{ width: `${Math.min(100, 100 - insights.forecast.potentialIncrease)}%` }}
+                          className="h-full bg-accent-500 rounded-full transition-all duration-1000 ease-out"
+                          style={{ width: animateProgress ? `${Math.min(100, 100 - insights.forecast.potentialIncrease)}%` : '0%' }}
                         />
                       </div>
                       <div className="flex items-center justify-between text-sm">
@@ -499,7 +509,7 @@ export default function Dashboard({ onNavigate }) {
                         </span>
                       </div>
                       <div className="h-2 bg-surface-700/50 rounded-full overflow-hidden">
-                        <div className="h-full bg-emerald-500 rounded-full transition-all duration-1000" style={{ width: '100%' }} />
+                        <div className="h-full bg-emerald-500 rounded-full transition-all duration-1000 ease-out delay-300" style={{ width: animateProgress ? '100%' : '0%' }} />
                       </div>
                       <p className="text-xs text-surface-500 mt-2">
                         💡 {insights.forecast.increaseAction || 'Closing just one more sponsorship'} would boost your revenue significantly.
@@ -589,9 +599,9 @@ export default function Dashboard({ onNavigate }) {
                       contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '12px', fontSize: '13px', color: '#e2e8f0' }}
                       formatter={(v) => [`$${v.toLocaleString()}`, undefined]}
                     />
-                    <Area type="monotone" dataKey="sponsorships" stroke="#6366f1" fill="url(#colorSponsor)" strokeWidth={2} />
-                    <Area type="monotone" dataKey="affiliates" stroke="#f59e0b" fill="url(#colorAff)" strokeWidth={2} />
-                    <Area type="monotone" dataKey="products" stroke="#10b981" fill="url(#colorProd)" strokeWidth={2} />
+                    <Area type="monotone" dataKey="sponsorships" stroke="#6366f1" fill="url(#colorSponsor)" strokeWidth={2} animationDuration={animateChart ? 1200 : 0} animationBegin={0} />
+                    <Area type="monotone" dataKey="affiliates" stroke="#f59e0b" fill="url(#colorAff)" strokeWidth={2} animationDuration={animateChart ? 1200 : 0} animationBegin={200} />
+                    <Area type="monotone" dataKey="products" stroke="#10b981" fill="url(#colorProd)" strokeWidth={2} animationDuration={animateChart ? 1200 : 0} animationBegin={400} />
                   </AreaChart>
                 </ResponsiveContainer>
               </div>
@@ -609,6 +619,8 @@ export default function Dashboard({ onNavigate }) {
                       outerRadius={90}
                       paddingAngle={3}
                       dataKey="value"
+                      animationDuration={animateChart ? 1000 : 0}
+                      animationBegin={200}
                     >
                       {pieData(revenue_breakdown).map((_, i) => (
                         <Cell key={i} fill={COLORS[i]} stroke="none" />
@@ -644,7 +656,7 @@ export default function Dashboard({ onNavigate }) {
                       contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '12px', fontSize: '13px', color: '#e2e8f0' }}
                       formatter={(v) => [`${v} deals`, undefined]}
                     />
-                    <Bar dataKey="deals" radius={[6, 6, 0, 0]}>
+                    <Bar dataKey="deals" radius={[6, 6, 0, 0]} animationDuration={animateChart ? 1000 : 0} animationBegin={100}>
                       {pipeData(pipeline).map((_, i) => (
                         <Cell key={i} fill={COLORS[i]} />
                       ))}
@@ -673,9 +685,16 @@ export default function Dashboard({ onNavigate }) {
   )
 }
 
+// ── Animated Number component ────────────────────────────
+
+function AnimatedNumber({ value, duration = 1200, prefix = '', suffix = '', formatter = v => v.toLocaleString() }) {
+  const animated = useCountUp(value, { duration })
+  return <>{prefix}{formatter(animated)}{suffix}</>
+}
+
 // ── Hero Stat Card ───────────────────────────────────────
 
-function HeroStatCard({ label, value, trend, positive, color, icon, onClick }) {
+function HeroStatCard({ label, value, rawValue, trend, positive, color, icon, onClick }) {
   const glowMap = {
     accent: 'shadow-accent-500/20',
     emerald: 'shadow-emerald-500/20',
@@ -695,7 +714,9 @@ function HeroStatCard({ label, value, trend, positive, color, icon, onClick }) {
         <p className="text-sm text-surface-400">{label}</p>
         <span className={iconColorMap[color] || 'text-accent-400'}>{icon}</span>
       </div>
-      <p className="font-display text-3xl font-bold text-surface-50">{value}</p>
+      <p className="font-display text-3xl font-bold text-surface-50">
+        {rawValue !== undefined ? <AnimatedNumber value={rawValue} /> : value}
+      </p>
       <p className={`text-xs mt-2 ${positive ? 'text-emerald-400' : 'text-rose-400'}`}>
         {positive ? '↑' : color === 'rose' && trend.includes('Action') ? '⚠' : '↓'} {trend}
       </p>
@@ -720,7 +741,7 @@ function InsightCard({ type, message, action, onAction }) {
   const emoji = insightEmoji[type] || '💡'
 
   return (
-    <div className={`glass glass-hover p-4 border ${colors.border} group transition-all duration-300 hover:scale-[1.02]`}>
+    <div className={`glass glass-hover card-lift p-4 border ${colors.border} group transition-all duration-300`}>
       <div className="flex items-start gap-3">
         <div className={`w-9 h-9 rounded-xl ${colors.bg} flex items-center justify-center shrink-0 text-lg`}>
           {emoji}
@@ -752,7 +773,7 @@ function StatCard({ label, value, change, positive, color }) {
     rose: 'shadow-rose-500/20',
   }
   return (
-    <div className={`glass glass-hover p-5 ${glowMap[color] || ''}`}>
+    <div className={`glass glass-hover card-lift p-5 ${glowMap[color] || ''}`}>
       <p className="text-sm text-surface-400">{label}</p>
       <p className="font-display text-3xl font-bold text-surface-50 mt-1">{value}</p>
       <p className={`text-xs mt-1.5 ${positive ? 'text-emerald-400' : 'text-rose-400'}`}>

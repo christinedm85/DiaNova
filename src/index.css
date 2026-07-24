@@ -200,3 +200,189 @@ body {
 .kanban-card {
   animation: card-enter 0.4s ease-out both;
 }
+
+/* ── Hero fade-up entrance ────────────────────────────── */
+
+@keyframes hero-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-hero-fade-up {
+  animation: hero-fade-up 0.7s ease-out both;
+}
+.animate-hero-fade-up-delay {
+  animation: hero-fade-up 0.7s ease-out 0.2s both;
+}
+.animate-hero-fade-up-delay-2 {
+  animation: hero-fade-up 0.7s ease-out 0.4s both;
+}
+
+/* ── Gradient text shimmer ─────────────────────────────── */
+
+@keyframes shimmer-text {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+.gradient-text {
+  @apply bg-gradient-to-r from-accent-400 via-purple-400 to-rose-400 bg-clip-text text-transparent;
+  background-size: 200% 200%;
+  animation: shimmer-text 4s ease infinite;
+}
+
+/* ── Gentle pulse for CTA buttons ──────────────────────── */
+
+@keyframes gentle-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); }
+  50% { box-shadow: 0 0 0 10px rgba(245, 158, 11, 0); }
+}
+.animate-gentle-pulse {
+  animation: gentle-pulse 2.5s ease-in-out infinite;
+}
+
+/* ── Typing indicator (bouncing dots) ──────────────────── */
+
+@keyframes dot-bounce {
+  0%, 60%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-6px); }
+}
+.typing-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--cp-surface-400);
+  animation: dot-bounce 1.2s ease-in-out infinite;
+}
+.typing-dot:nth-child(2) { animation-delay: 0.15s; }
+.typing-dot:nth-child(3) { animation-delay: 0.3s; }
+
+/* ── Typewriter text reveal ────────────────────────────── */
+
+@keyframes typewriter-cursor {
+  0%, 100% { border-color: transparent; }
+  50% { border-color: var(--cp-accent-400, #818cf8); }
+}
+.typewriter-cursor {
+  border-right: 2px solid var(--cp-accent-400, #818cf8);
+  animation: typewriter-cursor 0.8s ease infinite;
+}
+
+/* ── Success pulse ─────────────────────────────────────── */
+
+@keyframes success-pulse {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+  50% { transform: scale(1.02); box-shadow: 0 0 0 12px rgba(16, 185, 129, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+.animate-success-pulse {
+  animation: success-pulse 0.8s ease-out;
+}
+
+/* ── Confetti pieces ──────────────────────────────────────── */
+
+@keyframes confetti-fall {
+  0% {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(80px) rotate(720deg);
+  }
+}
+.confetti-piece {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  animation: confetti-fall 1.2s ease-out forwards;
+}
+
+/* ── Lift/tilt on hover for cards ─────────────────────── */
+
+.card-lift {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.card-lift:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* ── Kanban card tilt ──────────────────────────────────── */
+
+.kanban-card {
+  animation: card-enter 0.4s ease-out both;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.kanban-card:hover {
+  transform: translateY(-1px) rotate(0.5deg);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* ── Sidebar nav item hover slide ──────────────────────── */
+
+.sidebar-nav-item {
+  transition: background-color 0.2s ease, color 0.2s ease, padding-left 0.2s ease;
+}
+.sidebar-nav-item:hover {
+  padding-left: 0.5rem;
+}
+
+/* ── Chart entrance animation ──────────────────────────── */
+
+@keyframes chart-grow-up {
+  from {
+    opacity: 0;
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1);
+    transform-origin: bottom;
+  }
+}
+
+/* ── Slide-in from left (for AIPanel) ──────────────────── */
+
+@keyframes slide-left {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+/* ═══════════════════════════════════════════════════════
+   Reduced motion: disable all animations
+   ═══════════════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .gradient-text {
+    animation: none;
+    background-size: 100% 100%;
+  }
+
+  .animate-gentle-pulse {
+    animation: none;
+  }
+
+  .kanban-card:hover {
+    transform: none;
+  }
+
+  .card-lift:hover {
+    transform: none;
+  }
+}

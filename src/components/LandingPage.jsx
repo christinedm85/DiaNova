@@ -99,20 +99,20 @@ export default function LandingPage({ onGetStarted, onLogin }) {
 
       {/* Hero */}
       <section className="pt-32 pb-20 px-6 text-center max-w-4xl mx-auto">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-500/10 border border-accent-500/20 text-accent-400 text-xs font-medium mb-6">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-500/10 border border-accent-500/20 text-accent-400 text-xs font-medium mb-6 animate-hero-fade-up">
           ✨ All-in-one creator platform
         </div>
-        <h2 className="font-display text-5xl md:text-6xl font-bold text-surface-50 leading-tight">
+        <h2 className="font-display text-5xl md:text-6xl font-bold text-surface-50 leading-tight animate-hero-fade-up-delay">
           The <span className="gradient-text">AI Operating System</span>
           <br />
           for Creator Businesses
         </h2>
-        <p className="text-surface-400 text-lg mt-6 max-w-2xl mx-auto leading-relaxed">
+        <p className="text-surface-400 text-lg mt-6 max-w-2xl mx-auto leading-relaxed animate-hero-fade-up-delay-2">
           Connect your social platforms, discover better brand deals, optimize pricing,
           and grow your creator income from one intelligent dashboard.
         </p>
-        <div className="flex items-center justify-center gap-4 mt-8">
-          <button onClick={handleTryDemo} disabled={demoLoading} className="px-7 py-3 bg-amber-500 hover:bg-amber-400 text-amber-950 font-semibold rounded-xl transition-all duration-200 shadow-xl shadow-amber-500/30 active:scale-95 text-lg disabled:opacity-60">
+        <div className="flex items-center justify-center gap-4 mt-8 animate-hero-fade-up-delay-2">
+          <button onClick={handleTryDemo} disabled={demoLoading} className="px-7 py-3 bg-amber-500 hover:bg-amber-400 text-amber-950 font-semibold rounded-xl transition-all duration-200 shadow-xl shadow-amber-500/30 active:scale-95 text-lg disabled:opacity-60 animate-gentle-pulse">
             {demoLoading ? 'Loading...' : '👋 Try Demo Workspace'}
           </button>
           <button onClick={onGetStarted} className="px-7 py-3 bg-surface-800 hover:bg-surface-700 text-surface-200 font-semibold rounded-xl transition-colors text-lg">
@@ -148,7 +148,7 @@ export default function LandingPage({ onGetStarted, onLogin }) {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {FEATURES.map(f => (
-            <div key={f.title} className="glass p-6 glass-hover">
+            <div key={f.title} className="glass card-lift p-6 glass-hover">
               <span className="text-3xl">{f.icon}</span>
               <h4 className="font-display font-semibold text-surface-100 mt-3 text-lg">{f.title}</h4>
               <p className="text-sm text-surface-400 mt-2 leading-relaxed">{f.desc}</p>
