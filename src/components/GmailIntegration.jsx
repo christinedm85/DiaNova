@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { api } from '../api.js'
 import { useToast } from '../ToastContext.jsx'
+import { useAuth } from '../AuthContext.jsx'
 
 const CATEGORY_LABELS = {
   brand_deal: 'Brand Deal',
@@ -44,6 +45,7 @@ export default function GmailIntegration() {
   const [connecting, setConnecting] = useState(false)
   const [addingToPipeline, setAddingToPipeline] = useState(null)
   const toast = useToast()
+  const { user } = useAuth()
 
   const fetchData = useCallback(async () => {
     try {
@@ -68,7 +70,7 @@ export default function GmailIntegration() {
 
   const handleConnect = () => {
     setConnecting(true)
-    window.location.href = '/api/integrations/gmail/auth'
+    window.location.href = `/api/integrations/gmail/auth?userId=${user.id}`
   }
 
   const handleDisconnect = async () => {
