@@ -155,4 +155,14 @@ export const api = {
     disconnect: () => request('/integrations/tiktok/disconnect', { method: 'DELETE' }),
     clearCache: () => request('/integrations/tiktok/clear-cache', { method: 'POST' }),
   },
+
+  monetization: {
+    status: () => request('/integrations/status'),
+    stripeConnect: (secretKey) => request('/integrations/stripe/connect', { method: 'POST', body: JSON.stringify({ secretKey }) }),
+    stripeStats: () => request('/integrations/stripe/stats'),
+    stripeDisconnect: () => request('/integrations/stripe/disconnect', { method: 'DELETE' }),
+    shopifyConnect: (storeUrl, accessToken) => request('/integrations/shopify/connect', { method: 'POST', body: JSON.stringify({ storeUrl, accessToken }) }),
+    shopifyStats: () => request('/integrations/shopify/stats'),
+    shopifyDisconnect: () => request('/integrations/shopify/disconnect', { method: 'DELETE' }),
+  },
 }

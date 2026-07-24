@@ -137,6 +137,7 @@ export default function Dashboard({ onNavigate }) {
   const [youtubeStatus, setYoutubeStatus] = useState(null)
   const [metaStatus, setMetaStatus] = useState(null)
   const [tiktokStatus, setTiktokStatus] = useState(null)
+  const [monetizationStatus, setMonetizationStatus] = useState(null)
   const [showAI, setShowAI] = useState(false)
   const [showDetails, setShowDetails] = useState(false)
   const [dismissDemo, setDismissDemo] = useState(false)
@@ -147,6 +148,7 @@ export default function Dashboard({ onNavigate }) {
     api.youtube.status().then(setYoutubeStatus).catch(() => {})
     api.meta.status().then(setMetaStatus).catch(() => {})
     api.tiktok.status().then(setTiktokStatus).catch(() => {})
+    api.monetization.status().then(setMonetizationStatus).catch(() => {})
   }, [])
 
   const fetchAll = () => {
@@ -402,6 +404,31 @@ export default function Dashboard({ onNavigate }) {
             </p>
           </div>
           <a href="#" onClick={(e) => { e.preventDefault(); onNavigate && onNavigate('tiktok') }} className="text-xs text-accent-400 hover:text-accent-300 whitespace-nowrap">View analytics →</a>
+        </div>
+      )}
+
+      {/* Monetization integration card */}
+      {monetizationStatus && (monetizationStatus.stripe?.connected || monetizationStatus.shopify?.connected) && (
+        <div className="glass p-5 flex items-center gap-4 border-l-3 border-l-emerald-500">
+          <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center shrink-0">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="12" y1="1" x2="12" y2="23" />
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+            </svg>
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm text-surface-400">Monetization Revenue</p>
+            <p className="font-display text-xl font-bold text-surface-50">
+              {[
+                monetizationStatus.stripe?.connected ? 'Stripe' : null,
+                monetizationStatus.shopify?.connected ? 'Shopify' : null,
+              ].filter(Boolean).join(' + ')}
+            </p>
+            <p className="text-xs text-surface-400 mt-0.5">
+              {monetizationStatus.shopify?.storeUrl || ''}
+            </p>
+          </div>
+          <a href="#" onClick={(e) => { e.preventDefault(); onNavigate && onNavigate('monetization') }} className="text-xs text-accent-400 hover:text-accent-300 whitespace-nowrap">View details →</a>
         </div>
       )}
 
