@@ -22,6 +22,7 @@ import TeamPage from './components/TeamPage.jsx'
 import Onboarding from './components/Onboarding.jsx'
 import DemoPage from './components/DemoPage.jsx'
 import OpportunityFeed from './components/OpportunityFeed.jsx'
+import IntelligencePage from './components/IntelligencePage.jsx'
 import AdminDashboard from './components/AdminDashboard.jsx'
 import SalesTour from './components/SalesTour.jsx'
 import YouTubeIntegration from './components/YouTubeIntegration.jsx'
@@ -32,6 +33,7 @@ import GmailIntegration from './components/GmailIntegration.jsx'
 
 const SECTIONS = {
   dashboard: { label: 'Dashboard', icon: (props) => <SectionIcon section="dashboard" {...props} />, component: Dashboard },
+  intelligence: { label: 'Intelligence 🌸', icon: (props) => <SectionIcon section="intelligence" {...props} />, component: IntelligencePage },
   sponsorships: { label: 'Your Deal Flow 💼', icon: (props) => <SectionIcon section="sponsorships" {...props} />, component: Sponsorships },
   affiliates: { label: 'Passive Income 💸', icon: (props) => <SectionIcon section="affiliates" {...props} />, component: Affiliates },
   leads: { label: 'Lead Gen 👥', icon: (props) => <SectionIcon section="leads" {...props} />, component: Leads },
@@ -147,6 +149,7 @@ export default function App() {
 // Section color mapping for sidebar icons
 const sectionStyles = {
   dashboard: { active: '#a78bfa', label: 'violet' },        // AI Brief
+  intelligence: { active: '#f472b6', label: 'pink' },         // Intelligence
   sponsorships: { active: '#34d399', label: 'emerald' },    // Revenue
   affiliates: { active: '#34d399', label: 'emerald' },      // Revenue
   leads: { active: '#a78bfa', label: 'violet' },            // AI
@@ -176,6 +179,12 @@ function SectionIcon({ section, active }) {
           <rect x="14" y="3" width="7" height="5" rx="1" />
           <rect x="14" y="12" width="7" height="9" rx="1" />
           <rect x="3" y="16" width="7" height="5" rx="1" />
+        </svg>
+      )
+    case 'intelligence':
+      return (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
         </svg>
       )
     case 'sponsorships':
