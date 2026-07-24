@@ -6,9 +6,25 @@ function planEmoji(plan) {
   return ''
 }
 
-export default function Sidebar({ active, onSelect, sections, user, onLogout, onProfile, onTourRestart }) {
+export default function Sidebar({ active, onSelect, sections, user, onLogout, onProfile, onTourRestart, sectionStyles }) {
   const { theme, toggle } = useTheme()
   const emoji = planEmoji(user?.plan)
+
+  // Tailwind class maps for section colors
+  const sectionColorMap = {
+    violet: 'bg-violet-600/15 text-violet-400 border-l-violet-500',
+    emerald: 'bg-emerald-600/15 text-emerald-400 border-l-emerald-500',
+    amber: 'bg-amber-600/15 text-amber-400 border-l-amber-500',
+    blue: 'bg-blue-600/15 text-blue-400 border-l-blue-500',
+    red: 'bg-red-600/15 text-red-400 border-l-red-500',
+    pink: 'bg-pink-600/15 text-pink-400 border-l-pink-500',
+    accent: 'bg-accent-600/15 text-accent-400 border-l-accent-500',
+  }
+
+  const getActiveClass = (sectionKey) => {
+    const style = sectionStyles?.[sectionKey]
+    return sectionColorMap[style?.label] || sectionColorMap.accent
+  }
 
   return (
     <aside className="w-64 h-full glass rounded-none border-t-0 border-b-0 border-l-0 flex flex-col shrink-0">
@@ -31,7 +47,7 @@ export default function Sidebar({ active, onSelect, sections, user, onLogout, on
               onClick={() => onSelect(key)}
               className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group sidebar-nav-item ${
                 isActive
-                  ? 'bg-accent-600/15 text-accent-400 border-l-3 border-l-accent-500'
+                  ? `${getActiveClass(key)} border-l-3`
                   : 'text-surface-400 hover:text-surface-200 hover:bg-surface-800/50'
               }`}
             >

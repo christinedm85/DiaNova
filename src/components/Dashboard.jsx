@@ -9,7 +9,7 @@ import {
   BarChart, Bar, Legend,
 } from 'recharts'
 
-const COLORS = ['#6366f1', '#f59e0b', '#10b981', '#f43f5e']
+const COLORS = ['#3b82f6', '#f59e0b', '#10b981', '#8b5cf6']
 
 // ── Icon components ──────────────────────────────────────
 
@@ -342,7 +342,7 @@ export default function Dashboard({ onNavigate }) {
             <button
               id="sales-tour-ai-button"
               onClick={() => setShowAI(true)}
-              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-accent-500/10 text-accent-400 text-sm font-medium hover:bg-accent-500/20 transition-all border border-accent-500/20"
+              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-violet-500/10 text-violet-400 text-sm font-medium hover:bg-violet-500/20 transition-all border border-violet-500/20"
             >
               <span>✨</span> AI Assistant
             </button>
@@ -389,9 +389,9 @@ export default function Dashboard({ onNavigate }) {
           </div>
 
           {/* ═══ Today's Mission Card ═══ */}
-          <div className="glass p-5 border border-accent-500/15 bg-gradient-to-r from-accent-500/5 to-emerald-500/5">
+          <div className="glass p-5 border border-violet-500/15 bg-gradient-to-r from-violet-500/5 to-emerald-500/5">
             <div className="flex items-start gap-3">
-              <div className="w-10 h-10 rounded-xl bg-accent-500/15 flex items-center justify-center shrink-0 text-xl">
+              <div className="w-10 h-10 rounded-xl bg-violet-500/15 flex items-center justify-center shrink-0 text-xl">
                 🎯
               </div>
               <div className="flex-1 min-w-0">
@@ -402,7 +402,7 @@ export default function Dashboard({ onNavigate }) {
                 {todayMission.action && hasData && (
                   <button
                     onClick={() => onNavigate && onNavigate('sponsorships')}
-                    className="mt-3 text-xs font-medium px-3 py-1.5 rounded-lg bg-accent-500/15 text-accent-400 hover:bg-accent-500/25 transition-colors"
+                    className="mt-3 text-xs font-medium px-3 py-1.5 rounded-lg bg-violet-500/15 text-violet-400 hover:bg-violet-500/25 transition-colors"
                   >
                     {todayMission.action} →
                   </button>
@@ -410,7 +410,7 @@ export default function Dashboard({ onNavigate }) {
                 {!hasData && (
                   <button
                     onClick={() => onNavigate && onNavigate('youtube')}
-                    className="mt-3 text-xs font-medium px-3 py-1.5 rounded-lg bg-accent-500/15 text-accent-400 hover:bg-accent-500/25 transition-colors"
+                    className="mt-3 text-xs font-medium px-3 py-1.5 rounded-lg bg-violet-500/15 text-violet-400 hover:bg-violet-500/25 transition-colors"
                   >
                     Connect Instagram or YouTube →
                   </button>
@@ -429,7 +429,7 @@ export default function Dashboard({ onNavigate }) {
                   rawValue={monthly_revenue}
                   trend="+12.5%"
                   positive
-                  color="accent"
+                  color="emerald"
                   icon={<IconDollar className="w-5 h-5" />}
                 />
                 <HeroStatCard
@@ -438,7 +438,7 @@ export default function Dashboard({ onNavigate }) {
                   rawValue={insights?.pipelinePotential || 0}
                   trend={`${active_sponsors} active`}
                   positive
-                  color="emerald"
+                  color="amber"
                   icon={<IconChart className="w-5 h-5" />}
                   onClick={() => onNavigate && onNavigate('sponsorships')}
                 />
@@ -448,7 +448,7 @@ export default function Dashboard({ onNavigate }) {
                   rawValue={affiliate_revenue}
                   trend="+8.2%"
                   positive
-                  color="amber"
+                  color="emerald"
                   icon={<IconMail className="w-5 h-5" />}
                 />
                 <HeroStatCard
@@ -464,9 +464,9 @@ export default function Dashboard({ onNavigate }) {
               </>
             ) : (
               <>
-                <PreviewStatCard label="Revenue This Month" icon={<IconDollar className="w-5 h-5" />} color="accent" />
-                <PreviewStatCard label="Pipeline Potential" icon={<IconChart className="w-5 h-5" />} color="emerald" />
-                <PreviewStatCard label="Affiliate Revenue" icon={<IconMail className="w-5 h-5" />} color="amber" />
+                <PreviewStatCard label="Revenue This Month" icon={<IconDollar className="w-5 h-5" />} color="emerald" />
+                <PreviewStatCard label="Pipeline Potential" icon={<IconChart className="w-5 h-5" />} color="amber" />
+                <PreviewStatCard label="Affiliate Revenue" icon={<IconMail className="w-5 h-5" />} color="emerald" />
                 <PreviewStatCard label="Product Sales" icon={<IconZap className="w-5 h-5" />} color="rose" />
               </>
             )}
@@ -485,15 +485,15 @@ export default function Dashboard({ onNavigate }) {
               {(youtubeStatus.channel?.subscriberCount || 0).toLocaleString()} subscribers
             </p>
           </div>
-          <a href="#" onClick={(e) => { e.preventDefault(); onNavigate && onNavigate('youtube') }} className="text-xs text-accent-400 hover:text-accent-300 whitespace-nowrap">See your stats →</a>
+          <a href="#" onClick={(e) => { e.preventDefault(); onNavigate && onNavigate('youtube') }} className="text-xs text-red-400 hover:text-red-300 whitespace-nowrap">See your stats →</a>
         </div>
       )}
 
       {/* Meta integration card */}
       {metaStatus && metaStatus.connected && (
-        <div className="glass card-lift p-5 flex items-center gap-4 border-l-3 border-l-purple-500">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500/20 to-rose-500/20 flex items-center justify-center shrink-0">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c084fc" strokeWidth="1.5">
+        <div className="glass card-lift p-5 flex items-center gap-4 border-l-3 border-l-blue-500">
+          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500/20 to-violet-500/20 flex items-center justify-center shrink-0">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" strokeWidth="1.5">
               <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
               <circle cx="8.5" cy="12" r="2.5"/>
               <path d="M16 9a4 4 0 0 0-4 4v4"/>
@@ -509,15 +509,15 @@ export default function Dashboard({ onNavigate }) {
               {metaStatus.instagram ? `${(metaStatus.instagram.followerCount || 0).toLocaleString()} followers` : 'Connected'}
             </p>
           </div>
-          <a href="#" onClick={(e) => { e.preventDefault(); onNavigate && onNavigate('meta') }} className="text-xs text-accent-400 hover:text-accent-300 whitespace-nowrap">View analytics →</a>
+          <a href="#" onClick={(e) => { e.preventDefault(); onNavigate && onNavigate('meta') }} className="text-xs text-blue-400 hover:text-blue-300 whitespace-nowrap">View analytics →</a>
         </div>
       )}
 
       {/* TikTok integration card */}
       {tiktokStatus && tiktokStatus.connected && (
-        <div className="glass card-lift p-5 flex items-center gap-4 border-l-3 border-l-cyan-500">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500/20 to-pink-500/20 flex items-center justify-center shrink-0">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="#06b6d4">
+        <div className="glass card-lift p-5 flex items-center gap-4 border-l-3 border-l-pink-500">
+          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-pink-500/20 to-rose-500/20 flex items-center justify-center shrink-0">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#ec4899">
               <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
             </svg>
           </div>
@@ -530,7 +530,7 @@ export default function Dashboard({ onNavigate }) {
               {tiktokStatus.creator ? `${(tiktokStatus.creator.followerCount || 0).toLocaleString()} followers` : 'Connected'}
             </p>
           </div>
-          <a href="#" onClick={(e) => { e.preventDefault(); onNavigate && onNavigate('tiktok') }} className="text-xs text-accent-400 hover:text-accent-300 whitespace-nowrap">View analytics →</a>
+          <a href="#" onClick={(e) => { e.preventDefault(); onNavigate && onNavigate('tiktok') }} className="text-xs text-pink-400 hover:text-pink-300 whitespace-nowrap">View analytics →</a>
         </div>
       )}
 
@@ -555,14 +555,14 @@ export default function Dashboard({ onNavigate }) {
               {monetizationStatus.shopify?.storeUrl || ''}
             </p>
           </div>
-          <a href="#" onClick={(e) => { e.preventDefault(); onNavigate && onNavigate('monetization') }} className="text-xs text-accent-400 hover:text-accent-300 whitespace-nowrap">View details →</a>
+          <a href="#" onClick={(e) => { e.preventDefault(); onNavigate && onNavigate('monetization') }} className="text-xs text-emerald-400 hover:text-emerald-300 whitespace-nowrap">View details →</a>
         </div>
       )}
 
       {/* ═══ AI Insights Feed ═══ */}
       <section>
         <h3 className="font-display text-lg font-semibold text-surface-100 mb-4 flex items-center gap-2">
-          <span>✨</span> Smart Insights
+          <span className="text-violet-400">✨</span> Smart Insights
         </h3>
         {hasInsights ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -602,13 +602,13 @@ export default function Dashboard({ onNavigate }) {
       {insights?.forecast ? (
         <section id="sales-tour-forecast">
           <div className="glass p-6 relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-accent-500/5 rounded-full -translate-y-1/2 translate-x-1/4 blur-3xl" />
+            <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full -translate-y-1/2 translate-x-1/4 blur-3xl" />
             <div className="relative">
               <h3 className="font-display text-lg font-semibold text-surface-100 mb-4">📈 Revenue Forecast</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <p className="text-sm text-surface-400 mb-1">Projected next month</p>
-                  <p className="font-display text-3xl font-bold text-surface-50">
+                  <p className="font-display text-3xl font-bold text-emerald-400">
                     ${insights.forecast.nextMonth?.toLocaleString() || monthly_revenue.toLocaleString()}
                   </p>
                   {insights.forecast.potentialIncrease > 0 && (
@@ -626,7 +626,7 @@ export default function Dashboard({ onNavigate }) {
                       </div>
                       <div className="h-2 bg-surface-700/50 rounded-full overflow-hidden">
                         <div
-                          className="h-full bg-accent-500 rounded-full transition-all duration-1000 ease-out"
+                          className="h-full bg-blue-500 rounded-full transition-all duration-1000 ease-out"
                           style={{ width: animateProgress ? `${Math.min(100, 100 - insights.forecast.potentialIncrease)}%` : '0%' }}
                         />
                       </div>
@@ -657,7 +657,7 @@ export default function Dashboard({ onNavigate }) {
       ) : (
         <section>
           <div className="glass p-6 relative overflow-hidden opacity-80">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-accent-500/5 rounded-full -translate-y-1/2 translate-x-1/4 blur-3xl" />
+            <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full -translate-y-1/2 translate-x-1/4 blur-3xl" />
             <div className="absolute top-3 right-4 px-2 py-0.5 rounded-full bg-surface-700/60 border border-surface-600/30 text-xs text-surface-400 font-medium">
               Preview
             </div>
@@ -675,7 +675,7 @@ export default function Dashboard({ onNavigate }) {
                       <span className="text-surface-500 font-medium">$0</span>
                     </div>
                     <div className="h-2 bg-surface-700/50 rounded-full overflow-hidden">
-                      <div className="h-full bg-accent-500/30 rounded-full" style={{ width: '40%' }} />
+                      <div className="h-full bg-blue-500/30 rounded-full" style={{ width: '40%' }} />
                     </div>
                     <div className="flex items-center justify-between text-sm">
                       <span className="text-surface-400">With one more deal</span>
@@ -708,7 +708,7 @@ export default function Dashboard({ onNavigate }) {
                   onClick={() => onNavigate && onNavigate(action.route.replace('/', ''))}
                   className="flex items-center gap-2.5 px-5 py-3 rounded-xl bg-surface-800/50 border border-surface-700/50 text-surface-200 text-sm font-medium hover:bg-surface-700/50 hover:border-surface-600/50 transition-all"
                 >
-                  <IconComp className="w-4 h-4 text-accent-400" />
+                  <IconComp className="w-4 h-4 text-violet-400" />
                   {action.label}
                 </button>
               )
@@ -732,9 +732,9 @@ export default function Dashboard({ onNavigate }) {
           <div className="space-y-6 page-enter">
             {/* Stat Cards Row */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              <StatCard label="Monthly Revenue" value={`$${monthly_revenue.toLocaleString()}`} change="+12.5%" positive color="accent" />
-              <StatCard label="Active Sponsors" value={String(active_sponsors)} change="+2 this month" positive color="emerald" />
-              <StatCard label="Affiliate Rev" value={`$${affiliate_revenue.toLocaleString()}`} change="+8.2%" positive color="amber" />
+              <StatCard label="Monthly Revenue" value={`${monthly_revenue.toLocaleString()}`} change="+12.5%" positive color="emerald" />
+              <StatCard label="Active Sponsors" value={String(active_sponsors)} change="+2 this month" positive color="amber" />
+              <StatCard label="Affiliate Rev" value={`${affiliate_revenue.toLocaleString()}`} change="+8.2%" positive color="emerald" />
               <StatCard label="Product Sales" value={`$${product_sales.toLocaleString()}`} change="-3.1%" positive={false} color="rose" />
             </div>
 
@@ -747,16 +747,16 @@ export default function Dashboard({ onNavigate }) {
                   <AreaChart data={trend}>
                     <defs>
                       <linearGradient id="colorSponsor" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#6366f1" stopOpacity={0.3} />
-                        <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
+                        <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3} />
+                        <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
                       </linearGradient>
                       <linearGradient id="colorAff" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.3} />
-                        <stop offset="95%" stopColor="#f59e0b" stopOpacity={0} />
-                      </linearGradient>
-                      <linearGradient id="colorProd" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="5%" stopColor="#10b981" stopOpacity={0.3} />
                         <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
+                      </linearGradient>
+                      <linearGradient id="colorProd" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.3} />
+                        <stop offset="95%" stopColor="#f59e0b" stopOpacity={0} />
                       </linearGradient>
                     </defs>
                     <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
@@ -766,9 +766,9 @@ export default function Dashboard({ onNavigate }) {
                       contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '12px', fontSize: '13px', color: '#e2e8f0' }}
                       formatter={(v) => [`$${v.toLocaleString()}`, undefined]}
                     />
-                    <Area type="monotone" dataKey="sponsorships" stroke="#6366f1" fill="url(#colorSponsor)" strokeWidth={2} animationDuration={animateChart ? 1200 : 0} animationBegin={0} />
-                    <Area type="monotone" dataKey="affiliates" stroke="#f59e0b" fill="url(#colorAff)" strokeWidth={2} animationDuration={animateChart ? 1200 : 0} animationBegin={200} />
-                    <Area type="monotone" dataKey="products" stroke="#10b981" fill="url(#colorProd)" strokeWidth={2} animationDuration={animateChart ? 1200 : 0} animationBegin={400} />
+                    <Area type="monotone" dataKey="sponsorships" stroke="#3b82f6" fill="url(#colorSponsor)" strokeWidth={2} animationDuration={animateChart ? 1200 : 0} animationBegin={0} />
+                    <Area type="monotone" dataKey="affiliates" stroke="#10b981" fill="url(#colorAff)" strokeWidth={2} animationDuration={animateChart ? 1200 : 0} animationBegin={200} />
+                    <Area type="monotone" dataKey="products" stroke="#f59e0b" fill="url(#colorProd)" strokeWidth={2} animationDuration={animateChart ? 1200 : 0} animationBegin={400} />
                   </AreaChart>
                 </ResponsiveContainer>
               </div>
@@ -835,10 +835,10 @@ export default function Dashboard({ onNavigate }) {
                   <div className="flex flex-col items-center py-4">
                     <div className="w-full h-[200px] flex items-center justify-center opacity-20 relative">
                       <div className="absolute inset-0 flex items-end justify-around px-8 pb-4">
-                        <div className="w-12 bg-accent-400/50 rounded-t-md" style={{ height: '30%' }} />
+                        <div className="w-12 bg-blue-400/50 rounded-t-md" style={{ height: '30%' }} />
                         <div className="w-12 bg-emerald-400/50 rounded-t-md" style={{ height: '50%' }} />
                         <div className="w-12 bg-amber-400/50 rounded-t-md" style={{ height: '40%' }} />
-                        <div className="w-12 bg-rose-400/50 rounded-t-md" style={{ height: '20%' }} />
+                        <div className="w-12 bg-violet-400/50 rounded-t-md" style={{ height: '20%' }} />
                       </div>
                     </div>
                     <p className="text-sm text-surface-400 mt-3 text-center">
@@ -979,7 +979,7 @@ function StatCard({ label, value, change, positive, color }) {
 function ActivityItem({ action, detail, time }) {
   return (
     <div className="flex items-start gap-3 text-sm">
-      <div className="w-2 h-2 rounded-full bg-accent-400 mt-1.5 shrink-0" />
+      <div className="w-2 h-2 rounded-full bg-violet-400 mt-1.5 shrink-0" />
       <div className="min-w-0">
         <p className="text-surface-200">{action}</p>
         <p className="text-surface-500 text-xs">{detail}</p>
@@ -1115,11 +1115,11 @@ function AIBrief({ forecast, insights, monthlyRevenue, pipelinePotential, follow
       {/* ── Ambient glow blobs ──────────────────────────── */}
       <div className="absolute top-0 right-0 w-48 h-48 bg-emerald-500/5 rounded-full -translate-y-1/2 translate-x-1/4 blur-3xl" />
       <div className="absolute bottom-0 left-0 w-48 h-48 bg-rose-500/5 rounded-full translate-y-1/2 -translate-x-1/4 blur-3xl" />
-      <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-accent-500/3 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl" />
+      <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-violet-500/3 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl" />
 
       {/* ── Header ──────────────────────────────────────── */}
       <div className="relative flex items-center gap-3 mb-5">
-        <div className="w-9 h-9 rounded-xl bg-accent-500/15 flex items-center justify-center shrink-0">
+        <div className="w-9 h-9 rounded-xl bg-violet-500/15 flex items-center justify-center shrink-0">
           <span className="text-lg">✨</span>
         </div>
         <div>
@@ -1130,7 +1130,7 @@ function AIBrief({ forecast, insights, monthlyRevenue, pipelinePotential, follow
             Your daily AI briefing — personalized insights for your creator business
           </p>
         </div>
-        <span className="ml-auto inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-accent-500/10 border border-accent-500/20 text-[10px] font-semibold text-accent-400 uppercase tracking-wider">
+        <span className="ml-auto inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-[10px] font-semibold text-violet-400 uppercase tracking-wider">
           AI Brief
         </span>
       </div>
@@ -1186,7 +1186,7 @@ function AIBrief({ forecast, insights, monthlyRevenue, pipelinePotential, follow
         </p>
         <button
           onClick={handleActionClick}
-          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-accent-500/15 text-accent-400 text-xs font-semibold hover:bg-accent-500/25 transition-all border border-accent-500/20"
+          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-amber-500/15 text-amber-400 text-xs font-semibold hover:bg-amber-500/25 transition-all border border-amber-500/20"
         >
           View Opportunities
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">

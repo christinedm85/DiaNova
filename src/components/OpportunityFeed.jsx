@@ -76,7 +76,7 @@ export default function OpportunityFeed({ onNavigate }) {
             onClick={() => setFilter(key)}
             className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-all duration-200 ${
               filter === key
-                ? 'bg-accent-600/20 text-accent-400 border border-accent-500/30'
+                ? 'bg-amber-600/20 text-amber-400 border border-amber-500/30'
                 : 'text-surface-400 hover:text-surface-200 hover:bg-surface-800/50 border border-transparent'
             }`}
           >
@@ -111,7 +111,7 @@ export default function OpportunityFeed({ onNavigate }) {
           <p className="text-surface-400 text-sm mb-4">{error}</p>
           <button
             onClick={() => window.location.reload()}
-            className="px-4 py-2 bg-accent-600 hover:bg-accent-500 text-white text-sm font-medium rounded-lg transition-colors"
+            className="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white text-sm font-medium rounded-lg transition-colors"
           >
             Retry
           </button>
@@ -132,7 +132,7 @@ export default function OpportunityFeed({ onNavigate }) {
               </p>
               <button
                 onClick={() => setFilter('all')}
-                className="px-5 py-2.5 text-sm font-semibold rounded-xl transition-all duration-200 active:scale-95 text-white bg-accent-600 hover:bg-accent-500 shadow-lg shadow-accent-600/25"
+                className="px-5 py-2.5 text-sm font-semibold rounded-xl transition-all duration-200 active:scale-95 text-white bg-amber-600 hover:bg-amber-500 shadow-lg shadow-amber-600/25"
               >
                 Show All Opportunities
               </button>
@@ -206,7 +206,7 @@ export default function OpportunityFeed({ onNavigate }) {
                   <button
                     className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-all duration-200 ${
                       opportunity.urgency === 'high'
-                        ? 'bg-accent-600 hover:bg-accent-500 text-white'
+                        ? 'bg-amber-600 hover:bg-amber-500 text-white'
                         : 'bg-surface-800/60 hover:bg-surface-700 text-surface-300 hover:text-surface-100'
                     }`}
                     onClick={() => {/* placeholder — could link to specific action */}}

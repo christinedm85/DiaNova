@@ -45,7 +45,7 @@ export default function AIPanel({ show, onClose }) {
         <div className="flex gap-1 px-5 py-3 overflow-x-auto border-b border-surface-700/20">
           {TABS.map((t, i) => (
             <button key={t} onClick={() => { setTab(i); setResult(null); setError(null) }}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${tab === i ? 'bg-accent-500/20 text-accent-400' : 'text-surface-400 hover:text-surface-200'}`}>
+              className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${tab === i ? 'bg-violet-500/20 text-violet-400' : 'text-surface-400 hover:text-surface-200'}`}>
               {t}
             </button>
           ))}
@@ -56,7 +56,7 @@ export default function AIPanel({ show, onClose }) {
             <div className="space-y-3">
               <label className="block text-xs text-surface-400">Creator niche</label>
               <input value={pricingForm.niche} onChange={e => setPricingForm({...pricingForm, niche: e.target.value})}
-                placeholder="e.g. tech reviews" className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-accent-500/50" />
+                placeholder="e.g. tech reviews" className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-violet-500/50" />
               <label className="block text-xs text-surface-400">Deal type</label>
               <select value={pricingForm.dealType} onChange={e => setPricingForm({...pricingForm, dealType: e.target.value})}
                 className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none">
@@ -66,9 +66,9 @@ export default function AIPanel({ show, onClose }) {
               </select>
               <label className="block text-xs text-surface-400">Past deal amounts (comma-separated)</label>
               <input value={pricingForm.pastAmounts} onChange={e => setPricingForm({...pricingForm, pastAmounts: e.target.value})}
-                placeholder="e.g. 2000, 2500, 1800" className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-accent-500/50" />
+                placeholder="e.g. 2000, 2500, 1800" className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-violet-500/50" />
               <button onClick={() => generate(api.ai.pricingSuggestion, { niche: pricingForm.niche, dealType: pricingForm.dealType, pastAmounts: pricingForm.pastAmounts.split(',').map(s => parseInt(s.trim())).filter(n => !isNaN(n)) })}
-                disabled={loading} className="w-full rounded-xl bg-accent-500/20 text-accent-400 py-2 text-sm font-medium hover:bg-accent-500/30 transition-all disabled:opacity-50">
+                disabled={loading} className="w-full rounded-xl bg-violet-500/20 text-violet-400 py-2 text-sm font-medium hover:bg-violet-500/30 transition-all disabled:opacity-50">
                 {loading ? 'Crunching numbers...' : '✨ What Should I Charge?'}
               </button>
             </div>
@@ -77,15 +77,15 @@ export default function AIPanel({ show, onClose }) {
             <div className="space-y-3">
               <label className="block text-xs text-surface-400">Brand name</label>
               <input value={brandForm.brandName} onChange={e => setBrandForm({...brandForm, brandName: e.target.value})}
-                placeholder="e.g. Nike" className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-accent-500/50" />
+                placeholder="e.g. Nike" className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-violet-500/50" />
               <label className="block text-xs text-surface-400">Brand industry</label>
               <input value={brandForm.brandIndustry} onChange={e => setBrandForm({...brandForm, brandIndustry: e.target.value})}
-                placeholder="e.g. athletic wear" className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-accent-500/50" />
+                placeholder="e.g. athletic wear" className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-violet-500/50" />
               <label className="block text-xs text-surface-400">Your niche</label>
               <input value={brandForm.creatorNiche} onChange={e => setBrandForm({...brandForm, creatorNiche: e.target.value})}
-                placeholder="e.g. fitness and running" className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-accent-500/50" />
+                placeholder="e.g. fitness and running" className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-violet-500/50" />
               <button onClick={() => generate(api.ai.brandMatch, brandForm)}
-                disabled={loading} className="w-full rounded-xl bg-accent-500/20 text-accent-400 py-2 text-sm font-medium hover:bg-accent-500/30 transition-all disabled:opacity-50">
+                disabled={loading} className="w-full rounded-xl bg-violet-500/20 text-violet-400 py-2 text-sm font-medium hover:bg-violet-500/30 transition-all disabled:opacity-50">
                 {loading ? 'Analyzing fit...' : '✨ Is This Brand a Match?'}
               </button>
             </div>
@@ -94,7 +94,7 @@ export default function AIPanel({ show, onClose }) {
             <div className="space-y-3">
               <label className="block text-xs text-surface-400">Brand name</label>
               <input value={followupForm.brandName} onChange={e => setFollowupForm({...followupForm, brandName: e.target.value})}
-                placeholder="e.g. Samsung" className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-accent-500/50" />
+                placeholder="e.g. Samsung" className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-violet-500/50" />
               <label className="block text-xs text-surface-400">Stage</label>
               <select value={followupForm.stage} onChange={e => setFollowupForm({...followupForm, stage: e.target.value})}
                 className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none">
@@ -105,9 +105,9 @@ export default function AIPanel({ show, onClose }) {
               </select>
               <label className="block text-xs text-surface-400">Days since last update</label>
               <input type="number" value={followupForm.daysStale} onChange={e => setFollowupForm({...followupForm, daysStale: parseInt(e.target.value) || 0})}
-                className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-accent-500/50" />
+                className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-violet-500/50" />
               <button onClick={() => generate(api.ai.smartFollowup, followupForm)}
-                disabled={loading} className="w-full rounded-xl bg-accent-500/20 text-accent-400 py-2 text-sm font-medium hover:bg-accent-500/30 transition-all disabled:opacity-50">
+                disabled={loading} className="w-full rounded-xl bg-violet-500/20 text-violet-400 py-2 text-sm font-medium hover:bg-violet-500/30 transition-all disabled:opacity-50">
                 {loading ? 'Crafting your message...' : '✨ Write My Follow-up'}
               </button>
             </div>
@@ -116,12 +116,12 @@ export default function AIPanel({ show, onClose }) {
             <div className="space-y-3">
               <label className="block text-xs text-surface-400">Your niche</label>
               <input value={ideasForm.niche} onChange={e => setIdeasForm({...ideasForm, niche: e.target.value})}
-                placeholder="e.g. productivity and tech" className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-accent-500/50" />
+                placeholder="e.g. productivity and tech" className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-violet-500/50" />
               <label className="block text-xs text-surface-400">Audience size</label>
               <input type="number" value={ideasForm.audienceSize} onChange={e => setIdeasForm({...ideasForm, audienceSize: e.target.value})}
-                placeholder="e.g. 50000" className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-accent-500/50" />
+                placeholder="e.g. 50000" className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-violet-500/50" />
               <button onClick={() => generate(api.ai.contentIdeas, { niche: ideasForm.niche, audienceSize: parseInt(ideasForm.audienceSize) || 0 })}
-                disabled={loading} className="w-full rounded-xl bg-accent-500/20 text-accent-400 py-2 text-sm font-medium hover:bg-accent-500/30 transition-all disabled:opacity-50">
+                disabled={loading} className="w-full rounded-xl bg-violet-500/20 text-violet-400 py-2 text-sm font-medium hover:bg-violet-500/30 transition-all disabled:opacity-50">
                 {loading ? 'Dreaming up ideas...' : '✨ Spark Product Ideas'}
               </button>
             </div>
@@ -130,12 +130,12 @@ export default function AIPanel({ show, onClose }) {
             <div className="space-y-3">
               <label className="block text-xs text-surface-400">Your niche</label>
               <input value={discoveryForm.niche} onChange={e => setDiscoveryForm({...discoveryForm, niche: e.target.value})}
-                placeholder="e.g. sustainable living" className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-accent-500/50" />
+                placeholder="e.g. sustainable living" className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-violet-500/50" />
               <label className="block text-xs text-surface-400">Audience demographics</label>
               <input value={discoveryForm.demographics} onChange={e => setDiscoveryForm({...discoveryForm, demographics: e.target.value})}
-                placeholder="e.g. 25-34, mostly female, urban" className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-accent-500/50" />
+                placeholder="e.g. 25-34, mostly female, urban" className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-violet-500/50" />
               <button onClick={() => generate(api.ai.brandDiscovery, discoveryForm)}
-                disabled={loading} className="w-full rounded-xl bg-accent-500/20 text-accent-400 py-2 text-sm font-medium hover:bg-accent-500/30 transition-all disabled:opacity-50">
+                disabled={loading} className="w-full rounded-xl bg-violet-500/20 text-violet-400 py-2 text-sm font-medium hover:bg-violet-500/30 transition-all disabled:opacity-50">
                 {loading ? 'Hunting for brands...' : '✨ Find My Dream Brands'}
               </button>
             </div>
@@ -148,7 +148,7 @@ export default function AIPanel({ show, onClose }) {
                 onChange={e => setNegotiationForm({ ...negotiationForm, emailText: e.target.value })}
                 placeholder="Hi [Creator],&#10;&#10;We'd love to partner with you on a campaign. We're offering $1,200 for 2 Instagram posts and 1 TikTok video..."
                 rows={8}
-                className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-accent-500/50 resize-none"
+                className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-violet-500/50 resize-none"
               />
               <p className="text-xs text-surface-500 -mt-2">{negotiationForm.emailText.length} characters</p>
               <label className="block text-xs text-surface-400">Your niche (optional)</label>
@@ -156,14 +156,14 @@ export default function AIPanel({ show, onClose }) {
                 value={negotiationForm.niche}
                 onChange={e => setNegotiationForm({ ...negotiationForm, niche: e.target.value })}
                 placeholder="e.g. tech reviews, fitness"
-                className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-accent-500/50"
+                className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-violet-500/50"
               />
               <label className="block text-xs text-surface-400">Audience reach (optional)</label>
               <input
                 value={negotiationForm.audienceSize}
                 onChange={e => setNegotiationForm({ ...negotiationForm, audienceSize: e.target.value })}
                 placeholder="e.g. 142K avg views, 250K followers"
-                className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-accent-500/50"
+                className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-violet-500/50"
               />
               <button
                 onClick={() => generate(api.ai.negotiationCoach, {
@@ -172,7 +172,7 @@ export default function AIPanel({ show, onClose }) {
                   audienceSize: negotiationForm.audienceSize || undefined,
                 })}
                 disabled={loading || negotiationForm.emailText.trim().length < 20}
-                className="w-full rounded-xl bg-accent-500/20 text-accent-400 py-2 text-sm font-medium hover:bg-accent-500/30 transition-all disabled:opacity-50"
+                className="w-full rounded-xl bg-violet-500/20 text-violet-400 py-2 text-sm font-medium hover:bg-violet-500/30 transition-all disabled:opacity-50"
               >
                 {loading ? 'Reading the fine print...' : '🤝 Is This a Good Deal?'}
               </button>
@@ -197,14 +197,14 @@ export default function AIPanel({ show, onClose }) {
                 value={benchmarkForm.niche}
                 onChange={e => setBenchmarkForm({ ...benchmarkForm, niche: e.target.value })}
                 placeholder="e.g. fitness, tech reviews"
-                className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-accent-500/50"
+                className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-violet-500/50"
               />
               <label className="block text-xs text-surface-400">Audience size (optional)</label>
               <input
                 value={benchmarkForm.audienceSize}
                 onChange={e => setBenchmarkForm({ ...benchmarkForm, audienceSize: e.target.value })}
                 placeholder="e.g. 142K"
-                className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-accent-500/50"
+                className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-violet-500/50"
               />
               <button
                 onClick={() => generate(api.ai.creatorBenchmarking, {
@@ -213,7 +213,7 @@ export default function AIPanel({ show, onClose }) {
                   audienceSize: benchmarkForm.audienceSize || undefined,
                 })}
                 disabled={loading}
-                className="w-full rounded-xl bg-accent-500/20 text-accent-400 py-2 text-sm font-medium hover:bg-accent-500/30 transition-all disabled:opacity-50"
+                className="w-full rounded-xl bg-violet-500/20 text-violet-400 py-2 text-sm font-medium hover:bg-violet-500/30 transition-all disabled:opacity-50"
               >
                 {loading ? 'Comparing rates...' : '📊 How Do I Stack Up?'}
               </button>
@@ -227,7 +227,7 @@ export default function AIPanel({ show, onClose }) {
                 onChange={e => setScannerForm({ ...scannerForm, contractText: e.target.value })}
                 placeholder={'SPONSORSHIP AGREEMENT\n\n1. Exclusivity: Creator agrees to a 6-month exclusivity period for all fitness-related content...\n\n2. Usage Rights: Brand retains perpetual, worldwide rights to all content created...\n\n3. Payment: Net-60 payment terms apply...'}
                 rows={10}
-                className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-accent-500/50 resize-none font-mono text-xs"
+                className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-violet-500/50 resize-none font-mono text-xs"
               />
               <p className="text-xs text-surface-500 -mt-2">{scannerForm.contractText.length} characters</p>
               <button
@@ -235,7 +235,7 @@ export default function AIPanel({ show, onClose }) {
                   contractText: scannerForm.contractText,
                 })}
                 disabled={loading || scannerForm.contractText.trim().length < 50}
-                className="w-full rounded-xl bg-accent-500/20 text-accent-400 py-2 text-sm font-medium hover:bg-accent-500/30 transition-all disabled:opacity-50"
+                className="w-full rounded-xl bg-violet-500/20 text-violet-400 py-2 text-sm font-medium hover:bg-violet-500/30 transition-all disabled:opacity-50"
               >
                 {loading ? 'Scanning for red flags...' : '📄 What\u2019s Hiding in This Contract?'}
               </button>
@@ -300,7 +300,7 @@ export default function AIPanel({ show, onClose }) {
                           onClick={() => {
                             navigator.clipboard.writeText(result.draftReply)
                           }}
-                          className="text-xs text-accent-400 hover:text-accent-300 transition-colors flex items-center gap-1"
+                          className="text-xs text-violet-400 hover:text-violet-300 transition-colors flex items-center gap-1"
                         >
                           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                             <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
@@ -308,7 +308,7 @@ export default function AIPanel({ show, onClose }) {
                           Copy
                         </button>
                       </div>
-                      <blockquote className="text-sm text-surface-200 whitespace-pre-wrap border-l-2 border-accent-500/30 pl-3 py-1 italic">{result.draftReply}</blockquote>
+                      <blockquote className="text-sm text-surface-200 whitespace-pre-wrap border-l-2 border-violet-500/30 pl-3 py-1 italic">{result.draftReply}</blockquote>
                     </div>
                   )}
 

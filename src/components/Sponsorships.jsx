@@ -80,8 +80,8 @@ export default function Sponsorships({ onNavigate }) {
   const stages = [
     { key: 'prospecting', title: 'Prospecting', color: 'bg-surface-600', borderColor: 'border-l-surface-600' },
     { key: 'negotiating', title: 'Negotiating', color: 'bg-amber-400', borderColor: 'border-l-amber-400' },
-    { key: 'confirmed', title: 'Confirmed', color: 'bg-accent-400', borderColor: 'border-l-emerald-500' },
-    { key: 'completed', title: 'Completed', color: 'bg-emerald-400', borderColor: 'border-l-accent-400' },
+    { key: 'confirmed', title: 'Confirmed', color: 'bg-emerald-400', borderColor: 'border-l-emerald-400' },
+    { key: 'completed', title: 'Completed', color: 'bg-blue-400', borderColor: 'border-l-blue-400' },
   ]
 
   const totalDeals = pipeline ? Object.values(pipeline).reduce((sum, deals) => sum + deals.length, 0) : 0
@@ -103,7 +103,7 @@ export default function Sponsorships({ onNavigate }) {
           <p className="text-surface-400 mt-1">Track every brand deal from first hello to paid. 💰</p>
         </div>
         <div className="flex gap-2">
-          <button onClick={() => setShowAI(true)} className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-accent-500/10 text-accent-400 text-sm font-medium hover:bg-accent-500/20 transition-all border border-accent-500/20">
+          <button onClick={() => setShowAI(true)} className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-violet-500/10 text-violet-400 text-sm font-medium hover:bg-violet-500/20 transition-all border border-violet-500/20">
             <span>✨</span> AI
           </button>
           <div className="relative">
@@ -113,7 +113,7 @@ export default function Sponsorships({ onNavigate }) {
               placeholder="Search deals..."
               value={search}
               onChange={e => setSearch(e.target.value)}
-              className="pl-8 pr-3 py-2 text-xs rounded-xl bg-surface-800/50 border border-surface-700/50 text-surface-200 focus:outline-none focus:border-accent-500 transition-colors w-44"
+              className="pl-8 pr-3 py-2 text-xs rounded-xl bg-surface-800/50 border border-surface-700/50 text-surface-200 focus:outline-none focus:border-emerald-500 transition-colors w-44"
             />
           </div>
           <button onClick={() => downloadCSV('sponsorships')} className="px-3 py-2 text-xs font-medium text-surface-400 hover:text-surface-200 bg-surface-800/50 hover:bg-surface-700/50 border border-surface-700/50 rounded-lg transition-colors flex items-center gap-1.5">
@@ -122,7 +122,7 @@ export default function Sponsorships({ onNavigate }) {
           </button>
           <button
             onClick={() => setShowForm(!showForm)}
-            className="px-5 py-2.5 bg-accent-600 hover:bg-accent-500 text-white text-sm font-semibold rounded-xl transition-all duration-200 shadow-lg shadow-accent-600/25 active:scale-95"
+            className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold rounded-xl transition-all duration-200 shadow-lg shadow-emerald-600/25 active:scale-95"
           >
             + New Deal
           </button>
@@ -134,7 +134,7 @@ export default function Sponsorships({ onNavigate }) {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             <FormField placeholder="Brand name" value={form.brand} onChange={e => setForm({ ...form, brand: e.target.value })} required />
             <FormField placeholder="Amount ($)" type="number" value={form.amount} onChange={e => setForm({ ...form, amount: e.target.value })} required />
-            <select className="px-3 py-2 rounded-xl bg-surface-800 border border-surface-700/50 text-surface-200 text-sm focus:outline-none focus:border-accent-500" value={form.status} onChange={e => setForm({ ...form, status: e.target.value })}>
+            <select className="px-3 py-2 rounded-xl bg-surface-800 border border-surface-700/50 text-surface-200 text-sm focus:outline-none focus:border-emerald-500" value={form.status} onChange={e => setForm({ ...form, status: e.target.value })}>
               {stages.map(s => <option key={s.key} value={s.key}>{s.title}</option>)}
             </select>
             <button type="submit" className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold rounded-lg transition-colors active:scale-95">Add Deal</button>
@@ -181,7 +181,7 @@ export default function Sponsorships({ onNavigate }) {
                       <p className="text-xs text-surface-500 mt-1">{deal.notes}</p>
                       <div className="flex gap-1 mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
                         {nextStage[key] && (
-                          <button onClick={() => handleMove(deal.id, nextStage[key])} className="text-xs px-2 py-0.5 rounded bg-accent-600/20 text-accent-400 hover:bg-accent-600/30 transition-colors">Move →</button>
+                          <button onClick={() => handleMove(deal.id, nextStage[key])} className="text-xs px-2 py-0.5 rounded bg-amber-600/20 text-amber-400 hover:bg-amber-600/30 transition-colors">Move →</button>
                         )}
                         <button onClick={() => handleDeleteRequest(deal.id)} className="text-xs px-2 py-0.5 rounded bg-rose-600/20 text-rose-400 hover:bg-rose-600/30 ml-auto transition-colors">×</button>
                       </div>

@@ -99,7 +99,7 @@ export default function LandingPage({ onGetStarted, onLogin }) {
 
       {/* Hero */}
       <section className="pt-32 pb-20 px-6 text-center max-w-4xl mx-auto">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-500/10 border border-accent-500/20 text-accent-400 text-xs font-medium mb-6 animate-hero-fade-up">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-400 text-xs font-medium mb-6 animate-hero-fade-up">
           ✨ The creator business command center
         </div>
         <h2 className="font-display text-5xl md:text-6xl font-bold text-surface-50 leading-tight animate-hero-fade-up-delay">
@@ -129,15 +129,15 @@ export default function LandingPage({ onGetStarted, onLogin }) {
       <section className="max-w-4xl mx-auto px-6 pb-20">
         <div className="glass p-8 grid grid-cols-3 gap-8 text-center">
           <div>
-            <p className="font-display text-3xl font-bold text-surface-50">$14K+</p>
+            <p className="font-display text-3xl font-bold text-emerald-400">$14K+</p>
             <p className="text-surface-500 text-sm mt-1">Avg. monthly revenue per creator</p>
           </div>
           <div>
-            <p className="font-display text-3xl font-bold text-surface-50">2,400+</p>
+            <p className="font-display text-3xl font-bold text-blue-400">2,400+</p>
             <p className="text-surface-500 text-sm mt-1">Creators on the platform</p>
           </div>
           <div>
-            <p className="font-display text-3xl font-bold text-surface-50">22%</p>
+            <p className="font-display text-3xl font-bold text-amber-400">22%</p>
             <p className="text-surface-500 text-sm mt-1">Average rate increase after joining</p>
           </div>
         </div>
@@ -207,7 +207,7 @@ export default function LandingPage({ onGetStarted, onLogin }) {
 
       {/* CTA */}
       <section className="max-w-3xl mx-auto px-6 pb-20 text-center">
-        <div className="glass p-12 bg-gradient-to-br from-accent-600/10 to-purple-600/10">
+        <div className="glass p-12 bg-gradient-to-br from-violet-600/10 to-emerald-600/10">
           <h3 className="font-display text-3xl font-bold text-surface-50">Ready to treat your content like the business it is?</h3>
           <p className="text-surface-400 mt-3 mb-8">Join creators who are earning more — without the chaos of a dozen tools.</p>
           <div className="flex items-center justify-center gap-4">
