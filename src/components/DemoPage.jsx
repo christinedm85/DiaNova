@@ -17,7 +17,7 @@ import {
   BarChart, Bar,
 } from 'recharts'
 
-const COLORS = ['#6366f1', '#f59e0b', '#10b981', '#f43f5e']
+const COLORS = ['#818cf8', '#fbbf24', '#34d399', '#fb7185']
 
 const DEMO_SECTIONS = {
   dashboard: { label: 'Dashboard', icon: DashboardIcon },
@@ -169,16 +169,16 @@ function DemoDashboard() {
             <AreaChart data={demoRevenueTrend}>
               <defs>
                 <linearGradient id="demoColorSponsor" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#6366f1" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
+                  <stop offset="5%" stopColor="#818cf8" stopOpacity={0.4} />
+                  <stop offset="95%" stopColor="#818cf8" stopOpacity={0} />
                 </linearGradient>
                 <linearGradient id="demoColorAff" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="#f59e0b" stopOpacity={0} />
+                  <stop offset="5%" stopColor="#fbbf24" stopOpacity={0.4} />
+                  <stop offset="95%" stopColor="#fbbf24" stopOpacity={0} />
                 </linearGradient>
                 <linearGradient id="demoColorProd" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#10b981" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
+                  <stop offset="5%" stopColor="#34d399" stopOpacity={0.4} />
+                  <stop offset="95%" stopColor="#34d399" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
@@ -188,9 +188,9 @@ function DemoDashboard() {
                 contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '12px', fontSize: '13px', color: '#e2e8f0' }}
                 formatter={(v) => [`$${v.toLocaleString()}`, undefined]}
               />
-              <Area type="monotone" dataKey="sponsorships" stroke="#6366f1" fill="url(#demoColorSponsor)" strokeWidth={2} />
-              <Area type="monotone" dataKey="affiliates" stroke="#f59e0b" fill="url(#demoColorAff)" strokeWidth={2} />
-              <Area type="monotone" dataKey="products" stroke="#10b981" fill="url(#demoColorProd)" strokeWidth={2} />
+              <Area type="monotone" dataKey="sponsorships" stroke="#818cf8" fill="url(#demoColorSponsor)" strokeWidth={2} />
+              <Area type="monotone" dataKey="affiliates" stroke="#fbbf24" fill="url(#demoColorAff)" strokeWidth={2} />
+              <Area type="monotone" dataKey="products" stroke="#34d399" fill="url(#demoColorProd)" strokeWidth={2} />
             </AreaChart>
           </ResponsiveContainer>
         </div>

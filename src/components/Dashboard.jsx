@@ -9,7 +9,7 @@ import {
   BarChart, Bar, Legend,
 } from 'recharts'
 
-const COLORS = ['#3b82f6', '#f59e0b', '#10b981', '#8b5cf6']
+const COLORS = ['#60a5fa', '#fbbf24', '#34d399', '#a78bfa']
 
 // ── Icon components ──────────────────────────────────────
 
@@ -87,10 +87,10 @@ const iconComponents = {
 // ── Color maps for insight types ──────────────────────────
 
 const insightColors = {
-  warning: { bg: 'bg-amber-500/10', border: 'border-amber-500/20', text: 'text-amber-400', icon: 'text-amber-400', dot: 'bg-amber-400' },
-  alert: { bg: 'bg-red-500/10', border: 'border-red-500/20', text: 'text-red-400', icon: 'text-red-400', dot: 'bg-red-400' },
-  trend: { bg: 'bg-blue-500/10', border: 'border-blue-500/20', text: 'text-blue-400', icon: 'text-blue-400', dot: 'bg-blue-400' },
-  opportunity: { bg: 'bg-emerald-500/10', border: 'border-emerald-500/20', text: 'text-emerald-400', icon: 'text-emerald-400', dot: 'bg-emerald-400' },
+  warning: { bg: 'bg-amber-500/20', border: 'border-amber-500/30', text: 'text-amber-400', icon: 'text-amber-400', dot: 'bg-amber-400' },
+  alert: { bg: 'bg-red-500/20', border: 'border-red-500/30', text: 'text-red-400', icon: 'text-red-400', dot: 'bg-red-400' },
+  trend: { bg: 'bg-blue-500/20', border: 'border-blue-500/30', text: 'text-blue-400', icon: 'text-blue-400', dot: 'bg-blue-400' },
+  opportunity: { bg: 'bg-emerald-500/20', border: 'border-emerald-500/30', text: 'text-emerald-400', icon: 'text-emerald-400', dot: 'bg-emerald-400' },
 }
 
 const insightEmoji = {
@@ -299,7 +299,7 @@ export default function Dashboard({ onNavigate }) {
     <div className="page-enter space-y-10">
       {/* ═══ Demo Banner ═══ */}
       {isDemoUser && !dismissDemo && (
-        <div className="glass p-5 border border-amber-500/30 bg-amber-500/5 flex items-center justify-between gap-4">
+        <div className="glass p-5 border border-amber-500/40 bg-amber-500/10 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <span className="text-2xl">👋</span>
             <div>
@@ -389,7 +389,7 @@ export default function Dashboard({ onNavigate }) {
           </div>
 
           {/* ═══ Today's Mission Card ═══ */}
-          <div className="glass p-6 border border-violet-500/15 bg-gradient-to-r from-violet-500/5 to-emerald-500/5">
+          <div className="glass p-6 border border-violet-500/25 bg-gradient-to-r from-violet-500/10 to-emerald-500/10">
             <div className="flex items-start gap-3">
               <div className="w-10 h-10 rounded-xl bg-violet-500/15 flex items-center justify-center shrink-0 text-xl">
                 🎯
@@ -474,7 +474,7 @@ export default function Dashboard({ onNavigate }) {
 
       {/* YouTube integration card */}
       {youtubeStatus && youtubeStatus.connected && (
-        <div className="glass card-lift p-6 flex items-center gap-4 border-l-3 border-l-red-500">
+        <div className="glass card-lift p-6 flex items-center gap-4 border-l-3 border-l-red-400">
           <div className="w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center shrink-0">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="#ef4444"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29.94 29.94 0 0 0 1 12a29.94 29.94 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.94 2C5.12 20 12 20 12 20s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2A29.94 29.94 0 0 0 23 12a29.94 29.94 0 0 0-.46-5.58z"/><polygon fill="#1e293b" points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
           </div>
@@ -491,7 +491,7 @@ export default function Dashboard({ onNavigate }) {
 
       {/* Meta integration card */}
       {metaStatus && metaStatus.connected && (
-        <div className="glass card-lift p-6 flex items-center gap-4 border-l-3 border-l-blue-500">
+        <div className="glass card-lift p-6 flex items-center gap-4 border-l-3 border-l-blue-400">
           <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500/20 to-violet-500/20 flex items-center justify-center shrink-0">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" strokeWidth="1.5">
               <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
@@ -515,7 +515,7 @@ export default function Dashboard({ onNavigate }) {
 
       {/* TikTok integration card */}
       {tiktokStatus && tiktokStatus.connected && (
-        <div className="glass card-lift p-6 flex items-center gap-4 border-l-3 border-l-pink-500">
+        <div className="glass card-lift p-6 flex items-center gap-4 border-l-3 border-l-pink-400">
           <div className="w-10 h-10 rounded-full bg-gradient-to-br from-pink-500/20 to-rose-500/20 flex items-center justify-center shrink-0">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="#ec4899">
               <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
@@ -536,9 +536,9 @@ export default function Dashboard({ onNavigate }) {
 
       {/* Monetization integration card */}
       {monetizationStatus && (monetizationStatus.stripe?.connected || monetizationStatus.shopify?.connected) && (
-        <div className="glass card-lift p-6 flex items-center gap-4 border-l-3 border-l-emerald-500">
+        <div className="glass card-lift p-6 flex items-center gap-4 border-l-3 border-l-emerald-400">
           <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center shrink-0">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#34d399" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <line x1="12" y1="1" x2="12" y2="23" />
               <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
             </svg>
@@ -602,7 +602,7 @@ export default function Dashboard({ onNavigate }) {
       {insights?.forecast ? (
         <section id="sales-tour-forecast">
           <div className="glass p-8 relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full -translate-y-1/2 translate-x-1/4 blur-3xl" />
+            <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full -translate-y-1/2 translate-x-1/4 blur-3xl" />
             <div className="relative">
               <h3 className="font-display text-xl font-semibold text-surface-100 mb-4">📈 Revenue Forecast</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -626,7 +626,7 @@ export default function Dashboard({ onNavigate }) {
                       </div>
                       <div className="h-2 bg-surface-700/50 rounded-full overflow-hidden">
                         <div
-                          className="h-full bg-blue-500 rounded-full transition-all duration-1000 ease-out"
+                          className="h-full bg-blue-400 rounded-full transition-all duration-1000 ease-out"
                           style={{ width: animateProgress ? `${Math.min(100, 100 - insights.forecast.potentialIncrease)}%` : '0%' }}
                         />
                       </div>
@@ -637,7 +637,7 @@ export default function Dashboard({ onNavigate }) {
                         </span>
                       </div>
                       <div className="h-2 bg-surface-700/50 rounded-full overflow-hidden">
-                        <div className="h-full bg-emerald-500 rounded-full transition-all duration-1000 ease-out delay-300" style={{ width: animateProgress ? '100%' : '0%' }} />
+                        <div className="h-full bg-emerald-400 rounded-full transition-all duration-1000 ease-out delay-300" style={{ width: animateProgress ? '100%' : '0%' }} />
                       </div>
                       <p className="text-xs text-surface-500 mt-2">
                         💡 {insights.forecast.increaseAction || 'Closing just one more sponsorship'} could bump your monthly revenue significantly. That's real money. 💪
@@ -657,7 +657,7 @@ export default function Dashboard({ onNavigate }) {
       ) : (
         <section>
           <div className="glass p-8 relative overflow-hidden opacity-80">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full -translate-y-1/2 translate-x-1/4 blur-3xl" />
+            <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full -translate-y-1/2 translate-x-1/4 blur-3xl" />
             <div className="absolute top-3 right-4 px-2 py-0.5 rounded-full bg-surface-700/60 border border-surface-600/30 text-xs text-surface-400 font-medium">
               Preview
             </div>
@@ -675,14 +675,14 @@ export default function Dashboard({ onNavigate }) {
                       <span className="text-surface-500 font-medium">$0</span>
                     </div>
                     <div className="h-2 bg-surface-700/50 rounded-full overflow-hidden">
-                      <div className="h-full bg-blue-500/30 rounded-full" style={{ width: '40%' }} />
+                      <div className="h-full bg-blue-400/30 rounded-full" style={{ width: '40%' }} />
                     </div>
                     <div className="flex items-center justify-between text-sm">
                       <span className="text-surface-400">With one more deal</span>
                       <span className="text-surface-500 font-medium">$—</span>
                     </div>
                     <div className="h-2 bg-surface-700/50 rounded-full overflow-hidden">
-                      <div className="h-full bg-emerald-500/30 rounded-full" style={{ width: '60%' }} />
+                      <div className="h-full bg-emerald-400/30 rounded-full" style={{ width: '60%' }} />
                     </div>
                   </div>
                 </div>
@@ -747,16 +747,16 @@ export default function Dashboard({ onNavigate }) {
                   <AreaChart data={trend}>
                     <defs>
                       <linearGradient id="colorSponsor" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3} />
-                        <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
+                        <stop offset="5%" stopColor="#60a5fa" stopOpacity={0.4} />
+                        <stop offset="95%" stopColor="#60a5fa" stopOpacity={0} />
                       </linearGradient>
                       <linearGradient id="colorAff" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#10b981" stopOpacity={0.3} />
-                        <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
+                        <stop offset="5%" stopColor="#34d399" stopOpacity={0.4} />
+                        <stop offset="95%" stopColor="#34d399" stopOpacity={0} />
                       </linearGradient>
                       <linearGradient id="colorProd" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.3} />
-                        <stop offset="95%" stopColor="#f59e0b" stopOpacity={0} />
+                        <stop offset="5%" stopColor="#fbbf24" stopOpacity={0.4} />
+                        <stop offset="95%" stopColor="#fbbf24" stopOpacity={0} />
                       </linearGradient>
                     </defs>
                     <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
@@ -766,9 +766,9 @@ export default function Dashboard({ onNavigate }) {
                       contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '12px', fontSize: '13px', color: '#e2e8f0' }}
                       formatter={(v) => [`$${v.toLocaleString()}`, undefined]}
                     />
-                    <Area type="monotone" dataKey="sponsorships" stroke="#3b82f6" fill="url(#colorSponsor)" strokeWidth={2} animationDuration={animateChart ? 1200 : 0} animationBegin={0} />
-                    <Area type="monotone" dataKey="affiliates" stroke="#10b981" fill="url(#colorAff)" strokeWidth={2} animationDuration={animateChart ? 1200 : 0} animationBegin={200} />
-                    <Area type="monotone" dataKey="products" stroke="#f59e0b" fill="url(#colorProd)" strokeWidth={2} animationDuration={animateChart ? 1200 : 0} animationBegin={400} />
+                    <Area type="monotone" dataKey="sponsorships" stroke="#60a5fa" fill="url(#colorSponsor)" strokeWidth={2} animationDuration={animateChart ? 1200 : 0} animationBegin={0} />
+                    <Area type="monotone" dataKey="affiliates" stroke="#34d399" fill="url(#colorAff)" strokeWidth={2} animationDuration={animateChart ? 1200 : 0} animationBegin={200} />
+                    <Area type="monotone" dataKey="products" stroke="#fbbf24" fill="url(#colorProd)" strokeWidth={2} animationDuration={animateChart ? 1200 : 0} animationBegin={400} />
                   </AreaChart>
                 </ResponsiveContainer>
               </div>
@@ -889,10 +889,10 @@ function AnimatedNumber({ value, duration = 1200, prefix = '', suffix = '', form
 
 function HeroStatCard({ label, value, rawValue, trend, positive, color, icon, onClick }) {
   const glowMap = {
-    accent: 'shadow-accent-500/20',
-    emerald: 'shadow-emerald-500/20',
-    amber: 'shadow-amber-500/20',
-    rose: 'shadow-rose-500/20',
+    accent: 'shadow-accent-500/30',
+    emerald: 'shadow-emerald-500/30',
+    amber: 'shadow-amber-500/30',
+    rose: 'shadow-rose-500/30',
   }
   const iconColorMap = {
     accent: 'text-accent-400',
@@ -960,10 +960,10 @@ function InsightCard({ type, message, action, onAction }) {
 
 function StatCard({ label, value, change, positive, color }) {
   const glowMap = {
-    accent: 'shadow-accent-500/20',
-    emerald: 'shadow-emerald-500/20',
-    amber: 'shadow-amber-500/20',
-    rose: 'shadow-rose-500/20',
+    accent: 'shadow-accent-500/30',
+    emerald: 'shadow-emerald-500/30',
+    amber: 'shadow-amber-500/30',
+    rose: 'shadow-rose-500/30',
   }
   return (
     <div className={`glass glass-hover card-lift p-6 ${glowMap[color] || ''}`}>
@@ -1062,7 +1062,7 @@ function AIBrief({ forecast, insights, monthlyRevenue, pipelinePotential, follow
       ) : null,
       accent: {
         dot: "bg-emerald-400",
-        iconBg: "bg-emerald-500/10",
+        iconBg: "bg-emerald-600/25",
         iconText: "text-emerald-400",
         valueColor: "text-emerald-400",
       },
@@ -1074,7 +1074,7 @@ function AIBrief({ forecast, insights, monthlyRevenue, pipelinePotential, follow
       suffix: null,
       accent: {
         dot: "bg-blue-400",
-        iconBg: "bg-blue-500/10",
+        iconBg: "bg-blue-600/25",
         iconText: "text-blue-400",
         valueColor: "text-blue-400",
       },
@@ -1086,7 +1086,7 @@ function AIBrief({ forecast, insights, monthlyRevenue, pipelinePotential, follow
       suffix: null,
       accent: {
         dot: "bg-amber-400",
-        iconBg: "bg-amber-500/10",
+        iconBg: "bg-amber-600/25",
         iconText: "text-amber-400",
         valueColor: "text-amber-400",
       },
@@ -1098,7 +1098,7 @@ function AIBrief({ forecast, insights, monthlyRevenue, pipelinePotential, follow
       suffix: null,
       accent: {
         dot: "bg-rose-400",
-        iconBg: "bg-rose-500/10",
+        iconBg: "bg-rose-600/25",
         iconText: "text-rose-400",
         valueColor: "text-rose-400",
       },
@@ -1113,9 +1113,9 @@ function AIBrief({ forecast, insights, monthlyRevenue, pipelinePotential, follow
       className="glass p-8 relative overflow-hidden animate-hero-fade-up"
     >
       {/* ── Ambient glow blobs ──────────────────────────── */}
-      <div className="absolute top-0 right-0 w-48 h-48 bg-emerald-500/5 rounded-full -translate-y-1/2 translate-x-1/4 blur-3xl" />
-      <div className="absolute bottom-0 left-0 w-48 h-48 bg-rose-500/5 rounded-full translate-y-1/2 -translate-x-1/4 blur-3xl" />
-      <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-violet-500/3 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl" />
+      <div className="absolute top-0 right-0 w-48 h-48 bg-emerald-500/10 rounded-full -translate-y-1/2 translate-x-1/4 blur-3xl" />
+      <div className="absolute bottom-0 left-0 w-48 h-48 bg-rose-500/10 rounded-full translate-y-1/2 -translate-x-1/4 blur-3xl" />
+      <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-violet-500/8 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl" />
 
       {/* ── Header ──────────────────────────────────────── */}
       <div className="relative flex items-center gap-3 mb-7">
@@ -1201,10 +1201,10 @@ function AIBrief({ forecast, insights, monthlyRevenue, pipelinePotential, follow
 
 function MiniStatBadge({ label, value, color, active }) {
   const colorMap = {
-    emerald: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/20',
-    accent: 'text-accent-400 bg-accent-500/10 border-accent-500/20',
-    amber: 'text-amber-400 bg-amber-500/10 border-amber-500/20',
-    rose: 'text-rose-400 bg-rose-500/10 border-rose-500/20',
+    emerald: 'text-emerald-400 bg-emerald-500/20 border-emerald-500/20',
+    accent: 'text-accent-400 bg-accent-500/20 border-accent-500/20',
+    amber: 'text-amber-400 bg-amber-500/20 border-amber-500/20',
+    rose: 'text-rose-400 bg-rose-500/20 border-rose-500/20',
   }
   return (
     <div className={`glass p-4 text-center ${active ? '' : 'opacity-60'}`}>

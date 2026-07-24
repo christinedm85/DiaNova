@@ -12,13 +12,13 @@ export default function Sidebar({ active, onSelect, sections, user, onLogout, on
 
   // Tailwind class maps for section colors
   const sectionColorMap = {
-    violet: 'bg-violet-600/15 text-violet-400 border-l-violet-500',
-    emerald: 'bg-emerald-600/15 text-emerald-400 border-l-emerald-500',
-    amber: 'bg-amber-600/15 text-amber-400 border-l-amber-500',
-    blue: 'bg-blue-600/15 text-blue-400 border-l-blue-500',
-    red: 'bg-red-600/15 text-red-400 border-l-red-500',
-    pink: 'bg-pink-600/15 text-pink-400 border-l-pink-500',
-    accent: 'bg-accent-600/15 text-accent-400 border-l-accent-500',
+    violet: 'bg-violet-600/25 text-violet-400 border-l-violet-500',
+    emerald: 'bg-emerald-600/25 text-emerald-400 border-l-emerald-500',
+    amber: 'bg-amber-600/25 text-amber-400 border-l-amber-500',
+    blue: 'bg-blue-600/25 text-blue-400 border-l-blue-500',
+    red: 'bg-red-600/25 text-red-400 border-l-red-500',
+    pink: 'bg-pink-600/25 text-pink-400 border-l-pink-500',
+    accent: 'bg-accent-600/25 text-accent-400 border-l-accent-500',
   }
 
   const getActiveClass = (sectionKey) => {
