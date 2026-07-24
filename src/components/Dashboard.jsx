@@ -194,7 +194,7 @@ export default function Dashboard({ onNavigate }) {
           <h2 className="font-display text-3xl font-bold text-surface-50">
             {`Good ${loadTimeOfDay}, ${user?.name || 'there'} 🌸`}
           </h2>
-          <p className="text-surface-400 mt-1">CreatorBloom AI is analyzing your creator business...</p>
+          <p className="text-surface-400 mt-1">Calculating your worth... ✨</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <SkeletonCard />
@@ -218,6 +218,31 @@ export default function Dashboard({ onNavigate }) {
   const timeOfDay = hour < 12 ? 'morning' : hour < 17 ? 'afternoon' : 'evening'
   const greeting = insights?.greeting || `Good ${timeOfDay}, ${user?.name || 'there'}`
   const greetingWithFlower = greeting.includes('🌸') ? greeting : `${greeting} 🌸`
+
+  // ── Personalized second line ───────────────────────────
+  const dayOfWeek = new Date().toLocaleDateString('en-US', { weekday: 'long' })
+  const isFriday = dayOfWeek === 'Friday'
+  const isLateNight = hour >= 22 || hour < 5
+
+  const getPersonalizedSubtitle = () => {
+    if (!hasInsights && !hasData) {
+      return isLateNight
+        ? "Burning the midnight oil? Let's build your creator empire. 🌙"
+        : "Welcome to your command center. This is where $100K creators manage their business. No pressure. 😉"
+    }
+    if (isFriday) return "Happy Friday! Time to close those deals before the weekend. 🍾"
+    if (isLateNight) return "Burning the midnight oil? Us too. Let's make it count. 🌙"
+    if (insights?.forecast?.potentialIncrease > 0) {
+      const pct = insights.forecast.potentialIncrease
+      return `You're trending up ${pct}% this month. Keep that momentum! 🔥`
+    }
+    if (insights?.followUpsDue > 0) {
+      return `${insights.followUpsDue} deals haven't moved. Time for a friendly nudge?`
+    }
+    return hasData
+      ? "Here's how your creator business is doing today."
+      : "Let's build your brand — one deal at a time."
+  }
 
   // ── Derive stats from available data ───────────────────
 
@@ -244,8 +269,8 @@ export default function Dashboard({ onNavigate }) {
       <div className="page-enter flex flex-col items-center justify-center py-20">
         <div className="glass p-8 max-w-md text-center">
           <p className="text-4xl mb-4">😕</p>
-          <h3 className="font-display text-xl font-semibold text-surface-100 mb-2">Something went wrong</h3>
-          <p className="text-surface-400 text-sm mb-6">Could not load your dashboard data.</p>
+          <h3 className="font-display text-xl font-semibold text-surface-100 mb-2">Something went sideways</h3>
+          <p className="text-surface-400 text-sm mb-6">Could not load your dashboard data. Let's try that again.</p>
           <button
             onClick={fetchAll}
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-accent-500 text-white text-sm font-medium hover:bg-accent-400 transition-colors"
@@ -311,11 +336,7 @@ export default function Dashboard({ onNavigate }) {
                 {greetingWithFlower}
               </h2>
               <p className="text-surface-400 mt-1">
-                {hasInsights
-                  ? "Here's what's happening with your creator business today."
-                  : hasData
-                    ? "Here's how your revenue streams are performing today."
-                    : "Let's set up your creator business dashboard."}
+                {getPersonalizedSubtitle()}
               </p>
             </div>
             <button
@@ -372,7 +393,7 @@ export default function Dashboard({ onNavigate }) {
                 🎯
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-xs text-surface-400 font-medium uppercase tracking-wider mb-1">Today's Mission</p>
+                <p className="text-xs text-surface-400 font-medium uppercase tracking-wider mb-1">🎯 Your Next Win</p>
                 <p className="text-sm text-surface-200 leading-relaxed">
                   {todayMission.message || todayMission.text || 'Connect your first social account to unlock personalized growth recommendations.'}
                 </p>
@@ -462,7 +483,7 @@ export default function Dashboard({ onNavigate }) {
               {(youtubeStatus.channel?.subscriberCount || 0).toLocaleString()} subscribers
             </p>
           </div>
-          <a href="#" onClick={(e) => { e.preventDefault(); onNavigate && onNavigate('youtube') }} className="text-xs text-accent-400 hover:text-accent-300 whitespace-nowrap">View analytics →</a>
+          <a href="#" onClick={(e) => { e.preventDefault(); onNavigate && onNavigate('youtube') }} className="text-xs text-accent-400 hover:text-accent-300 whitespace-nowrap">See your stats →</a>
         </div>
       )}
 
@@ -564,7 +585,7 @@ export default function Dashboard({ onNavigate }) {
         ) : (
           <div>
             <p className="text-sm text-surface-400 mb-4">
-              CreatorBloom hasn't analyzed your business yet. Connect one social account to receive your first personalized growth recommendation.
+              Connect one social account and CreatorBloom will surface personalized opportunities — brands that match your vibe, deals you'd actually want. ✨
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <PreviewInsightCard emoji="📈" text="Engagement increased 12% this week." color="emerald" />
@@ -617,13 +638,13 @@ export default function Dashboard({ onNavigate }) {
                         <div className="h-full bg-emerald-500 rounded-full transition-all duration-1000 ease-out delay-300" style={{ width: animateProgress ? '100%' : '0%' }} />
                       </div>
                       <p className="text-xs text-surface-500 mt-2">
-                        💡 {insights.forecast.increaseAction || 'Closing just one more sponsorship'} would boost your revenue significantly.
+                        💡 {insights.forecast.increaseAction || 'Closing just one more sponsorship'} could bump your monthly revenue significantly. That's real money. 💪
                       </p>
                     </div>
                   )}
                   {insights.forecast.potentialIncrease === 0 && (
                     <p className="text-sm text-surface-400">
-                      Keep building your pipeline — insights will become more personalized as you add more deals.
+                      Add your first few deals and we'll start forecasting your revenue. The more you track, the smarter it gets. 📈
                     </p>
                   )}
                 </div>
@@ -665,7 +686,7 @@ export default function Dashboard({ onNavigate }) {
                 </div>
               </div>
               <p className="text-xs text-surface-500 mt-4 text-center">
-                Once connected, you'll see revenue trends across sponsorships, affiliate income, and digital product sales.
+                Connect your social accounts and revenue streams — we'll show you exactly where your next $1,000 is coming from.
               </p>
             </div>
           </div>
@@ -819,7 +840,7 @@ export default function Dashboard({ onNavigate }) {
                       </div>
                     </div>
                     <p className="text-sm text-surface-400 mt-3 text-center">
-                      💡 Creators who track every deal typically have better visibility into follow-ups and opportunities.
+                      💡 Ready to land your first brand deal? Track every opportunity here and never let a follow-up slip.
                     </p>
                     <button
                       onClick={() => onNavigate && onNavigate('gmail')}
@@ -841,7 +862,7 @@ export default function Dashboard({ onNavigate }) {
                     <ActivityItem key={i} action={item.action} detail={`${item.brand} — ${item.amount.toLocaleString()}`} time="Recently" />
                   ))}
                   {recent_activity.length === 0 && (
-                    <ActivityItem action="No activity yet" detail="Add your first sponsorship deal to start tracking." time="" />
+                    <ActivityItem action="No activity yet" detail="Land your first deal and it'll show up right here. 🤝" time="" />
                   )}
                 </div>
               </div>

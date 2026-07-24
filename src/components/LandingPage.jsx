@@ -26,12 +26,12 @@ const PLANS = [
 ]
 
 const FEATURES = [
-  { title: 'Sponsorship Pipeline', desc: 'Track every deal from prospecting to paid. Move deals through stages, never miss a follow-up.', icon: '🤝' },
-  { title: 'Affiliate Optimization', desc: 'See which links convert. Get recommendations for untapped high-commission programs.', icon: '📈' },
-  { title: 'Lead Capture', desc: 'Beautiful landing pages that convert visitors into leads. Built-in funnel analytics.', icon: '👥' },
-  { title: 'Smart Pricing', desc: 'Stop underpricing. Get data-driven rate recommendations based on your audience size and niche.', icon: '💰' },
-  { title: 'Digital Products', desc: 'Sell templates, guides, and presets directly. We track sales and suggest new product ideas.', icon: '📦' },
-  { title: 'Brand Builder', desc: 'Define your voice, generate content ideas, and track your brand health score.', icon: '🎨' },
+  { title: 'Your Deal Flow 💼', desc: 'Track every sponsorship from "hey!" to "paid!" Never lose a deal to a forgotten follow-up again.', icon: '🤝' },
+  { title: 'Passive Income 💸', desc: 'See which affiliate links actually convert. Get matched with high-commission programs your audience will love.', icon: '📈' },
+  { title: 'Lead Gen That Works 👥', desc: 'Beautiful landing pages that turn followers into leads. Built-in funnel analytics so you know what\'s working.', icon: '👥' },
+  { title: 'Smart Pricing 💰', desc: 'Stop guessing what to charge. Get data-driven rates based on your actual audience — not industry averages.', icon: '💰' },
+  { title: 'Products That Sell 🌙', desc: 'Templates, guides, presets — sell digital products that earn while you sleep. We\'ll even suggest what to make next.', icon: '📦' },
+  { title: 'Brand That Stands Out 🎨', desc: 'Build a brand identity that attracts premium sponsors. Track your brand health score and watch it grow.', icon: '🎨' },
 ]
 
 export default function LandingPage({ onGetStarted, onLogin }) {
@@ -100,16 +100,16 @@ export default function LandingPage({ onGetStarted, onLogin }) {
       {/* Hero */}
       <section className="pt-32 pb-20 px-6 text-center max-w-4xl mx-auto">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-500/10 border border-accent-500/20 text-accent-400 text-xs font-medium mb-6 animate-hero-fade-up">
-          ✨ All-in-one creator platform
+          ✨ The creator business command center
         </div>
         <h2 className="font-display text-5xl md:text-6xl font-bold text-surface-50 leading-tight animate-hero-fade-up-delay">
-          The <span className="gradient-text">AI Operating System</span>
+          Turn Your <span className="gradient-text">Content</span>
           <br />
-          for Creator Businesses
+          Into a Real Business
         </h2>
         <p className="text-surface-400 text-lg mt-6 max-w-2xl mx-auto leading-relaxed animate-hero-fade-up-delay-2">
-          Connect your social platforms, discover better brand deals, optimize pricing,
-          and grow your creator income from one intelligent dashboard.
+          Connect your platforms, land better brand deals, price like a pro,
+          and watch your creator income grow — all from one beautiful dashboard.
         </p>
         <div className="flex items-center justify-center gap-4 mt-8 animate-hero-fade-up-delay-2">
           <button onClick={handleTryDemo} disabled={demoLoading} className="px-7 py-3 bg-amber-500 hover:bg-amber-400 text-amber-950 font-semibold rounded-xl transition-all duration-200 shadow-xl shadow-amber-500/30 active:scale-95 text-lg disabled:opacity-60 animate-gentle-pulse">
@@ -143,8 +143,8 @@ export default function LandingPage({ onGetStarted, onLogin }) {
       {/* Features */}
       <section className="max-w-6xl mx-auto px-6 pb-20">
         <div className="text-center mb-12">
-          <h3 className="font-display text-3xl font-bold text-surface-50">Everything you need to monetize</h3>
-          <p className="text-surface-400 mt-3">Six powerful tools in one platform.</p>
+          <h3 className="font-display text-3xl font-bold text-surface-50">Everything you need, all in one place</h3>
+          <p className="text-surface-400 mt-3">Six powerful tools. Zero spreadsheets. All the revenue.</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {FEATURES.map(f => (
@@ -160,8 +160,8 @@ export default function LandingPage({ onGetStarted, onLogin }) {
       {/* Pricing */}
       <section className="max-w-5xl mx-auto px-6 pb-20">
         <div className="text-center mb-12">
-          <h3 className="font-display text-3xl font-bold text-surface-50">Simple, transparent pricing</h3>
-          <p className="text-surface-400 mt-3">Start free, upgrade when you&apos;re ready.</p>
+          <h3 className="font-display text-3xl font-bold text-surface-50">Simple pricing, no surprises</h3>
+          <p className="text-surface-400 mt-3">Start free. Upgrade when your business outgrows it. (It will. 😉)</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {PLANS.map(plan => (
@@ -205,8 +205,8 @@ export default function LandingPage({ onGetStarted, onLogin }) {
       {/* CTA */}
       <section className="max-w-3xl mx-auto px-6 pb-20 text-center">
         <div className="glass p-12 bg-gradient-to-br from-accent-600/10 to-purple-600/10">
-          <h3 className="font-display text-3xl font-bold text-surface-50">Ready to earn more from your content?</h3>
-          <p className="text-surface-400 mt-3 mb-8">Join 2,400+ creators who are already using CreatorBloom.</p>
+          <h3 className="font-display text-3xl font-bold text-surface-50">Ready to treat your content like the business it is?</h3>
+          <p className="text-surface-400 mt-3 mb-8">Join creators who are earning more — without the chaos of a dozen tools.</p>
           <div className="flex items-center justify-center gap-4">
             <button onClick={handleTryDemo} disabled={demoLoading} className="px-8 py-3.5 bg-amber-500 hover:bg-amber-400 text-amber-950 font-semibold rounded-xl transition-all duration-200 shadow-xl shadow-amber-500/30 active:scale-95 text-lg disabled:opacity-60">
               {demoLoading ? 'Loading...' : '👋 Try Demo Workspace'}

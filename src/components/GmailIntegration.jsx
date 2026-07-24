@@ -102,7 +102,7 @@ export default function GmailIntegration() {
         status: 'prospecting',
         notes: `From Gmail: ${email.subject}\n\n${email.snippet}\n\nContact: ${email.from}`,
       })
-      toast?.show?.({ message: `"${email.fromName || email.from}" added to pipeline`, type: 'success' }) ||
+      toast?.show?.({ message: `"${email.fromName || email.from}" added to your deal flow! 🎉`, type: 'success' }) ||
         alert('Added to sponsorship pipeline!')
     } catch (e) {
       toast?.show?.({ message: 'Failed to add to pipeline', type: 'error' }) ||
@@ -249,7 +249,7 @@ export default function GmailIntegration() {
             </svg>
           </div>
           <h3 className="text-lg font-semibold text-surface-100 mb-2">No Sponsorship Emails Found</h3>
-          <p className="text-surface-400 text-sm">We scanned your inbox from the last 30 days and didn't find any sponsorship-related emails. They'll appear here automatically when they arrive.</p>
+          <p className="text-surface-400 text-sm">We scanned your inbox from the last 30 days and didn't spot any brand deal emails. They'll show up here automatically when they arrive — no inbox digging required. 🕵️</p>
         </div>
       )}
     </div>

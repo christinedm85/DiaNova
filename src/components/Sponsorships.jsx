@@ -51,14 +51,14 @@ export default function Sponsorships({ onNavigate }) {
     setForm({ brand: '', amount: '', status: 'prospecting', notes: '' })
     setShowForm(false)
     fetchPipeline()
-    addToast(`${form.brand} added to pipeline`, 'success')
+    addToast(`Deal locked in! "${form.brand}" is now in your pipeline. 🎉`, 'success')
   }
 
   const handleMove = async (id, newStatus) => {
     const deal = Object.values(pipeline).flat().find(d => d.id === id)
     await api.sponsorships.update(id, { status: newStatus })
     fetchPipeline()
-    addToast(`${deal?.brand} moved to ${newStatus}`, 'success')
+    addToast(`${deal?.brand} moved to ${newStatus}. Keep it moving! 🚀`, 'success')
   }
 
   const handleDeleteRequest = (id) => {
@@ -99,8 +99,8 @@ export default function Sponsorships({ onNavigate }) {
 
       <div className="flex items-center justify-between">
         <div>
-          <h2 id="sales-tour-sponsorships" className="font-display text-3xl font-bold text-surface-50">Sponsorships</h2>
-          <p className="text-surface-400 mt-1">Manage your brand partnerships and track deals.</p>
+          <h2 id="sales-tour-sponsorships" className="font-display text-3xl font-bold text-surface-50">Your Deal Flow 💼</h2>
+          <p className="text-surface-400 mt-1">Track every brand deal from first hello to paid. 💰</p>
         </div>
         <div className="flex gap-2">
           <button onClick={() => setShowAI(true)} className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-accent-500/10 text-accent-400 text-sm font-medium hover:bg-accent-500/20 transition-all border border-accent-500/20">
@@ -147,11 +147,11 @@ export default function Sponsorships({ onNavigate }) {
           <EmptyState
             icon="💌"
             title="No brand deals in your pipeline yet"
-            description="Connect Gmail to automatically discover sponsorship opportunities from your inbox."
+            description="Connect Gmail and we'll automatically spot sponsorship opportunities hiding in your inbox. Or add your first deal manually — your call. ✨"
             action={() => onNavigate && onNavigate('gmail')}
             actionLabel="Connect Gmail"
             secondaryAction={() => setShowForm(true)}
-            secondaryLabel="Or add your first deal manually"
+            secondaryLabel="Add your first deal"
             color="rose"
           />
         </div>
@@ -189,7 +189,7 @@ export default function Sponsorships({ onNavigate }) {
                   </div>
                 </div>
               ))}
-              {deals.length === 0 && <EmptyState icon="📋" title={`No ${title.toLowerCase()} deals`} description={`Deals at the ${title.toLowerCase()} stage will appear here.`} />}
+              {deals.length === 0 && <EmptyState icon="📋" title={`No ${title.toLowerCase()} deals`} description={key === 'prospecting' ? "Ready to land your first brand deal? Let's fix that. 🤝" : `Deals at the ${title.toLowerCase()} stage will appear here.`} />}
             </div>
           )
         })}

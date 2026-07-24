@@ -64,8 +64,8 @@ export default function OpportunityFeed({ onNavigate }) {
     <div className="page-enter space-y-6">
       {/* Header */}
       <div>
-        <h2 id="sales-tour-opportunities" className="font-display text-3xl font-bold text-surface-50">Opportunities</h2>
-        <p className="text-surface-400 mt-1">AI-curated opportunities matched to your niche</p>
+        <h2 id="sales-tour-opportunities" className="font-display text-3xl font-bold text-surface-50">Deal Finder 🔍</h2>
+        <p className="text-surface-400 mt-1">Hand-picked opportunities that match your vibe — not random noise.</p>
       </div>
 
       {/* Filter Bar */}
@@ -107,7 +107,7 @@ export default function OpportunityFeed({ onNavigate }) {
       {!loading && error && (
         <div className="glass p-8 text-center">
           <div className="text-4xl mb-3">⚠️</div>
-          <h3 className="font-semibold text-surface-200 text-lg mb-1">Couldn't load opportunities</h3>
+          <h3 className="font-semibold text-surface-200 text-lg mb-1">The deal radar needs a reboot</h3>
           <p className="text-surface-400 text-sm mb-4">{error}</p>
           <button
             onClick={() => window.location.reload()}
@@ -128,7 +128,7 @@ export default function OpportunityFeed({ onNavigate }) {
               </div>
               <h3 className="font-display text-xl font-semibold text-surface-100 mb-2">No matches in this category</h3>
               <p className="text-surface-400 text-sm max-w-sm mx-auto mb-6 leading-relaxed">
-                No {FILTERS.find(f => f.key === filter)?.label?.toLowerCase() || ''} opportunities match your current filter. Try broadening your search.
+                Nothing in {FILTERS.find(f => f.key === filter)?.label?.toLowerCase() || 'this category'} right now. Try a different filter — the gold might be somewhere else.
               </p>
               <button
                 onClick={() => setFilter('all')}
@@ -144,7 +144,7 @@ export default function OpportunityFeed({ onNavigate }) {
               </div>
               <h3 className="font-display text-xl font-semibold text-surface-100 mb-2">Your opportunity engine is warming up</h3>
               <p className="text-surface-400 text-sm max-w-md mx-auto mb-3 leading-relaxed">
-                Once your accounts are connected, CreatorBloom will surface:
+                Connect your accounts and CreatorBloom will find you:
               </p>
               <div className="inline-flex flex-col gap-2 text-left mb-2">
                 {[
@@ -223,7 +223,7 @@ export default function OpportunityFeed({ onNavigate }) {
       {/* Refresh hint */}
       {!loading && !error && filtered.length > 0 && (
         <p className="text-center text-xs text-surface-600 mt-4">
-          Opportunities refresh periodically. Check back for new matches.
+          Opportunities refresh automatically. New deals drop when markets shift — check back soon. 🌊
         </p>
       )}
     </div>

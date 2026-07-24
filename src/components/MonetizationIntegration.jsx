@@ -59,7 +59,7 @@ export default function MonetizationIntegration() {
       await api.monetization.stripeConnect(stripeKey.trim())
       setStripeKey('')
       await fetchData()
-      toast?.show?.({ message: 'Stripe connected successfully', type: 'success' }) ||
+      toast?.show?.({ message: 'Stripe connected! Your real revenue data is now live. 📊', type: 'success' }) ||
         console.log('Stripe connected')
     } catch (e) {
       toast?.show?.({ message: 'Failed to connect Stripe: ' + e.message, type: 'error' }) ||
@@ -75,7 +75,7 @@ export default function MonetizationIntegration() {
       await api.monetization.stripeDisconnect()
       setStatus(prev => ({ ...prev, stripe: { connected: false } }))
       setStripeStats(null)
-      toast?.show?.({ message: 'Stripe disconnected', type: 'success' }) ||
+      toast?.show?.({ message: 'Stripe disconnected. Your data is safe — reconnect anytime. 👋', type: 'success' }) ||
         console.log('Stripe disconnected')
     } catch (e) {
       toast?.show?.({ message: 'Failed to disconnect Stripe', type: 'error' }) ||
@@ -92,7 +92,7 @@ export default function MonetizationIntegration() {
       setShopifyUrl('')
       setShopifyToken('')
       await fetchData()
-      toast?.show?.({ message: 'Shopify connected successfully', type: 'success' }) ||
+      toast?.show?.({ message: 'Shopify connected! Your store data is now flowing in. 🛍️', type: 'success' }) ||
         console.log('Shopify connected')
     } catch (e) {
       toast?.show?.({ message: 'Failed to connect Shopify: ' + e.message, type: 'error' }) ||
@@ -108,7 +108,7 @@ export default function MonetizationIntegration() {
       await api.monetization.shopifyDisconnect()
       setStatus(prev => ({ ...prev, shopify: { connected: false, storeUrl: null } }))
       setShopifyStats(null)
-      toast?.show?.({ message: 'Shopify disconnected', type: 'success' }) ||
+      toast?.show?.({ message: 'Shopify disconnected. Your data is safe — reconnect anytime. 👋', type: 'success' }) ||
         console.log('Shopify disconnected')
     } catch (e) {
       toast?.show?.({ message: 'Failed to disconnect Shopify', type: 'error' }) ||

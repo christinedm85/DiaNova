@@ -50,8 +50,8 @@ export default function Products({ onNavigate }) {
     <div className="page-enter space-y-8">
       <div className="flex items-center justify-between">
         <div>
-          <h2 id="sales-tour-products" className="font-display text-3xl font-bold text-surface-50">Digital Products</h2>
-          <p className="text-surface-400 mt-1">Create and sell digital products to your audience.</p>
+          <h2 id="sales-tour-products" className="font-display text-3xl font-bold text-surface-50">Products That Sell While You Sleep 🌙</h2>
+          <p className="text-surface-400 mt-1">Templates, guides, presets — put your knowledge to work 24/7.</p>
         </div>
         <div className="flex gap-2">
           <button onClick={() => downloadCSV('products')} className="px-3 py-2 text-xs font-medium text-surface-400 hover:text-surface-200 bg-surface-800/50 hover:bg-surface-700/50 border border-surface-700/50 rounded-lg transition-colors flex items-center gap-1.5">
@@ -107,7 +107,7 @@ export default function Products({ onNavigate }) {
             <EmptyState
               icon="📦"
               title="No digital products yet"
-              description="Get AI-powered pricing suggestions for your content. Products like presets, templates, and guides sell while you sleep."
+              description="The best products earn while you sleep. Get AI-powered suggestions for what your audience would actually buy. No guesswork. 💡"
               action={() => setShowAI(true)}
               actionLabel="Get Pricing Suggestions"
               secondaryAction={() => setShowForm(true)}
@@ -119,7 +119,7 @@ export default function Products({ onNavigate }) {
       </div>
 
       <div className="glass p-6">
-        <h3 className="font-display text-lg font-semibold text-surface-100 mb-4">💡 Product Idea Generator</h3>
+        <h3 className="font-display text-lg font-semibold text-surface-100 mb-4">💡 What Should You Make Next?</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <IdeaCard title="Ultimate Lighting Guide" desc="Your lighting tutorial has 84K views. Package it as a premium PDF with setup diagrams." potential="$3,200/mo est." confidence="High match" />
           <IdeaCard title="Monthly Q&A Templates" desc="Your audience engages heavily in comments. Offer templated content calendars." potential="$1,800/mo est." confidence="Good match" />

@@ -69,7 +69,7 @@ export default function AIPanel({ show, onClose }) {
                 placeholder="e.g. 2000, 2500, 1800" className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-accent-500/50" />
               <button onClick={() => generate(api.ai.pricingSuggestion, { niche: pricingForm.niche, dealType: pricingForm.dealType, pastAmounts: pricingForm.pastAmounts.split(',').map(s => parseInt(s.trim())).filter(n => !isNaN(n)) })}
                 disabled={loading} className="w-full rounded-xl bg-accent-500/20 text-accent-400 py-2 text-sm font-medium hover:bg-accent-500/30 transition-all disabled:opacity-50">
-                {loading ? 'Generating...' : '✨ Generate Price Range'}
+                {loading ? 'Crunching numbers...' : '✨ What Should I Charge?'}
               </button>
             </div>
           )}
@@ -86,7 +86,7 @@ export default function AIPanel({ show, onClose }) {
                 placeholder="e.g. fitness and running" className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-accent-500/50" />
               <button onClick={() => generate(api.ai.brandMatch, brandForm)}
                 disabled={loading} className="w-full rounded-xl bg-accent-500/20 text-accent-400 py-2 text-sm font-medium hover:bg-accent-500/30 transition-all disabled:opacity-50">
-                {loading ? 'Analyzing...' : '✨ Score Brand Match'}
+                {loading ? 'Analyzing fit...' : '✨ Is This Brand a Match?'}
               </button>
             </div>
           )}
@@ -108,7 +108,7 @@ export default function AIPanel({ show, onClose }) {
                 className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-accent-500/50" />
               <button onClick={() => generate(api.ai.smartFollowup, followupForm)}
                 disabled={loading} className="w-full rounded-xl bg-accent-500/20 text-accent-400 py-2 text-sm font-medium hover:bg-accent-500/30 transition-all disabled:opacity-50">
-                {loading ? 'Thinking...' : '✨ Get Follow-up Plan'}
+                {loading ? 'Crafting your message...' : '✨ Write My Follow-up'}
               </button>
             </div>
           )}
@@ -122,7 +122,7 @@ export default function AIPanel({ show, onClose }) {
                 placeholder="e.g. 50000" className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-accent-500/50" />
               <button onClick={() => generate(api.ai.contentIdeas, { niche: ideasForm.niche, audienceSize: parseInt(ideasForm.audienceSize) || 0 })}
                 disabled={loading} className="w-full rounded-xl bg-accent-500/20 text-accent-400 py-2 text-sm font-medium hover:bg-accent-500/30 transition-all disabled:opacity-50">
-                {loading ? 'Brainstorming...' : '✨ Generate Product Ideas'}
+                {loading ? 'Dreaming up ideas...' : '✨ Spark Product Ideas'}
               </button>
             </div>
           )}
@@ -136,7 +136,7 @@ export default function AIPanel({ show, onClose }) {
                 placeholder="e.g. 25-34, mostly female, urban" className="w-full rounded-xl border border-surface-700/50 bg-surface-800 px-3 py-2 text-sm text-surface-100 outline-none focus:border-accent-500/50" />
               <button onClick={() => generate(api.ai.brandDiscovery, discoveryForm)}
                 disabled={loading} className="w-full rounded-xl bg-accent-500/20 text-accent-400 py-2 text-sm font-medium hover:bg-accent-500/30 transition-all disabled:opacity-50">
-                {loading ? 'Searching...' : '✨ Discover Brands'}
+                {loading ? 'Hunting for brands...' : '✨ Find My Dream Brands'}
               </button>
             </div>
           )}
@@ -174,7 +174,7 @@ export default function AIPanel({ show, onClose }) {
                 disabled={loading || negotiationForm.emailText.trim().length < 20}
                 className="w-full rounded-xl bg-accent-500/20 text-accent-400 py-2 text-sm font-medium hover:bg-accent-500/30 transition-all disabled:opacity-50"
               >
-                {loading ? 'Analyzing...' : '🤝 Analyze Offer'}
+                {loading ? 'Reading the fine print...' : '🤝 Is This a Good Deal?'}
               </button>
             </div>
           )}
@@ -215,7 +215,7 @@ export default function AIPanel({ show, onClose }) {
                 disabled={loading}
                 className="w-full rounded-xl bg-accent-500/20 text-accent-400 py-2 text-sm font-medium hover:bg-accent-500/30 transition-all disabled:opacity-50"
               >
-                {loading ? 'Comparing...' : '📊 Compare Rates'}
+                {loading ? 'Comparing rates...' : '📊 How Do I Stack Up?'}
               </button>
             </div>
           )}
@@ -237,7 +237,7 @@ export default function AIPanel({ show, onClose }) {
                 disabled={loading || scannerForm.contractText.trim().length < 50}
                 className="w-full rounded-xl bg-accent-500/20 text-accent-400 py-2 text-sm font-medium hover:bg-accent-500/30 transition-all disabled:opacity-50"
               >
-                {loading ? 'Scanning...' : '📄 Scan Contract'}
+                {loading ? 'Scanning for red flags...' : '📄 What\u2019s Hiding in This Contract?'}
               </button>
             </div>
           )}
@@ -246,7 +246,7 @@ export default function AIPanel({ show, onClose }) {
           {/* Error */}
           {error && (
             <div className="mt-4 p-3 rounded-xl bg-rose-500/10 border border-rose-500/20">
-              <p className="text-xs text-rose-400">{error}</p>
+              <p className="text-xs text-rose-400">Hmm, something didn't work. Let's try that again. 🤔</p>
             </div>
           )}
           {/* Result */}
@@ -459,6 +459,9 @@ export default function AIPanel({ show, onClose }) {
               ) : (
                 <div className="p-4 rounded-xl bg-surface-800/50 border border-surface-700/30">
                   <p className="text-sm text-surface-200 whitespace-pre-wrap">{result.text || result.reason || JSON.stringify(result, null, 2)}</p>
+                  <p className="text-xs text-surface-500 mt-3 pt-3 border-t border-surface-700/30 italic">
+                    Pro tip: The more data you share, the smarter these insights get. 💫
+                  </p>
                 </div>
               )}
             </div>
@@ -472,14 +475,14 @@ export default function AIPanel({ show, onClose }) {
 // ── Personality Loader Component ──────────────────────────
 
 const LOADER_MESSAGES = [
-  '🌸 CreatorBloom AI is analyzing your creator business...',
+  '🌸 Crunching your creator numbers...',
   'Comparing your engagement with similar creators...',
-  'Building your sponsorship recommendations...',
+  'Building personalized sponsorship recommendations...',
   'Scanning market trends for your niche...',
-  'Calculating optimal pricing strategies...',
-  'Matching your audience with brand opportunities...',
+  'Calculating what you\'re actually worth...',
+  'Matching your audience with dream brands...',
   'Reviewing your content performance data...',
-  'Generating personalized growth insights...',
+  'Generating insights tailored just for you...',
 ]
 
 function PersonalityLoader({ tab }) {

@@ -52,7 +52,7 @@ export default function TikTokIntegration() {
       await api.tiktok.disconnect()
       setStatus({ connected: false, creator: null, configured: status?.configured })
       setStats(null)
-      toast?.show?.({ message: 'TikTok disconnected', type: 'success' }) ||
+      toast?.show?.({ message: 'TikTok disconnected. Your data is safe — reconnect anytime. 👋', type: 'success' }) ||
         console.log('TikTok disconnected')
     } catch (e) {
       toast?.show?.({ message: 'Failed to disconnect', type: 'error' }) ||
@@ -118,7 +118,7 @@ export default function TikTokIntegration() {
           </div>
           <h3 className="text-lg font-semibold text-surface-100 mb-2">Connect Your TikTok Account</h3>
           <p className="text-surface-400 text-sm max-w-md mx-auto mb-6">
-            Connect TikTok to track video performance, creator analytics, and audience insights — all inside CreatorBloom.
+            Connect TikTok to track video performance, creator analytics, and audience insights — all inside CreatorBloom. Your viral potential, quantified. 🔥
           </p>
           <button
             onClick={handleConnect}

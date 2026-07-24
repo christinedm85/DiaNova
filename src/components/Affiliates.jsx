@@ -22,8 +22,8 @@ export default function Affiliates({ onNavigate }) {
     <div className="page-enter space-y-8">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="font-display text-3xl font-bold text-surface-50">Affiliate Optimization</h2>
-          <p className="text-surface-400 mt-1">Maximize your affiliate revenue with smart insights.</p>
+          <h2 className="font-display text-3xl font-bold text-surface-50">Passive Income Streams 💸</h2>
+          <p className="text-surface-400 mt-1">Turn your recommendations into revenue. Every link tells a story — make it a profitable one.</p>
         </div>
         <button className="px-5 py-2.5 bg-amber-500 hover:bg-amber-400 text-surface-950 text-sm font-bold rounded-xl transition-all duration-200 shadow-lg shadow-amber-500/25">
           + Add Program

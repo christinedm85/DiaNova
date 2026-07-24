@@ -52,7 +52,7 @@ export default function MetaIntegration() {
       await api.meta.disconnect()
       setStatus({ connected: false, instagram: null, facebook: null, configured: status?.configured })
       setStats(null)
-      toast?.show?.({ message: 'Meta accounts disconnected', type: 'success' }) ||
+      toast?.show?.({ message: 'Instagram & Facebook disconnected. Your data is safe — reconnect anytime. 👋', type: 'success' }) ||
         console.log('Meta disconnected')
     } catch (e) {
       toast?.show?.({ message: 'Failed to disconnect', type: 'error' }) ||
@@ -122,7 +122,7 @@ export default function MetaIntegration() {
           </div>
           <h3 className="text-lg font-semibold text-surface-100 mb-2">Connect Instagram &amp; Facebook</h3>
           <p className="text-surface-400 text-sm max-w-md mx-auto mb-6">
-            Connect Instagram &amp; Facebook to unlock audience insights, engagement data, and post performance — all inside CreatorBloom.
+            Connect Instagram &amp; Facebook to unlock audience insights, engagement data, and post performance — all inside CreatorBloom. Your audience story, told by data. 📸
           </p>
           <button
             onClick={handleConnect}

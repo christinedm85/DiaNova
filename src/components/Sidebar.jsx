@@ -17,7 +17,7 @@ export default function Sidebar({ active, onSelect, sections, user, onLogout, on
           <img src="/icon-192.png" alt="CreatorBloom" className="w-12 h-12 rounded-2xl ring-1 ring-surface-700/50" />
           <div>
             <h1 className="font-display text-xl font-bold text-surface-50 tracking-tight">CreatorBloom</h1>
-            <p className="text-[10px] text-surface-500 tracking-widest uppercase">Monetize Your Craft</p>
+            <p className="text-[10px] text-surface-500 tracking-widest uppercase">Your Creator HQ</p>
           </div>
         </div>
       </div>

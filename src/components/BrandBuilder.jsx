@@ -80,17 +80,17 @@ export default function BrandBuilder({ onNavigate }) {
   return (
     <div className="page-enter space-y-8">
       <div>
-        <h2 id="sales-tour-brand" className="font-display text-3xl font-bold text-surface-50">Brand Builder</h2>
-        <p className="text-surface-400 mt-1">Define and grow your unique creator brand identity.</p>
+        <h2 id="sales-tour-brand" className="font-display text-3xl font-bold text-surface-50">Brand Kit 🎨</h2>
+        <p className="text-surface-400 mt-1">Build an identity that premium sponsors can't ignore.</p>
       </div>
 
       {brand.health_score < 40 && (
         <EmptyState
           icon="🎨"
-          title="Your brand kit is waiting"
-          description="A complete brand kit helps match you with the right sponsors. It only takes 2 minutes."
+          title={`Your brand kit is at ${brand.health_score}%`}
+          description="Every 10 points on your brand score = 15% higher sponsor rates on average. Let's get those numbers up! ⬆️"
           action={() => document.getElementById('sales-tour-brand')?.scrollIntoView({ behavior: 'smooth' })}
-          actionLabel="Complete Your Brand Kit"
+          actionLabel="Boost Your Brand Score"
           color="purple"
         />
       )}
@@ -191,7 +191,7 @@ export default function BrandBuilder({ onNavigate }) {
           </div>
           {/* Checklist */}
           <div className="flex-1 w-full lg:w-auto">
-            <p className="text-sm text-surface-400 mb-3">Complete these steps to boost your score:</p>
+            <p className="text-sm text-surface-400 mb-3">Check these off to boost your score — every one counts:</p>
             <div className="space-y-2.5">
               {checklistItems.map(item => (
                 <div key={item.key} className="flex items-center gap-3 text-sm">
@@ -239,7 +239,7 @@ export default function BrandBuilder({ onNavigate }) {
           </div>
           <h3 className="font-display text-xl font-semibold text-surface-100 mb-2">Let's find your first brand matches</h3>
           <p className="text-surface-400 text-sm max-w-md mx-auto mb-6 leading-relaxed">
-            Connect Instagram or YouTube so CreatorBloom can analyze your audience and recommend companies that fit your niche.
+            Connect Instagram or YouTube and we'll analyze your audience to match you with brands that actually fit your vibe.
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
             <button

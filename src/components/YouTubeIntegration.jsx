@@ -61,7 +61,7 @@ export default function YouTubeIntegration() {
       await api.youtube.disconnect()
       setStatus({ connected: false, channel: null, configured: status?.configured })
       setStats(null)
-      toast?.show?.({ message: 'YouTube disconnected', type: 'success' }) ||
+      toast?.show?.({ message: 'YouTube disconnected. Your data is safe — reconnect anytime. 👋', type: 'success' }) ||
         console.log('YouTube disconnected')
     } catch (e) {
       toast?.show?.({ message: 'Failed to disconnect', type: 'error' }) ||
@@ -125,7 +125,7 @@ export default function YouTubeIntegration() {
           </div>
           <h3 className="text-lg font-semibold text-surface-100 mb-2">Connect Your YouTube Channel</h3>
           <p className="text-surface-400 text-sm max-w-md mx-auto mb-6">
-            Connect YouTube to see your real views, watch time, and top-performing videos — all inside CreatorBloom.
+            Connect YouTube to see your real views, watch time, and top-performing videos — all inside CreatorBloom. Your data just got a lot more interesting. 📊
           </p>
           <button
             onClick={handleConnect}
