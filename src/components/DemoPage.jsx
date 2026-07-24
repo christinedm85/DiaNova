@@ -146,7 +146,7 @@ export default function DemoPage({ onGetStarted }) {
 
 function DemoDashboard() {
   return (
-    <div className="page-enter space-y-8" id="demo-dashboard-section">
+    <div className="page-enter space-y-10" id="demo-dashboard-section">
       <div>
         <h2 className="font-display text-3xl font-bold text-surface-50">Good morning, Alex</h2>
         <p className="text-surface-400 mt-1">Here's how your revenue streams are performing today.</p>
@@ -285,7 +285,7 @@ function DemoSponsorships() {
   ]
 
   return (
-    <div className="page-enter space-y-8" id="demo-sponsorships-section">
+    <div className="page-enter space-y-10" id="demo-sponsorships-section">
       <div className="flex items-center justify-between">
         <div>
           <h2 className="font-display text-3xl font-bold text-surface-50">Sponsorships</h2>
@@ -357,7 +357,7 @@ function DemoLeads() {
   const maxFunnel = Math.max(demoFunnel.visitors, 1)
 
   return (
-    <div className="page-enter space-y-8" id="demo-leads-section">
+    <div className="page-enter space-y-10" id="demo-leads-section">
       <div className="flex items-center justify-between">
         <div>
           <h2 className="font-display text-3xl font-bold text-surface-50">Lead Generation</h2>
@@ -463,7 +463,7 @@ function DemoProducts() {
   }
 
   return (
-    <div className="page-enter space-y-8" id="demo-products-section">
+    <div className="page-enter space-y-10" id="demo-products-section">
       <div className="flex items-center justify-between">
         <div>
           <h2 className="font-display text-3xl font-bold text-surface-50">Digital Products</h2>
@@ -564,7 +564,7 @@ function DemoAI() {
   ]
 
   return (
-    <div className="page-enter space-y-8" id="demo-ai-section">
+    <div className="page-enter space-y-10" id="demo-ai-section">
       <div>
         <h2 className="font-display text-3xl font-bold text-surface-50">✨ AI Assistant</h2>
         <p className="text-surface-400 mt-1">Smart tools to grow your creator business.</p>
@@ -965,7 +965,7 @@ function DemoOpportunities() {
   }
 
   return (
-    <div className="page-enter space-y-6" id="demo-opportunities-section">
+    <div className="page-enter space-y-8" id="demo-opportunities-section">
       <div>
         <h2 className="font-display text-3xl font-bold text-surface-50">Opportunities</h2>
         <p className="text-surface-400 mt-1">AI-curated opportunities matched to your niche</p>

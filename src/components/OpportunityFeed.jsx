@@ -61,7 +61,7 @@ export default function OpportunityFeed({ onNavigate }) {
     : opportunities.filter(o => o.type === filter)
 
   return (
-    <div className="page-enter space-y-6">
+    <div className="page-enter space-y-10">
       {/* Header */}
       <div>
         <h2 id="sales-tour-opportunities" className="font-display text-3xl font-bold text-surface-50">Deal Finder 🔍</h2>
@@ -87,9 +87,9 @@ export default function OpportunityFeed({ onNavigate }) {
 
       {/* Loading State */}
       {loading && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {[1, 2, 3, 4, 5, 6].map(i => (
-            <div key={i} className="glass p-5 animate-pulse">
+            <div key={i} className="glass p-6 animate-pulse">
               <div className="h-4 w-20 bg-surface-700/50 rounded mb-3" />
               <div className="h-5 w-3/4 bg-surface-700/50 rounded mb-2" />
               <div className="h-3 w-full bg-surface-700/50 rounded mb-2" />
@@ -105,7 +105,7 @@ export default function OpportunityFeed({ onNavigate }) {
 
       {/* Error State */}
       {!loading && error && (
-        <div className="glass p-8 text-center">
+        <div className="glass p-10 text-center">
           <div className="text-4xl mb-3">⚠️</div>
           <h3 className="font-semibold text-surface-200 text-lg mb-1">The deal radar needs a reboot</h3>
           <p className="text-surface-400 text-sm mb-4">{error}</p>
@@ -165,7 +165,7 @@ export default function OpportunityFeed({ onNavigate }) {
 
       {/* Cards Grid */}
       {!loading && !error && filtered.length > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {filtered.map((opportunity, i) => {
             const config = TYPE_CONFIG[opportunity.type] || TYPE_CONFIG.content_idea
             const dotColor = URGENCY_DOT[opportunity.urgency] || URGENCY_DOT.medium
@@ -173,7 +173,7 @@ export default function OpportunityFeed({ onNavigate }) {
             return (
               <div
                 key={opportunity.id || i}
-                className="glass glass-hover card-lift p-5 group relative flex flex-col"
+                className="glass glass-hover card-lift p-6 group relative flex flex-col"
                 style={{ animationDelay: `${i * 0.06}s` }}
               >
                 {/* Type badge */}

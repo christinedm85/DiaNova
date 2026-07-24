@@ -104,7 +104,7 @@ const insightEmoji = {
 
 function SkeletonCard({ className = '' }) {
   return (
-    <div className={`glass p-5 animate-pulse ${className}`}>
+    <div className={`glass p-6 animate-pulse ${className}`}>
       <div className="h-3 bg-surface-700/50 rounded w-20 mb-3" />
       <div className="h-8 bg-surface-700/50 rounded w-28 mb-2" />
       <div className="h-3 bg-surface-700/50 rounded w-16" />
@@ -114,7 +114,7 @@ function SkeletonCard({ className = '' }) {
 
 function SkeletonInsight() {
   return (
-    <div className="glass p-4 animate-pulse">
+    <div className="glass p-5 animate-pulse">
       <div className="flex items-center gap-3">
         <div className="w-8 h-8 rounded-full bg-surface-700/50 shrink-0" />
         <div className="flex-1 space-y-2">
@@ -189,14 +189,14 @@ export default function Dashboard({ onNavigate }) {
     const loadHour = new Date().getHours()
     const loadTimeOfDay = loadHour < 12 ? 'morning' : loadHour < 17 ? 'afternoon' : 'evening'
     return (
-      <div className="page-enter space-y-8">
+      <div className="page-enter space-y-10">
         <div>
           <h2 className="font-display text-3xl font-bold text-surface-50">
             {`Good ${loadTimeOfDay}, ${user?.name || 'there'} 🌸`}
           </h2>
           <p className="text-surface-400 mt-1">Calculating your worth... ✨</p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <SkeletonCard />
           <SkeletonCard />
           <SkeletonCard />
@@ -296,10 +296,10 @@ export default function Dashboard({ onNavigate }) {
   // ── Render ─────────────────────────────────────────────
 
   return (
-    <div className="page-enter space-y-8">
+    <div className="page-enter space-y-10">
       {/* ═══ Demo Banner ═══ */}
       {isDemoUser && !dismissDemo && (
-        <div className="glass p-4 border border-amber-500/30 bg-amber-500/5 flex items-center justify-between gap-4">
+        <div className="glass p-5 border border-amber-500/30 bg-amber-500/5 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <span className="text-2xl">👋</span>
             <div>
@@ -361,7 +361,7 @@ export default function Dashboard({ onNavigate }) {
           />
 
           {/* ═══ Stats Row ═══ */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <MiniStatBadge
               label="Engagement"
               value={derivedStats.engagementChange}
@@ -389,7 +389,7 @@ export default function Dashboard({ onNavigate }) {
           </div>
 
           {/* ═══ Today's Mission Card ═══ */}
-          <div className="glass p-5 border border-violet-500/15 bg-gradient-to-r from-violet-500/5 to-emerald-500/5">
+          <div className="glass p-6 border border-violet-500/15 bg-gradient-to-r from-violet-500/5 to-emerald-500/5">
             <div className="flex items-start gap-3">
               <div className="w-10 h-10 rounded-xl bg-violet-500/15 flex items-center justify-center shrink-0 text-xl">
                 🎯
@@ -420,7 +420,7 @@ export default function Dashboard({ onNavigate }) {
           </div>
 
           {/* ═══ Revenue Snapshot Cards ═══ */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {hasData ? (
               <>
                 <HeroStatCard
@@ -474,7 +474,7 @@ export default function Dashboard({ onNavigate }) {
 
       {/* YouTube integration card */}
       {youtubeStatus && youtubeStatus.connected && (
-        <div className="glass card-lift p-5 flex items-center gap-4 border-l-3 border-l-red-500">
+        <div className="glass card-lift p-6 flex items-center gap-4 border-l-3 border-l-red-500">
           <div className="w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center shrink-0">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="#ef4444"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29.94 29.94 0 0 0 1 12a29.94 29.94 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.94 2C5.12 20 12 20 12 20s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2A29.94 29.94 0 0 0 23 12a29.94 29.94 0 0 0-.46-5.58z"/><polygon fill="#1e293b" points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
           </div>
@@ -491,7 +491,7 @@ export default function Dashboard({ onNavigate }) {
 
       {/* Meta integration card */}
       {metaStatus && metaStatus.connected && (
-        <div className="glass card-lift p-5 flex items-center gap-4 border-l-3 border-l-blue-500">
+        <div className="glass card-lift p-6 flex items-center gap-4 border-l-3 border-l-blue-500">
           <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500/20 to-violet-500/20 flex items-center justify-center shrink-0">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" strokeWidth="1.5">
               <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
@@ -515,7 +515,7 @@ export default function Dashboard({ onNavigate }) {
 
       {/* TikTok integration card */}
       {tiktokStatus && tiktokStatus.connected && (
-        <div className="glass card-lift p-5 flex items-center gap-4 border-l-3 border-l-pink-500">
+        <div className="glass card-lift p-6 flex items-center gap-4 border-l-3 border-l-pink-500">
           <div className="w-10 h-10 rounded-full bg-gradient-to-br from-pink-500/20 to-rose-500/20 flex items-center justify-center shrink-0">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="#ec4899">
               <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
@@ -536,7 +536,7 @@ export default function Dashboard({ onNavigate }) {
 
       {/* Monetization integration card */}
       {monetizationStatus && (monetizationStatus.stripe?.connected || monetizationStatus.shopify?.connected) && (
-        <div className="glass card-lift p-5 flex items-center gap-4 border-l-3 border-l-emerald-500">
+        <div className="glass card-lift p-6 flex items-center gap-4 border-l-3 border-l-emerald-500">
           <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center shrink-0">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <line x1="12" y1="1" x2="12" y2="23" />
@@ -561,11 +561,11 @@ export default function Dashboard({ onNavigate }) {
 
       {/* ═══ AI Insights Feed ═══ */}
       <section>
-        <h3 className="font-display text-lg font-semibold text-surface-100 mb-4 flex items-center gap-2">
+        <h3 className="font-display text-xl font-semibold text-surface-100 mb-4 flex items-center gap-2">
           <span className="text-violet-400">✨</span> Smart Insights
         </h3>
         {hasInsights ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {insights.insights.map((item, i) => (
               <InsightCard
                 key={i}
@@ -601,14 +601,14 @@ export default function Dashboard({ onNavigate }) {
       {/* ═══ Revenue Forecast ═══ */}
       {insights?.forecast ? (
         <section id="sales-tour-forecast">
-          <div className="glass p-6 relative overflow-hidden">
+          <div className="glass p-8 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full -translate-y-1/2 translate-x-1/4 blur-3xl" />
             <div className="relative">
-              <h3 className="font-display text-lg font-semibold text-surface-100 mb-4">📈 Revenue Forecast</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <h3 className="font-display text-xl font-semibold text-surface-100 mb-4">📈 Revenue Forecast</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div>
                   <p className="text-sm text-surface-400 mb-1">Projected next month</p>
-                  <p className="font-display text-3xl font-bold text-emerald-400">
+                  <p className="font-display text-4xl font-bold text-emerald-400">
                     ${insights.forecast.nextMonth?.toLocaleString() || monthly_revenue.toLocaleString()}
                   </p>
                   {insights.forecast.potentialIncrease > 0 && (
@@ -656,14 +656,14 @@ export default function Dashboard({ onNavigate }) {
         </section>
       ) : (
         <section>
-          <div className="glass p-6 relative overflow-hidden opacity-80">
+          <div className="glass p-8 relative overflow-hidden opacity-80">
             <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full -translate-y-1/2 translate-x-1/4 blur-3xl" />
             <div className="absolute top-3 right-4 px-2 py-0.5 rounded-full bg-surface-700/60 border border-surface-600/30 text-xs text-surface-400 font-medium">
               Preview
             </div>
             <div className="relative">
-              <h3 className="font-display text-lg font-semibold text-surface-100 mb-4">📈 Revenue Forecast</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <h3 className="font-display text-xl font-semibold text-surface-100 mb-4">📈 Revenue Forecast</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div>
                   <p className="text-sm text-surface-400 mb-1">Projected next month</p>
                   <p className="font-display text-3xl font-bold text-surface-600">$—</p>
@@ -698,7 +698,7 @@ export default function Dashboard({ onNavigate }) {
       {/* ═══ Quick Actions ═══ */}
       {insights?.quickActions && insights.quickActions.length > 0 && (
         <section>
-          <h3 className="font-display text-lg font-semibold text-surface-100 mb-4">⚡ Quick Actions</h3>
+          <h3 className="font-display text-xl font-semibold text-surface-100 mb-4">⚡ Quick Actions</h3>
           <div className="flex flex-wrap gap-3">
             {insights.quickActions.map((action, i) => {
               const IconComp = iconComponents[action.icon] || IconZap
@@ -724,14 +724,14 @@ export default function Dashboard({ onNavigate }) {
           className="flex items-center gap-2 w-full text-left text-surface-400 hover:text-surface-200 transition-colors mb-4"
         >
           <IconChevronDown className={`w-5 h-5 transition-transform ${showDetails ? 'rotate-180' : ''}`} />
-          <span className="font-display text-lg font-semibold text-surface-100">Detailed Analytics</span>
+          <span className="font-display text-xl font-semibold text-surface-100">Detailed Analytics</span>
           <span className="text-xs text-surface-500 ml-2">charts &amp; breakdowns</span>
         </button>
 
         {showDetails && (
-          <div className="space-y-6 page-enter">
+          <div className="space-y-8 page-enter">
             {/* Stat Cards Row */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <StatCard label="Monthly Revenue" value={`${monthly_revenue.toLocaleString()}`} change="+12.5%" positive color="emerald" />
               <StatCard label="Active Sponsors" value={String(active_sponsors)} change="+2 this month" positive color="amber" />
               <StatCard label="Affiliate Rev" value={`${affiliate_revenue.toLocaleString()}`} change="+8.2%" positive color="emerald" />
@@ -739,7 +739,7 @@ export default function Dashboard({ onNavigate }) {
             </div>
 
             {/* Charts Row */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Revenue Trend */}
               <div className="lg:col-span-2 glass p-6">
                 <h3 className="font-display text-lg font-semibold text-surface-100 mb-4">Revenue Trend</h3>
@@ -811,7 +811,7 @@ export default function Dashboard({ onNavigate }) {
             </div>
 
             {/* Pipeline + Recent Activity */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               <div className="lg:col-span-2 glass p-6">
                 <h3 className="font-display text-lg font-semibold text-surface-100 mb-4">Sponsorship Pipeline</h3>
                 {Object.values(pipeline).reduce((a, b) => a + b, 0) > 0 ? (
@@ -907,7 +907,7 @@ function HeroStatCard({ label, value, rawValue, trend, positive, color, icon, on
         <p className="text-sm text-surface-400">{label}</p>
         <span className={iconColorMap[color] || 'text-accent-400'}>{icon}</span>
       </div>
-      <p className="font-display text-3xl font-bold text-surface-50">
+      <p className="font-display text-4xl font-bold text-surface-50">
         {rawValue !== undefined ? <AnimatedNumber value={rawValue} /> : value}
       </p>
       <p className={`text-xs mt-2 ${positive ? 'text-emerald-400' : 'text-rose-400'}`}>
@@ -916,7 +916,7 @@ function HeroStatCard({ label, value, rawValue, trend, positive, color, icon, on
     </>
   )
 
-  const classes = `glass glass-hover p-5 ${glowMap[color] || ''} ${onClick ? 'cursor-pointer' : ''}`
+  const classes = `glass glass-hover p-6 ${glowMap[color] || ''} ${onClick ? 'cursor-pointer' : ''}`
 
   return onClick ? (
     <button onClick={onClick} className={`${classes} text-left w-full`}>
@@ -934,7 +934,7 @@ function InsightCard({ type, message, action, onAction }) {
   const emoji = insightEmoji[type] || '💡'
 
   return (
-    <div className={`glass glass-hover card-lift p-4 border ${colors.border} group transition-all duration-300`}>
+    <div className={`glass glass-hover card-lift p-5 border ${colors.border} group transition-all duration-300`}>
       <div className="flex items-start gap-3">
         <div className={`w-9 h-9 rounded-xl ${colors.bg} flex items-center justify-center shrink-0 text-lg`}>
           {emoji}
@@ -966,9 +966,9 @@ function StatCard({ label, value, change, positive, color }) {
     rose: 'shadow-rose-500/20',
   }
   return (
-    <div className={`glass glass-hover card-lift p-5 ${glowMap[color] || ''}`}>
+    <div className={`glass glass-hover card-lift p-6 ${glowMap[color] || ''}`}>
       <p className="text-sm text-surface-400">{label}</p>
-      <p className="font-display text-3xl font-bold text-surface-50 mt-1">{value}</p>
+      <p className="font-display text-4xl font-bold text-surface-50 mt-1">{value}</p>
       <p className={`text-xs mt-1.5 ${positive ? 'text-emerald-400' : 'text-rose-400'}`}>
         {positive ? '↑' : '↓'} {change}
       </p>
@@ -1110,7 +1110,7 @@ function AIBrief({ forecast, insights, monthlyRevenue, pipelinePotential, follow
 
   return (
     <div
-      className="glass p-6 sm:p-7 relative overflow-hidden animate-hero-fade-up"
+      className="glass p-8 relative overflow-hidden animate-hero-fade-up"
     >
       {/* ── Ambient glow blobs ──────────────────────────── */}
       <div className="absolute top-0 right-0 w-48 h-48 bg-emerald-500/5 rounded-full -translate-y-1/2 translate-x-1/4 blur-3xl" />
@@ -1118,7 +1118,7 @@ function AIBrief({ forecast, insights, monthlyRevenue, pipelinePotential, follow
       <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-violet-500/3 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl" />
 
       {/* ── Header ──────────────────────────────────────── */}
-      <div className="relative flex items-center gap-3 mb-5">
+      <div className="relative flex items-center gap-3 mb-7">
         <div className="w-9 h-9 rounded-xl bg-violet-500/15 flex items-center justify-center shrink-0">
           <span className="text-lg">✨</span>
         </div>
@@ -1136,7 +1136,7 @@ function AIBrief({ forecast, insights, monthlyRevenue, pipelinePotential, follow
       </div>
 
       {/* ── Divider ─────────────────────────────────────── */}
-      <div className="relative h-px bg-gradient-to-r from-transparent via-surface-700/50 to-transparent mb-5" />
+      <div className="relative h-px bg-gradient-to-r from-transparent via-surface-700/50 to-transparent mb-7" />
 
       {/* ── Insight Rows ────────────────────────────────── */}
       <div className="relative space-y-0">
@@ -1146,7 +1146,7 @@ function AIBrief({ forecast, insights, monthlyRevenue, pipelinePotential, follow
               <div className="h-px bg-surface-700/30" />
             )}
             <div
-              className={`flex items-center gap-3 py-3.5 sm:py-4 px-1 transition-colors duration-300 hover:bg-surface-700/10 rounded-lg -mx-1 ${
+              className={`flex items-center gap-3 py-4 sm:py-5 px-1 transition-colors duration-300 hover:bg-surface-700/10 rounded-lg -mx-1 ${
                 row.urgent ? "bg-rose-500/5 rounded-lg -mx-1 px-1" : ""
               }`}
               style={{
@@ -1180,7 +1180,7 @@ function AIBrief({ forecast, insights, monthlyRevenue, pipelinePotential, follow
       </div>
 
       {/* ── CTA row ──────────────────────────────────────── */}
-      <div className="relative mt-4 pt-3 border-t border-surface-700/30 flex items-center justify-between">
+      <div className="relative mt-5 pt-4 border-t border-surface-700/30 flex items-center justify-between">
         <p className="text-xs text-surface-500">
           Updated {new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })} · Powered by AI
         </p>
@@ -1207,7 +1207,7 @@ function MiniStatBadge({ label, value, color, active }) {
     rose: 'text-rose-400 bg-rose-500/10 border-rose-500/20',
   }
   return (
-    <div className={`glass p-3 text-center ${active ? '' : 'opacity-60'}`}>
+    <div className={`glass p-4 text-center ${active ? '' : 'opacity-60'}`}>
       <p className="text-xs text-surface-400 mb-1">{label}</p>
       <p className={`font-display text-lg font-bold ${active ? colorMap[color]?.split(' ')[0] || 'text-surface-200' : 'text-surface-500'}`}>
         {String(value)}
@@ -1226,7 +1226,7 @@ function PreviewStatCard({ label, icon, color }) {
     rose: 'text-rose-400/40',
   }
   return (
-    <div className="glass p-5 opacity-50">
+    <div className="glass p-6 opacity-50">
       <div className="flex items-center justify-between mb-3">
         <p className="text-sm text-surface-500">{label}</p>
         <span className={iconColorMap[color] || 'text-surface-500'}>{icon}</span>
@@ -1246,7 +1246,7 @@ function PreviewInsightCard({ emoji, text, color }) {
     accent: 'border-accent-500/10 bg-accent-500/5',
   }
   return (
-    <div className={`glass p-4 border ${colorMap[color] || 'border-surface-700/20'} opacity-50`}>
+    <div className={`glass p-5 border ${colorMap[color] || 'border-surface-700/20'} opacity-50`}>
       <div className="flex items-start gap-3">
         <span className="text-lg shrink-0">{emoji}</span>
         <p className="text-sm text-surface-400 leading-relaxed">{text}</p>

@@ -129,7 +129,7 @@ export default function MonetizationIntegration() {
   const anyConnected = stripeConnected || shopifyConnected
 
   return (
-    <div className="page-enter space-y-8">
+    <div className="page-enter space-y-10">
       <div>
         <h2 className="font-display text-3xl font-bold text-surface-50">Monetization</h2>
         <p className="text-surface-400 mt-1">Connect Stripe or Shopify to see your real revenue, MRR, and top products — all inside CreatorBloom.</p>
@@ -303,7 +303,7 @@ export default function MonetizationIntegration() {
 
 function StripeStats({ stats, isMock }) {
   return (
-    <div className="space-y-6 mt-6">
+    <div className="space-y-8 mt-6">
       {isMock && (
         <p className="text-xs text-amber-400 bg-amber-500/10 border border-amber-500/20 rounded-lg px-4 py-2">
           Showing demo data. Connect your Stripe account to see real numbers.
@@ -387,7 +387,7 @@ function StripeStats({ stats, isMock }) {
 
 function ShopifyStats({ stats, isMock }) {
   return (
-    <div className="space-y-6 mt-6">
+    <div className="space-y-8 mt-6">
       {isMock && (
         <p className="text-xs text-amber-400 bg-amber-500/10 border border-amber-500/20 rounded-lg px-4 py-2">
           Showing demo data. Connect your Shopify store to see real numbers.

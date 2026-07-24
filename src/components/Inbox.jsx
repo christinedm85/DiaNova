@@ -51,7 +51,7 @@ export default function Inbox() {
   }
 
   return (
-    <div className="page-enter space-y-8">
+    <div className="page-enter space-y-10">
       <div>
         <h2 className="font-display text-3xl font-bold text-surface-50">Inbox</h2>
         <p className="text-surface-400 mt-1">Manage your creator business emails.</p>

@@ -122,7 +122,7 @@ export default function App() {
   return (
     <div className="flex h-screen overflow-hidden">
       <Sidebar active={active} onSelect={setActive} sections={visibleSections} user={user} onLogout={logout} onProfile={() => setActive('profile')} onTourRestart={() => setShowSalesTour(true)} sectionStyles={sectionStyles} />
-      <main className="flex-1 overflow-y-auto p-8">
+      <main className="flex-1 overflow-y-auto p-10">
         <div className="max-w-6xl mx-auto" key={active}>
           <Component onNavigate={setActive} />
         </div>

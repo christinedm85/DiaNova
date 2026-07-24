@@ -97,7 +97,7 @@ export default function AdminDashboard() {
 
   if (loading) {
     return (
-      <div className="page-enter space-y-6">
+      <div className="page-enter space-y-8">
         <div className="animate-pulse">
           <div className="h-8 bg-surface-700/50 rounded w-48 mb-2" />
           <div className="h-4 bg-surface-700/50 rounded w-64" />
@@ -131,7 +131,7 @@ export default function AdminDashboard() {
     : 0
 
   return (
-    <div className="page-enter space-y-6">
+    <div className="page-enter space-y-8">
       {/* Header */}
       <div>
         <h2 id="sales-tour-admin" className="font-display text-3xl font-bold text-surface-50 flex items-center gap-3">
@@ -220,7 +220,7 @@ export default function AdminDashboard() {
 
       {/* ── Stats Tab ── */}
       {tab === 'stats' && stats && (
-        <div className="space-y-6">
+        <div className="space-y-8">
           {/* Top-level stat cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <StatCard label="Total Users" value={stats.totalUsers} subtitle={`${stats.recentSignups} new this week`} color="accent" />
@@ -293,7 +293,7 @@ export default function AdminDashboard() {
 
       {/* ── Actions Tab ── */}
       {tab === 'actions' && (
-        <div className="space-y-6">
+        <div className="space-y-8">
           {/* Reset Demo Workspace */}
           <div className="glass p-6">
             <h3 className="font-display text-lg font-semibold text-surface-100 mb-2">🔄 Reset Demo Workspace</h3>

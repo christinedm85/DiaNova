@@ -19,7 +19,7 @@ export default function Affiliates({ onNavigate }) {
   }
 
   return (
-    <div className="page-enter space-y-8">
+    <div className="page-enter space-y-10">
       <div className="flex items-center justify-between">
         <div>
           <h2 className="font-display text-3xl font-bold text-surface-50">Passive Income Streams 💸</h2>

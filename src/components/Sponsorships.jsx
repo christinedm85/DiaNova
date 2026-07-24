@@ -74,7 +74,7 @@ export default function Sponsorships({ onNavigate }) {
   }
 
   if (!pipeline) {
-    return <div className="space-y-6"><Skeleton /><Skeleton /><Skeleton /></div>
+    return <div className="space-y-8"><Skeleton /><Skeleton /><Skeleton /></div>
   }
 
   const stages = [
@@ -88,7 +88,7 @@ export default function Sponsorships({ onNavigate }) {
   const nextStage = { prospecting: 'negotiating', negotiating: 'confirmed', confirmed: 'completed' }
 
   return (
-    <div className="page-enter space-y-8">
+    <div className="page-enter space-y-10">
       <ConfirmDialog
         open={!!confirm}
         title="Delete Deal"
@@ -130,7 +130,7 @@ export default function Sponsorships({ onNavigate }) {
       </div>
 
       {showForm && (
-        <form onSubmit={handleCreate} className="glass p-5 space-y-3 animate-scale-in">
+        <form onSubmit={handleCreate} className="glass p-6 space-y-3 animate-scale-in">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             <FormField placeholder="Brand name" value={form.brand} onChange={e => setForm({ ...form, brand: e.target.value })} required />
             <FormField placeholder="Amount ($)" type="number" value={form.amount} onChange={e => setForm({ ...form, amount: e.target.value })} required />
@@ -156,11 +156,11 @@ export default function Sponsorships({ onNavigate }) {
           />
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
         {stages.map(({ key, title, color, borderColor }) => {
           const deals = pipeline[key] || []
           return (
-            <div key={key} className="glass p-4 space-y-3">
+            <div key={key} className="glass p-5 space-y-3">
               <div className="flex items-center justify-between">
                 <h4 className="font-semibold text-surface-200 text-sm">{title}</h4>
                 <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${color} text-white`}>{deals.length}</span>

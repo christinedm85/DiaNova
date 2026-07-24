@@ -44,7 +44,7 @@ export default function Leads({ onNavigate }) {
   const maxFunnel = funnel ? Math.max(funnel.visitors, 1) : 1
 
   return (
-    <div className="page-enter space-y-8">
+    <div className="page-enter space-y-10">
       <div className="flex items-center justify-between">
         <div>
           <h2 id="sales-tour-leads" className="font-display text-3xl font-bold text-surface-50">Lead Generation</h2>

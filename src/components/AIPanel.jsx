@@ -37,21 +37,21 @@ export default function AIPanel({ show, onClose }) {
       <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
       <div className="relative w-[420px] h-full bg-surface-900/95 backdrop-blur-xl border-l border-surface-700/50 overflow-y-auto animate-[slide-left_0.3s_ease-out]">
         {/* Header */}
-        <div className="sticky top-0 z-10 bg-surface-900/95 backdrop-blur-xl border-b border-surface-700/30 px-5 py-4 flex items-center justify-between">
+        <div className="sticky top-0 z-10 bg-surface-900/95 backdrop-blur-xl border-b border-surface-700/30 px-6 py-5 flex items-center justify-between">
           <h2 className="font-display text-lg text-surface-50">AI Assistant ✨</h2>
           <button onClick={onClose} className="text-surface-400 hover:text-surface-200 text-xl leading-none">&times;</button>
         </div>
         {/* Tabs */}
-        <div className="flex gap-1 px-5 py-3 overflow-x-auto border-b border-surface-700/20">
+        <div className="flex gap-2 px-6 py-4 overflow-x-auto border-b border-surface-700/20">
           {TABS.map((t, i) => (
             <button key={t} onClick={() => { setTab(i); setResult(null); setError(null) }}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${tab === i ? 'bg-violet-500/20 text-violet-400' : 'text-surface-400 hover:text-surface-200'}`}>
+              className={`px-4 py-2 rounded-lg text-xs font-medium whitespace-nowrap transition-all ${tab === i ? 'bg-violet-500/20 text-violet-400' : 'text-surface-400 hover:text-surface-200'}`}>
               {t}
             </button>
           ))}
         </div>
         {/* Content */}
-        <div className="p-5">
+        <div className="p-6">
           {tab === 0 && (
             <div className="space-y-3">
               <label className="block text-xs text-surface-400">Creator niche</label>

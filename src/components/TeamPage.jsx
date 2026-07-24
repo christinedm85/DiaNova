@@ -61,7 +61,7 @@ export default function TeamPage() {
 
   if (user?.plan !== 'studio') {
     return (
-      <div className="page-enter space-y-8 max-w-6xl">
+      <div className="page-enter space-y-10 max-w-6xl">
         <div>
           <h2 className="font-display text-3xl font-bold text-surface-50">Team</h2>
           <p className="text-sm text-surface-500 mt-1">Collaborate with your team.</p>
@@ -79,7 +79,7 @@ export default function TeamPage() {
   }
 
   return (
-    <div className="page-enter space-y-8 max-w-6xl">
+    <div className="page-enter space-y-10 max-w-6xl">
       <div>
         <h2 className="font-display text-3xl font-bold text-surface-50">Team</h2>
         <p className="text-sm text-surface-500 mt-1">Invite collaborators to share your pipeline, leads, and products.</p>

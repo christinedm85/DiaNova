@@ -53,7 +53,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="page-enter space-y-8 max-w-6xl">
+    <div className="page-enter space-y-10 max-w-6xl">
       <div>
         <h2 className="font-display text-3xl font-bold text-surface-50">Profile Settings</h2>
         <p className="text-sm text-surface-500 mt-1">Manage your name, email, password, and notification preferences.</p>

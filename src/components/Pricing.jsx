@@ -26,7 +26,7 @@ export default function Pricing() {
   const maxRate = history.length ? Math.max(...history.map(h => h.avg_rate), 5000) : 5000
 
   return (
-    <div className="page-enter space-y-8">
+    <div className="page-enter space-y-10">
       <div>
         <h2 className="font-display text-3xl font-bold text-surface-50">Pricing Guidance</h2>
         <p className="text-surface-400 mt-1">Data-driven pricing to maximize your earning potential.</p>

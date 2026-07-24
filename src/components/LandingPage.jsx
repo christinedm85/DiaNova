@@ -98,7 +98,7 @@ export default function LandingPage({ onGetStarted, onLogin }) {
       </nav>
 
       {/* Hero */}
-      <section className="pt-32 pb-20 px-6 text-center max-w-4xl mx-auto">
+      <section className="pt-40 pb-28 px-6 text-center max-w-4xl mx-auto">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-400 text-xs font-medium mb-6 animate-hero-fade-up">
           ✨ The creator business command center
         </div>
@@ -151,7 +151,7 @@ export default function LandingPage({ onGetStarted, onLogin }) {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {FEATURES.map(f => (
-            <div key={f.title} className="glass card-lift p-6 glass-hover">
+            <div key={f.title} className="glass card-lift p-8 glass-hover">
               <span className="text-3xl">{f.icon}</span>
               <h4 className="font-display font-semibold text-surface-100 mt-3 text-lg">{f.title}</h4>
               <p className="text-sm text-surface-400 mt-2 leading-relaxed">{f.desc}</p>

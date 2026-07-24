@@ -78,7 +78,7 @@ export default function BrandBuilder({ onNavigate }) {
   }
 
   return (
-    <div className="page-enter space-y-8">
+    <div className="page-enter space-y-10">
       <div>
         <h2 id="sales-tour-brand" className="font-display text-3xl font-bold text-surface-50">Brand Kit 🎨</h2>
         <p className="text-surface-400 mt-1">Build an identity that premium sponsors can't ignore.</p>

@@ -76,7 +76,7 @@ export default function MetaIntegration() {
   // Not configured state
   if (status && !status.configured) {
     return (
-      <div className="page-enter space-y-8">
+      <div className="page-enter space-y-10">
         <div>
           <h2 className="font-display text-3xl font-bold text-surface-50">Meta Integration</h2>
           <p className="text-surface-400 mt-1">Connect Instagram &amp; Facebook to track your social media analytics in CreatorBloom.</p>
@@ -104,7 +104,7 @@ export default function MetaIntegration() {
   // Not connected state
   if (status && !status.connected) {
     return (
-      <div className="page-enter space-y-8">
+      <div className="page-enter space-y-10">
         <div>
           <h2 className="font-display text-3xl font-bold text-surface-50">Meta Integration</h2>
           <p className="text-surface-400 mt-1">Connect Instagram &amp; Facebook to track your social media analytics in CreatorBloom.</p>
@@ -153,7 +153,7 @@ export default function MetaIntegration() {
 
   // Connected state
   return (
-    <div className="page-enter space-y-8">
+    <div className="page-enter space-y-10">
       <div className="flex items-center justify-between">
         <div>
           <h2 className="font-display text-3xl font-bold text-surface-50">Meta Analytics</h2>
