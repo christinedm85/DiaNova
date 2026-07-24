@@ -51,13 +51,18 @@ export function optionalAuth(req, _res, next) {
 
 // Resolve team scope — sets req.scopeUserId to the effective user ID for data queries
 export function teamScope(req, _res, next) {
-  const member = db.prepare(`
-    SELECT t.owner_id FROM teams t
-    JOIN team_members tm ON tm.team_id = t.id
-    WHERE tm.user_id = ?
-  `).get(req.user.id)
+  try {
+    const member = db.prepare(`
+      SELECT t.owner_id FROM teams t
+      JOIN team_members tm ON tm.team_id = t.id
+      WHERE tm.user_id = ?
+    `).get(req.user.id)
 
-  req.scopeUserId = member ? member.owner_id : req.user.id
+    req.scopeUserId = member ? member.owner_id : req.user.id
+  } catch {
+    // Teams tables may not exist yet — fall back to self-scoping
+    req.scopeUserId = req.user.id
+  }
   next()
 }
 

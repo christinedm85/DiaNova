@@ -49,6 +49,7 @@ import './migrate-meta.js'
 import './migrate-tiktok.js'
 import './migrate-monetization.js'
 import './migrate-gmail.js'
+import './migrate-teams.js'
 import './migrate.js'
 
 const app = express()
