@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { api } from '../api.js'
 import { useToast } from '../ToastContext.jsx'
+import { useAuth } from '../AuthContext.jsx'
 
 function formatNumber(n) {
   if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M'
@@ -28,6 +29,7 @@ export default function YouTubeIntegration() {
   const [loading, setLoading] = useState(true)
   const [connecting, setConnecting] = useState(false)
   const toast = useToast()
+  const { user } = useAuth()
 
   const fetchData = useCallback(async () => {
     try {
@@ -50,7 +52,7 @@ export default function YouTubeIntegration() {
 
   const handleConnect = () => {
     setConnecting(true)
-    window.location.href = '/api/integrations/youtube/auth'
+    window.location.href = `/api/integrations/youtube/auth?userId=${user.id}`
   }
 
   const handleDisconnect = async () => {
@@ -89,9 +91,9 @@ export default function YouTubeIntegration() {
           <p className="text-surface-400 mt-1">Connect your YouTube channel to track analytics directly in CreatorBloom.</p>
         </div>
         <div className="glass p-8 text-center">
-          <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-red-500/10 flex items-center justify-center">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>
+          <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-blue-500/10 flex items-center justify-center">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
             </svg>
           </div>
           <h3 className="text-lg font-semibold text-surface-100 mb-2">Google API Not Configured</h3>

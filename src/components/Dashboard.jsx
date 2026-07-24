@@ -358,7 +358,7 @@ export default function Dashboard({ onNavigate }) {
               {(youtubeStatus.channel?.subscriberCount || 0).toLocaleString()} subscribers
             </p>
           </div>
-          <a href="#" onClick={(e) => { e.preventDefault(); window.location.hash = '#youtube' }} className="text-xs text-accent-400 hover:text-accent-300 whitespace-nowrap">View analytics →</a>
+          <a href="#" onClick={(e) => { e.preventDefault(); onNavigate && onNavigate('youtube') }} className="text-xs text-accent-400 hover:text-accent-300 whitespace-nowrap">View analytics →</a>
         </div>
       )}
 

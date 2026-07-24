@@ -3,7 +3,6 @@ import db from '../db.js'
 import { authMiddleware } from '../middleware.js'
 
 const router = Router()
-router.use(authMiddleware)
 
 // ── Config ──────────────────────────────────────────────────
 const META_APP_ID = process.env.META_APP_ID
@@ -112,6 +111,10 @@ function mockMetaData() {
   }
 }
 
+// ═══════════════════════════════════════════════════════════════
+// Public OAuth routes (no auth required — browser navigation)
+// ═══════════════════════════════════════════════════════════════
+
 // ── OAuth: Redirect to Facebook ─────────────────────────────
 
 router.get('/auth', (req, res) => {
@@ -119,12 +122,18 @@ router.get('/auth', (req, res) => {
     return res.status(501).json({ error: 'Meta integration not configured. Set META_APP_ID and META_APP_SECRET.' })
   }
 
+  // Read userId from query param (browser navigation has no auth header)
+  const userId = req.query.userId ? parseInt(req.query.userId, 10) : null
+  if (!userId || isNaN(userId)) {
+    return res.status(400).json({ error: 'Missing userId parameter' })
+  }
+
   const params = new URLSearchParams({
     client_id: META_APP_ID,
     redirect_uri: META_REDIRECT_URI,
     response_type: 'code',
     scope: 'instagram_basic,instagram_manage_insights,pages_show_list,pages_read_engagement,pages_read_user_content',
-    state: String(req.user.id),
+    state: String(userId),
   })
 
   res.redirect(`https://www.facebook.com/v19.0/dialog/oauth?${params}`)
@@ -154,20 +163,16 @@ router.get('/callback', async (req, res) => {
 
   try {
     // Exchange code for short-lived token
-    const tokenRes = await fetch('https://graph.facebook.com/v19.0/oauth/access_token', {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-    })
     const tokenUrl = `https://graph.facebook.com/v19.0/oauth/access_token?client_id=${META_APP_ID}&client_secret=${META_APP_SECRET}&redirect_uri=${encodeURIComponent(META_REDIRECT_URI)}&code=${code}`
 
-    const tokenRes2 = await fetch(tokenUrl)
-    if (!tokenRes2.ok) {
-      const err = await tokenRes2.text()
+    const tokenRes = await fetch(tokenUrl)
+    if (!tokenRes.ok) {
+      const err = await tokenRes.text()
       console.error('Meta token exchange failed:', err)
       return res.redirect('/?meta_error=token_exchange_failed')
     }
 
-    const tokenData = await tokenRes2.json()
+    const tokenData = await tokenRes.json()
     const shortLivedToken = tokenData.access_token
 
     // Exchange for long-lived token (60-day)
@@ -256,6 +261,12 @@ router.get('/callback', async (req, res) => {
     res.redirect('/?meta_error=server_error')
   }
 })
+
+// ═══════════════════════════════════════════════════════════════
+// Protected routes (auth required below)
+// ═══════════════════════════════════════════════════════════════
+
+router.use(authMiddleware)
 
 // ── Connection status ──────────────────────────────────────
 

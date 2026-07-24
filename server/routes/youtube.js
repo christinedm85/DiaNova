@@ -3,7 +3,6 @@ import db from '../db.js'
 import { authMiddleware } from '../middleware.js'
 
 const router = Router()
-router.use(authMiddleware)
 
 // ── Config ──────────────────────────────────────────────────
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID
@@ -115,11 +114,21 @@ function mockChannelData() {
   }
 }
 
+// ═══════════════════════════════════════════════════════════════
+// Public OAuth routes (no auth required — browser navigation)
+// ═══════════════════════════════════════════════════════════════
+
 // ── OAuth: Redirect to Google ──────────────────────────────
 
 router.get('/auth', (req, res) => {
   if (!isConfigured()) {
     return res.status(501).json({ error: 'YouTube integration not configured. Set GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET.' })
+  }
+
+  // Read userId from query param (browser navigation has no auth header)
+  const userId = req.query.userId ? parseInt(req.query.userId, 10) : null
+  if (!userId || isNaN(userId)) {
+    return res.status(400).json({ error: 'Missing userId parameter' })
   }
 
   const params = new URLSearchParams({
@@ -129,7 +138,7 @@ router.get('/auth', (req, res) => {
     scope: 'https://www.googleapis.com/auth/youtube.readonly https://www.googleapis.com/auth/yt-analytics.readonly',
     access_type: 'offline',
     prompt: 'consent',
-    state: String(req.user.id),
+    state: String(userId),
   })
 
   res.redirect(`https://accounts.google.com/o/oauth2/v2/auth?${params}`)
@@ -231,6 +240,12 @@ router.get('/callback', async (req, res) => {
     res.redirect('/?youtube_error=server_error')
   }
 })
+
+// ═══════════════════════════════════════════════════════════════
+// Protected routes (auth required below)
+// ═══════════════════════════════════════════════════════════════
+
+router.use(authMiddleware)
 
 // ── Connection status ──────────────────────────────────────
 
