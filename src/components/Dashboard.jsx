@@ -135,6 +135,7 @@ export default function Dashboard({ onNavigate }) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [youtubeStatus, setYoutubeStatus] = useState(null)
+  const [metaStatus, setMetaStatus] = useState(null)
   const [showAI, setShowAI] = useState(false)
   const [showDetails, setShowDetails] = useState(false)
   const [dismissDemo, setDismissDemo] = useState(false)
@@ -143,6 +144,7 @@ export default function Dashboard({ onNavigate }) {
 
   useEffect(() => {
     api.youtube.status().then(setYoutubeStatus).catch(() => {})
+    api.meta.status().then(setMetaStatus).catch(() => {})
   }, [])
 
   const fetchAll = () => {
@@ -353,6 +355,30 @@ export default function Dashboard({ onNavigate }) {
             </p>
           </div>
           <a href="#" onClick={(e) => { e.preventDefault(); window.location.hash = '#youtube' }} className="text-xs text-accent-400 hover:text-accent-300 whitespace-nowrap">View analytics →</a>
+        </div>
+      )}
+
+      {/* Meta integration card */}
+      {metaStatus && metaStatus.connected && (
+        <div className="glass p-5 flex items-center gap-4 border-l-3 border-l-purple-500">
+          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500/20 to-rose-500/20 flex items-center justify-center shrink-0">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c084fc" strokeWidth="1.5">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <circle cx="8.5" cy="12" r="2.5"/>
+              <path d="M16 9a4 4 0 0 0-4 4v4"/>
+              <path d="M16 15a2 2 0 1 0 0-4"/>
+            </svg>
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm text-surface-400">Instagram &amp; Facebook</p>
+            <p className="font-display text-xl font-bold text-surface-50">
+              {metaStatus.instagram ? `@${metaStatus.instagram.username}` : metaStatus.facebook?.name || 'Connected'}
+            </p>
+            <p className="text-xs text-surface-400 mt-0.5">
+              {metaStatus.instagram ? `${(metaStatus.instagram.followerCount || 0).toLocaleString()} followers` : 'Connected'}
+            </p>
+          </div>
+          <a href="#" onClick={(e) => { e.preventDefault(); onNavigate && onNavigate('meta') }} className="text-xs text-accent-400 hover:text-accent-300 whitespace-nowrap">View analytics →</a>
         </div>
       )}
 

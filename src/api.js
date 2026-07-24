@@ -141,4 +141,11 @@ export const api = {
     disconnect: () => request('/integrations/youtube/disconnect', { method: 'DELETE' }),
     clearCache: () => request('/integrations/youtube/clear-cache', { method: 'POST' }),
   },
+
+  meta: {
+    status: () => request('/integrations/meta/status'),
+    stats: () => request('/integrations/meta/stats'),
+    disconnect: () => request('/integrations/meta/disconnect', { method: 'DELETE' }),
+    clearCache: () => request('/integrations/meta/clear-cache', { method: 'POST' }),
+  },
 }
