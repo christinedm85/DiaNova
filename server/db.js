@@ -32,6 +32,7 @@ db.exec(`
 
   CREATE TABLE IF NOT EXISTS sponsorships (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
     brand TEXT NOT NULL,
     amount REAL NOT NULL,
     status TEXT NOT NULL DEFAULT 'prospecting',
@@ -42,6 +43,7 @@ db.exec(`
 
   CREATE TABLE IF NOT EXISTS affiliates (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
     program TEXT NOT NULL,
     commission TEXT NOT NULL,
     clicks INTEGER DEFAULT 0,
@@ -53,6 +55,7 @@ db.exec(`
 
   CREATE TABLE IF NOT EXISTS leads (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
     name TEXT NOT NULL,
     email TEXT NOT NULL,
     source TEXT DEFAULT '',
@@ -61,6 +64,7 @@ db.exec(`
 
   CREATE TABLE IF NOT EXISTS products (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
     title TEXT NOT NULL,
     type TEXT NOT NULL,
     price REAL NOT NULL,
@@ -71,7 +75,8 @@ db.exec(`
   );
 
   CREATE TABLE IF NOT EXISTS brand_settings (
-    id INTEGER PRIMARY KEY CHECK (id = 1),
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER UNIQUE NOT NULL,
     primary_color TEXT DEFAULT '#6366F1',
     accent_color TEXT DEFAULT '#F59E0B',
     neutral_color TEXT DEFAULT '#0F172A',
@@ -83,6 +88,7 @@ db.exec(`
 
   CREATE TABLE IF NOT EXISTS content_ideas (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
     title TEXT NOT NULL,
     format TEXT NOT NULL,
     score INTEGER DEFAULT 85,
@@ -143,69 +149,69 @@ db.exec(`
 
 const sponsorCount = db.prepare('SELECT COUNT(*) as count FROM sponsorships').get()
 if (sponsorCount.count === 0) {
-  const seedSponsors = db.prepare('INSERT INTO sponsorships (brand, amount, status, notes) VALUES (?, ?, ?, ?)')
+  const seedSponsors = db.prepare('INSERT INTO sponsorships (user_id, brand, amount, status, notes) VALUES (?, ?, ?, ?, ?)')
   const sponsors = [
-    ['FitGear Co.', 2500, 'prospecting', 'Sent proposal'],
-    ['MealPrep App', 1800, 'prospecting', 'Awaiting reply'],
-    ['TravelNow', 4200, 'negotiating', 'Counter offer'],
-    ['CloudHost', 3000, 'negotiating', 'Rate discussion'],
-    ['BrandX', 3500, 'confirmed', 'Content due Jan 15'],
-    ['TechWear', 5000, 'confirmed', 'Deliverables: 2 videos'],
-    ['GamerFuel', 2800, 'completed', 'Paid'],
-    ['StyleLab', 1900, 'completed', 'Paid'],
+    [1, 'FitGear Co.', 2500, 'prospecting', 'Sent proposal'],
+    [1, 'MealPrep App', 1800, 'prospecting', 'Awaiting reply'],
+    [1, 'TravelNow', 4200, 'negotiating', 'Counter offer'],
+    [1, 'CloudHost', 3000, 'negotiating', 'Rate discussion'],
+    [1, 'BrandX', 3500, 'confirmed', 'Content due Jan 15'],
+    [1, 'TechWear', 5000, 'confirmed', 'Deliverables: 2 videos'],
+    [1, 'GamerFuel', 2800, 'completed', 'Paid'],
+    [1, 'StyleLab', 1900, 'completed', 'Paid'],
   ]
   for (const s of sponsors) seedSponsors.run(...s)
 }
 
 const affCount = db.prepare('SELECT COUNT(*) as count FROM affiliates').get()
 if (affCount.count === 0) {
-  const seedAff = db.prepare('INSERT INTO affiliates (program, commission, clicks, conversions, revenue, trend) VALUES (?, ?, ?, ?, ?, ?)')
+  const seedAff = db.prepare('INSERT INTO affiliates (user_id, program, commission, clicks, conversions, revenue, trend) VALUES (?, ?, ?, ?, ?, ?, ?)')
   const affiliates = [
-    ['TechGear Pro', '15%', 4200, 142, 1860, '+12%'],
-    ['Creative Cloud', '8%', 3100, 89, 890, '+5%'],
-    ['SkillMaster', '30%', 2800, 67, 720, '-2%'],
-    ['HostFast', '$50 flat', 5400, 13, 650, '+18%'],
+    [1, 'TechGear Pro', '15%', 4200, 142, 1860, '+12%'],
+    [1, 'Creative Cloud', '8%', 3100, 89, 890, '+5%'],
+    [1, 'SkillMaster', '30%', 2800, 67, 720, '-2%'],
+    [1, 'HostFast', '$50 flat', 5400, 13, 650, '+18%'],
   ]
   for (const a of affiliates) seedAff.run(...a)
 }
 
 const leadCount = db.prepare('SELECT COUNT(*) as count FROM leads').get()
 if (leadCount.count === 0) {
-  const seedLead = db.prepare('INSERT INTO leads (name, email, source) VALUES (?, ?, ?)')
+  const seedLead = db.prepare('INSERT INTO leads (user_id, name, email, source) VALUES (?, ?, ?, ?)')
   const leads = [
-    ['Sarah Chen', 'sarah@studio.co', 'Landing Page'],
-    ['Marcus Webb', 'marcus@webb.media', 'YouTube Bio'],
-    ['Priya Patel', 'priya@create.io', 'Newsletter CTA'],
-    ['James Kim', 'james@kim.studio', 'Landing Page'],
-    ['Olivia Ruiz', 'olivia@ruiz.art', 'Instagram Link'],
+    [1, 'Sarah Chen', 'sarah@studio.co', 'Landing Page'],
+    [1, 'Marcus Webb', 'marcus@webb.media', 'YouTube Bio'],
+    [1, 'Priya Patel', 'priya@create.io', 'Newsletter CTA'],
+    [1, 'James Kim', 'james@kim.studio', 'Landing Page'],
+    [1, 'Olivia Ruiz', 'olivia@ruiz.art', 'Instagram Link'],
   ]
   for (const l of leads) seedLead.run(...l)
 }
 
 const prodCount = db.prepare('SELECT COUNT(*) as count FROM products').get()
 if (prodCount.count === 0) {
-  const seedProd = db.prepare('INSERT INTO products (title, type, price, sales, revenue, trend) VALUES (?, ?, ?, ?, ?, ?)')
+  const seedProd = db.prepare('INSERT INTO products (user_id, title, type, price, sales, revenue, trend) VALUES (?, ?, ?, ?, ?, ?, ?)')
   const products = [
-    ['Creator Template Pack', 'Templates', 29, 142, 4118, '+8%'],
-    ['Video Editing Presets', 'Presets', 19, 89, 1691, '+15%'],
-    ['Brand Deal Playbook', 'Guide', 49, 56, 2744, '+22%'],
+    [1, 'Creator Template Pack', 'Templates', 29, 142, 4118, '+8%'],
+    [1, 'Video Editing Presets', 'Presets', 19, 89, 1691, '+15%'],
+    [1, 'Brand Deal Playbook', 'Guide', 49, 56, 2744, '+22%'],
   ]
   for (const p of products) seedProd.run(...p)
 }
 
 const brandCount = db.prepare('SELECT COUNT(*) as count FROM brand_settings').get()
 if (brandCount.count === 0) {
-  db.prepare('INSERT INTO brand_settings DEFAULT VALUES').run()
+  db.prepare('INSERT INTO brand_settings (user_id) VALUES (1)').run()
 }
 
 const ideaCount = db.prepare('SELECT COUNT(*) as count FROM content_ideas').get()
 if (ideaCount.count === 0) {
-  const seedIdea = db.prepare('INSERT INTO content_ideas (title, format, score, reason) VALUES (?, ?, ?, ?)')
+  const seedIdea = db.prepare('INSERT INTO content_ideas (user_id, title, format, score, reason) VALUES (?, ?, ?, ?, ?)')
   const ideas = [
-    ['How I Made $5K From One Brand Deal', 'YouTube Video', 92, 'Topical + monetization angle'],
-    ['My Exact Affiliate Stack (Free Tools)', 'Blog / Newsletter', 88, 'Evergreen + affiliate potential'],
-    ['Pricing Tier: When to Charge More', 'Thread / Carousel', 85, 'High save & share rate'],
-    ['Behind the Scenes: Sponsor Negotiation', 'Short-form Video', 90, 'Trending format + authenticity'],
+    [1, 'How I Made $5K From One Brand Deal', 'YouTube Video', 92, 'Topical + monetization angle'],
+    [1, 'My Exact Affiliate Stack (Free Tools)', 'Blog / Newsletter', 88, 'Evergreen + affiliate potential'],
+    [1, 'Pricing Tier: When to Charge More', 'Thread / Carousel', 85, 'High save & share rate'],
+    [1, 'Behind the Scenes: Sponsor Negotiation', 'Short-form Video', 90, 'Trending format + authenticity'],
   ]
   for (const i of ideas) seedIdea.run(...i)
 }

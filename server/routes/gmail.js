@@ -507,18 +507,6 @@ router.get('/sponsorships', async (req, res) => {
       return res.json(result)
     }
 
-    // Fetch message details (batch — up to 10 at a time to avoid huge requests)
-    const emails = []
-    const batchSize = 10
-    for (let i = 0; i < messageIds.length; i += batchSize) {
-      const batch = messageIds.slice(i, i + batchSize)
-      const detailRes = await fetch(
-        `https://gmail.googleapis.com/gmail/v1/users/me/messages/${batch[0]}?format=metadata&metadataHeaders=From&metadataHeaders=Subject&metadataHeaders=Date`,
-        { headers: { Authorization: `Bearer ${accessToken}` } }
-      )
-      // For simplicity, fetch each individually
-    }
-
     // Fetch message details individually for better control
     for (const msgId of messageIds.slice(0, 30)) {
       try {

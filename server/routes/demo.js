@@ -67,33 +67,45 @@ function seedDemoData(userId) {
   for (const p of products) seedProd.run(...p)
 
   // ── Brand Kit (via brand_settings) ──
-  // brand_settings is a singleton table — update it with demo-branded data
-  db.prepare(`UPDATE brand_settings SET
-    primary_color = '#6366F1',
-    accent_color = '#F59E0B',
-    neutral_color = '#0F172A',
-    pillars = ?,
-    tone = ?,
-    audience = ?,
-    health_score = 82
-  WHERE id = 1`).run(
-    JSON.stringify(['Tech & Lifestyle', 'Creator Economy', 'Product Reviews', 'Tutorials', 'Behind the Scenes']),
-    JSON.stringify(['Educational', 'Authentic', 'Inspirational', 'Humorous', 'Professional']),
-    JSON.stringify(['Aspiring Creators', 'Freelancers', 'Small Business', 'Tech Enthusiasts'])
-  )
+  // Upsert brand_settings for this user
+  const existing = db.prepare('SELECT id FROM brand_settings WHERE user_id = ?').get(userId)
+  if (existing) {
+    db.prepare(`UPDATE brand_settings SET
+      primary_color = '#6366F1',
+      accent_color = '#F59E0B',
+      neutral_color = '#0F172A',
+      pillars = ?,
+      tone = ?,
+      audience = ?,
+      health_score = 82
+    WHERE user_id = ?`).run(
+      JSON.stringify(['Tech & Lifestyle', 'Creator Economy', 'Product Reviews', 'Tutorials', 'Behind the Scenes']),
+      JSON.stringify(['Educational', 'Authentic', 'Inspirational', 'Humorous', 'Professional']),
+      JSON.stringify(['Aspiring Creators', 'Freelancers', 'Small Business', 'Tech Enthusiasts']),
+      userId
+    )
+  } else {
+    db.prepare(`INSERT INTO brand_settings (user_id, primary_color, accent_color, neutral_color, pillars, tone, audience, health_score)
+      VALUES (?, '#6366F1', '#F59E0B', '#0F172A', ?, ?, ?, 82)`).run(
+      userId,
+      JSON.stringify(['Tech & Lifestyle', 'Creator Economy', 'Product Reviews', 'Tutorials', 'Behind the Scenes']),
+      JSON.stringify(['Educational', 'Authentic', 'Inspirational', 'Humorous', 'Professional']),
+      JSON.stringify(['Aspiring Creators', 'Freelancers', 'Small Business', 'Tech Enthusiasts'])
+    )
+  }
 
   // Re-seed content ideas for the demo
-  db.prepare('DELETE FROM content_ideas').run()
-  const seedIdea = db.prepare('INSERT INTO content_ideas (title, format, score, reason) VALUES (?, ?, ?, ?)')
+  db.prepare('DELETE FROM content_ideas WHERE user_id = ?').run(userId)
+  const seedIdea = db.prepare('INSERT INTO content_ideas (user_id, title, format, score, reason) VALUES (?, ?, ?, ?, ?)')
   const ideas = [
-    ['My $12K/Month Sponsorship Stack (Full Breakdown)', 'YouTube Video', 94, 'Topical + monetization angle'],
-    ['How I Landed Nike as a 50K Creator', 'Short-form Video', 91, 'High share potential'],
-    ['Affiliate Programs That Pay 20%+ Commissions', 'Blog / Newsletter', 88, 'Evergreen + affiliate potential'],
-    ['Pricing Tier: When to Charge More', 'Thread / Carousel', 85, 'High save & share rate'],
-    ['Behind the Scenes: Negotiating a $5K Brand Deal', 'Short-form Video', 90, 'Trending format + authenticity'],
-    ['My Exact Content Calendar System', 'Templates', 87, 'Lead magnet potential'],
-    ['Creator Tools I Can\'t Live Without in 2026', 'YouTube Video', 83, 'Affiliate linking opportunity'],
-    ['How to Turn 1 Video into 5 Income Streams', 'Thread / Carousel', 89, 'Monetization focus'],
+    [userId, 'My $12K/Month Sponsorship Stack (Full Breakdown)', 'YouTube Video', 94, 'Topical + monetization angle'],
+    [userId, 'How I Landed Nike as a 50K Creator', 'Short-form Video', 91, 'High share potential'],
+    [userId, 'Affiliate Programs That Pay 20%+ Commissions', 'Blog / Newsletter', 88, 'Evergreen + affiliate potential'],
+    [userId, 'Pricing Tier: When to Charge More', 'Thread / Carousel', 85, 'High save & share rate'],
+    [userId, 'Behind the Scenes: Negotiating a $5K Brand Deal', 'Short-form Video', 90, 'Trending format + authenticity'],
+    [userId, 'My Exact Content Calendar System', 'Templates', 87, 'Lead magnet potential'],
+    [userId, 'Creator Tools I Can\'t Live Without in 2026', 'YouTube Video', 83, 'Affiliate linking opportunity'],
+    [userId, 'How to Turn 1 Video into 5 Income Streams', 'Thread / Carousel', 89, 'Monetization focus'],
   ]
   for (const i of ideas) seedIdea.run(...i)
   }
