@@ -143,36 +143,20 @@ export default function OpportunityFeed({ onNavigate }) {
                 🌟
               </div>
               <h3 className="font-display text-xl font-semibold text-surface-100 mb-2">Your opportunity engine is warming up</h3>
-              <p className="text-surface-400 text-sm max-w-md mx-auto mb-6 leading-relaxed">
-                Let's find your first brand matches. Connect Instagram or YouTube so CreatorBloom can analyze your audience and recommend companies that fit your niche.
+              <p className="text-surface-400 text-sm max-w-md mx-auto mb-3 leading-relaxed">
+                Once your accounts are connected, CreatorBloom will surface:
               </p>
-              <p className="text-sm text-surface-400 mb-3 font-medium">Once connected, CreatorBloom will surface:</p>
-              <div className="inline-flex flex-col gap-2 text-left mb-6">
+              <div className="inline-flex flex-col gap-2 text-left mb-2">
                 {[
-                  { icon: '🤝', text: 'Brand opportunities tailored to your audience' },
-                  { icon: '💰', text: 'Affiliate products your followers will love' },
-                  { icon: '🔥', text: 'Trending content ideas in your niche' },
-                  { icon: '📅', text: 'Seasonal campaigns and timely partnerships' },
+                  '✓ Brand opportunities',
+                  '✓ Affiliate products',
+                  '✓ Trending content ideas',
+                  '✓ Seasonal campaigns',
                 ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-2.5 text-sm text-surface-300">
-                    <span className="text-base shrink-0">{item.icon}</span>
-                    <span>{item.text}</span>
+                  <div key={i} className="text-sm text-surface-300">
+                    {item}
                   </div>
                 ))}
-              </div>
-              <div className="flex flex-wrap gap-3 justify-center">
-                <button
-                  onClick={() => onNavigate && onNavigate('meta')}
-                  className="px-5 py-2.5 text-sm font-semibold rounded-xl transition-all duration-200 active:scale-95 text-white bg-gradient-to-r from-purple-600 to-rose-600 hover:from-purple-500 hover:to-rose-500 shadow-lg shadow-purple-600/25"
-                >
-                  Connect Instagram
-                </button>
-                <button
-                  onClick={() => onNavigate && onNavigate('youtube')}
-                  className="px-5 py-2.5 text-sm font-semibold rounded-xl transition-all duration-200 active:scale-95 text-white bg-red-600 hover:bg-red-500 shadow-lg shadow-red-600/25"
-                >
-                  Connect YouTube
-                </button>
               </div>
             </>
           )}

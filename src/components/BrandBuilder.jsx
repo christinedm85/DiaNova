@@ -230,6 +230,33 @@ export default function BrandBuilder({ onNavigate }) {
           </div>
         </div>
       </div>
+
+      {/* Brand Match Encouragement — show when no integrations connected */}
+      {!integrationStatuses.instagram && !integrationStatuses.youtube && (
+        <div className="glass p-8 text-center">
+          <div className="w-16 h-16 rounded-2xl bg-surface-800/70 border border-surface-700/30 flex items-center justify-center mx-auto mb-5 text-2xl">
+            🤝
+          </div>
+          <h3 className="font-display text-xl font-semibold text-surface-100 mb-2">Let's find your first brand matches</h3>
+          <p className="text-surface-400 text-sm max-w-md mx-auto mb-6 leading-relaxed">
+            Connect Instagram or YouTube so CreatorBloom can analyze your audience and recommend companies that fit your niche.
+          </p>
+          <div className="flex flex-wrap gap-3 justify-center">
+            <button
+              onClick={() => onNavigate && onNavigate('meta')}
+              className="px-5 py-2.5 text-sm font-semibold rounded-xl transition-all duration-200 active:scale-95 text-white bg-gradient-to-r from-purple-600 to-rose-600 hover:from-purple-500 hover:to-rose-500 shadow-lg shadow-purple-600/25"
+            >
+              Connect Instagram
+            </button>
+            <button
+              onClick={() => onNavigate && onNavigate('youtube')}
+              className="px-5 py-2.5 text-sm font-semibold rounded-xl transition-all duration-200 active:scale-95 text-white bg-red-600 hover:bg-red-500 shadow-lg shadow-red-600/25"
+            >
+              Connect YouTube
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
