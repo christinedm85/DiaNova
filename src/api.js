@@ -148,4 +148,11 @@ export const api = {
     disconnect: () => request('/integrations/meta/disconnect', { method: 'DELETE' }),
     clearCache: () => request('/integrations/meta/clear-cache', { method: 'POST' }),
   },
+
+  tiktok: {
+    status: () => request('/integrations/tiktok/status'),
+    stats: () => request('/integrations/tiktok/stats'),
+    disconnect: () => request('/integrations/tiktok/disconnect', { method: 'DELETE' }),
+    clearCache: () => request('/integrations/tiktok/clear-cache', { method: 'POST' }),
+  },
 }
