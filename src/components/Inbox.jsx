@@ -114,7 +114,7 @@ export default function Inbox() {
               <EmptyState
                 icon="📧"
                 title={inboxEmpty ? 'No messages yet' : 'No sent emails yet'}
-                description={inboxEmpty ? "When someone replies, they'll appear here." : "Send your first message to get started."}
+                description={inboxEmpty ? "Your inbox is empty. When brands reply to your outreach, their messages will show up right here. 📬" : "Send your first message to get started."}
                 action={inboxEmpty ? undefined : () => setTab('compose')}
                 actionLabel={inboxEmpty ? undefined : 'Compose email'}
               />

@@ -39,7 +39,7 @@ export default function BillingPage() {
         window.location.href = data.url
       }
     } catch {
-      addToast('Something went wrong', 'error')
+      addToast("Oops! Something didn't go as planned. Let's try that again.", 'error')
     } finally {
       setActionLoading(null)
     }
@@ -51,9 +51,9 @@ export default function BillingPage() {
       await fetch('/api/billing/cancel', { method: 'POST', headers: getHeaders() })
       const refresh = await fetch('/api/billing/my-plan', { headers: getHeaders() }).then(r => r.json())
       setMyPlan(refresh)
-      addToast('Downgraded to Free plan', 'success')
+      addToast("You've moved to the Free plan. We'll be here when you're ready to level up! 💫", 'success')
     } catch {
-      addToast('Failed to cancel', 'error')
+      addToast("We couldn't process that cancellation. Mind giving it another try?", 'error')
     } finally {
       setActionLoading(null)
     }
@@ -149,7 +149,7 @@ export default function BillingPage() {
                 const res = await fetch('/api/billing/portal', { method: 'POST', headers: getHeaders() })
                 const data = await res.json()
                 if (data.url) window.location.href = data.url
-              } catch { addToast('Portal unavailable', 'error') }
+              } catch { addToast('The billing portal is taking a quick break. Try again in a moment? ☕', 'error') }
             }}
             className="px-4 py-2 text-sm font-medium bg-surface-800 hover:bg-surface-700 text-surface-200 rounded-xl transition-colors"
           >

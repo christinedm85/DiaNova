@@ -110,14 +110,21 @@ export default function Leads({ onNavigate }) {
               </div>
             ))}
             {leads.length === 0 && (
-              <EmptyState
-                icon="📧"
-                title="No leads in your funnel yet"
-                description="Opportunities appear here when brands reach out. Check your Opportunity Feed for active deals."
-                action={() => onNavigate && onNavigate('opportunities')}
-                actionLabel="Browse Opportunities"
-                color="blue"
-              />
+              <>
+                <EmptyState
+                  icon="📧"
+                  title="No leads in your funnel yet"
+                  description="Opportunities appear here when brands reach out. Check your Opportunity Feed for active deals."
+                  action={() => onNavigate && onNavigate('opportunities')}
+                  actionLabel="Browse Opportunities"
+                  color="blue"
+                />
+                <div className="glass p-4 mt-4 border border-violet-500/20 bg-violet-500/5">
+                  <p className="text-sm text-surface-300 leading-relaxed">
+                    💡 <span className="font-medium text-violet-400">AI Suggestion:</span> Connect Instagram to begin discovering brands that match your audience.
+                  </p>
+                </div>
+              </>
             )}
           </div>
         </div>

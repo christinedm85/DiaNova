@@ -70,7 +70,7 @@ export default function Sponsorships({ onNavigate }) {
     await api.sponsorships.remove(confirm.id)
     setConfirm(null)
     fetchPipeline()
-    addToast(`${confirm.name} deleted`, 'error')
+    addToast(`"${confirm.name}" has been removed from your pipeline.`, 'error')
   }
 
   if (!pipeline) {

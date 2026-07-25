@@ -82,6 +82,9 @@ export default function TeamPage() {
     <div className="page-enter space-y-10 max-w-6xl">
       <div>
         <h2 className="font-display text-3xl font-bold text-surface-50">Team</h2>
+        <p className="text-sm text-surface-400 mt-2 leading-relaxed max-w-2xl">
+          Collaborate with managers, assistants, or agency partners while keeping your creator business organized.
+        </p>
         <p className="text-sm text-surface-500 mt-1">Invite collaborators to share your pipeline, leads, and products.</p>
       </div>
 

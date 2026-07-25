@@ -1164,7 +1164,7 @@ function AIBrief({ forecast, insights, monthlyRevenue, pipelinePotential, follow
                 <span className="text-xs font-medium text-surface-400 uppercase tracking-wider shrink-0">
                   {row.label}
                 </span>
-                <span className={`text-sm font-semibold ${row.accent.valueColor} truncate text-right`}>
+                <span className={`${i === 0 ? 'text-xl font-bold' : 'text-sm font-semibold'} ${row.accent.valueColor} truncate text-right`}>
                   {row.value}
                   {row.suffix}
                 </span>
@@ -1172,6 +1172,8 @@ function AIBrief({ forecast, insights, monthlyRevenue, pipelinePotential, follow
 
               {/* ── Status dot ──────────────────────── */}
               <div className={`w-2 h-2 rounded-full ${row.accent.dot} shrink-0 ${
+                i === 0 ? 'w-3 h-3' : ''
+              } ${
                 row.urgent ? "animate-pulse" : ""
               }`} />
             </div>

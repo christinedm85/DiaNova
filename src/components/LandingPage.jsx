@@ -261,6 +261,9 @@ export default function LandingPage({ onGetStarted, onLogin }) {
                 {accessError && (
                   <p className="text-red-400 text-sm mt-2 text-center">{accessError}</p>
                 )}
+                <p className="text-surface-500 text-xs mt-3 text-center leading-relaxed">
+                  Request demo credentials or use the guided demo to explore CreatorBloom.
+                </p>
               </div>
               <div className="flex gap-3">
                 <button
