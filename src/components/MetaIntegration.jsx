@@ -88,9 +88,26 @@ export default function MetaIntegration() {
             </svg>
           </div>
           <h3 className="text-lg font-semibold text-surface-100 mb-2">Meta API Not Configured</h3>
-          <p className="text-surface-400 text-sm max-w-md mx-auto">
+          <p className="text-surface-400 text-sm max-w-md mx-auto mb-6">
             Set <code className="text-accent-400 bg-surface-800 px-1 rounded">META_APP_ID</code> and <code className="text-accent-400 bg-surface-800 px-1 rounded">META_APP_SECRET</code> in your server environment to enable Meta integration.
           </p>
+          <button
+            onClick={handleConnect}
+            disabled={connecting}
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-rose-600 hover:from-purple-700 hover:to-rose-700 text-white font-semibold transition-colors disabled:opacity-50"
+          >
+            {connecting ? (
+              <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+            ) : (
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                <circle cx="8.5" cy="12" r="2.5" fill="#1e293b"/>
+                <path d="M16 9a4 4 0 0 0-4 4v4" fill="none" stroke="#1e293b" strokeWidth="2"/>
+                <path d="M16 15a2 2 0 1 0 0-4" fill="#1e293b"/>
+              </svg>
+            )}
+            {connecting ? 'Connecting...' : 'Connect Instagram & Facebook'}
+          </button>
         </div>
 
         {/* Always show mock stats for demo/development */}

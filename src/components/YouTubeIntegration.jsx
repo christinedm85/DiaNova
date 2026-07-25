@@ -97,9 +97,21 @@ export default function YouTubeIntegration() {
             </svg>
           </div>
           <h3 className="text-lg font-semibold text-surface-100 mb-2">Google API Not Configured</h3>
-          <p className="text-surface-400 text-sm max-w-md mx-auto">
+          <p className="text-surface-400 text-sm max-w-md mx-auto mb-6">
             Set <code className="text-accent-400 bg-surface-800 px-1 rounded">GOOGLE_CLIENT_ID</code> and <code className="text-accent-400 bg-surface-800 px-1 rounded">GOOGLE_CLIENT_SECRET</code> in your server environment to enable YouTube integration.
           </p>
+          <button
+            onClick={handleConnect}
+            disabled={connecting}
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-semibold transition-colors disabled:opacity-50"
+          >
+            {connecting ? (
+              <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+            ) : (
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29.94 29.94 0 0 0 1 12a29.94 29.94 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.94 2C5.12 20 12 20 12 20s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2A29.94 29.94 0 0 0 23 12a29.94 29.94 0 0 0-.46-5.58z"/><polygon fill="#1e293b" points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
+            )}
+            {connecting ? 'Connecting...' : 'Connect YouTube'}
+          </button>
         </div>
 
         {/* Always show mock stats for demo/development */}
