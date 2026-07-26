@@ -64,6 +64,7 @@ export default function App() {
   const [showSalesTour, setShowSalesTour] = useState(false)
   const [showAskBloom, setShowAskBloom] = useState(false)
   const [askBloomQuestion, setAskBloomQuestion] = useState(null)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   useEffect(() => {
     if (user && user.onboarding_complete === 0) {
@@ -131,12 +132,50 @@ export default function App() {
     setShowAskBloom(true)
   }
 
+  const handleNavigate = (section) => {
+    setActive(section)
+    setSidebarOpen(false)
+  }
+
   return (
     <div className="flex h-screen overflow-hidden">
-      <Sidebar active={active} onSelect={setActive} sections={visibleSections} user={user} onLogout={logout} onProfile={() => setActive('profile')} onTourRestart={() => setShowSalesTour(true)} onAskBloom={() => handleOpenAskBloom(null)} sectionStyles={sectionStyles} />
-      <main className="flex-1 overflow-y-auto p-10">
+      {/* Mobile overlay */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      {/* Hamburger button — mobile only */}
+      <button
+        onClick={() => setSidebarOpen(true)}
+        className="lg:hidden fixed top-4 left-4 z-30 w-10 h-10 flex items-center justify-center rounded-xl bg-surface-800 border border-surface-700/50 text-surface-300 hover:text-surface-100 transition-colors"
+        aria-label="Open menu"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+      </button>
+
+      <Sidebar
+        active={active}
+        onSelect={handleNavigate}
+        sections={visibleSections}
+        user={user}
+        onLogout={logout}
+        onProfile={() => handleNavigate('profile')}
+        onTourRestart={() => setShowSalesTour(true)}
+        onAskBloom={() => handleOpenAskBloom(null)}
+        sectionStyles={sectionStyles}
+        sidebarOpen={sidebarOpen}
+        onToggle={() => setSidebarOpen(false)}
+      />
+      <main className="flex-1 overflow-y-auto p-6 lg:p-10 pt-16 lg:pt-10">
         <div className="max-w-6xl mx-auto" key={active}>
-          <Component onNavigate={setActive} onOpenAskBloom={handleOpenAskBloom} />
+          <Component onNavigate={handleNavigate} onOpenAskBloom={handleOpenAskBloom} />
         </div>
       </main>
       {showOnboarding && <Onboarding onComplete={() => setShowOnboarding(false)} />}

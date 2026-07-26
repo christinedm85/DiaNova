@@ -68,8 +68,15 @@ export function AuthProvider({ children }) {
     setUser(null)
   }, [])
 
+  const getHeaders = useCallback(() => {
+    const token = localStorage.getItem('token')
+    const headers = { 'Content-Type': 'application/json' }
+    if (token) headers['Authorization'] = `Bearer ${token}`
+    return headers
+  }, [])
+
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, verifyEmail, resendVerification, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, register, verifyEmail, resendVerification, logout, getHeaders }}>
       {children}
     </AuthContext.Provider>
   )

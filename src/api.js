@@ -174,4 +174,11 @@ export const api = {
     disconnect: () => request('/integrations/gmail/disconnect', { method: 'DELETE' }),
     clearCache: () => request('/integrations/gmail/clear-cache', { method: 'POST' }),
   },
+
+  email: {
+    sent: () => request('/email/sent'),
+    inbox: () => request('/email/inbox'),
+    send: (data) => request('/email/sent', { method: 'POST', body: JSON.stringify(data) }),
+    markRead: (id) => request(`/email/inbox/${id}/read`, { method: 'PUT' }),
+  },
 }
