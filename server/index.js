@@ -6,7 +6,7 @@ import { fileURLToPath } from 'url'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 try {
-  const envFile = readFileSync(resolve(__dirname, '.env'), 'utf8')
+  const envFile = readFileSync(resolve(__dirname, '..', '.env'), 'utf8')
   for (const line of envFile.split('\n')) {
     const trimmed = line.trim()
     if (trimmed && !trimmed.startsWith('#')) {
