@@ -848,17 +848,14 @@ export default function Dashboard({ onNavigate, onOpenAskBloom }) {
                     </BarChart>
                   </ResponsiveContainer>
                 ) : (
-                  <div className="flex flex-col items-center py-4">
-                    <div className="w-full h-[200px] flex items-center justify-center opacity-20 relative">
-                      <div className="absolute inset-0 flex items-end justify-around px-8 pb-4">
-                        <div className="w-12 bg-blue-400/50 rounded-t-md" style={{ height: '30%' }} />
-                        <div className="w-12 bg-emerald-400/50 rounded-t-md" style={{ height: '50%' }} />
-                        <div className="w-12 bg-amber-400/50 rounded-t-md" style={{ height: '40%' }} />
-                        <div className="w-12 bg-violet-400/50 rounded-t-md" style={{ height: '20%' }} />
-                      </div>
+                  <div className="flex flex-col items-center py-6">
+                    <div className="w-full h-[200px] flex items-end justify-around px-8 pb-4 gap-4">
+                      {[30, 55, 40, 65, 25, 45, 35].map((h, i) => (
+                        <div key={i} className="flex-1 max-w-14 rounded-t-md animate-pulse bg-surface-700/50" style={{ height: `${h}%`, animationDelay: `${i * 150}ms` }} />
+                      ))}
                     </div>
                     <p className="text-sm text-surface-400 mt-3 text-center">
-                      💡 Ready to land your first brand deal? Track every opportunity here and never let a follow-up slip.
+                      Connect your first deal to see pipeline trends. Every opportunity tracked here brings you closer to your next sponsorship win. 📈
                     </p>
                     <button
                       onClick={() => onNavigate && onNavigate('gmail')}

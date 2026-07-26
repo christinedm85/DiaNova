@@ -204,8 +204,8 @@ export default function Sponsorships({ onNavigate }) {
           <MediaKitStat label="Audience Demo" value="18-34 / 62% M" />
         </div>
         <div className="mt-4 flex gap-3">
-          <button className="px-4 py-2 text-sm font-medium bg-surface-800 hover:bg-surface-700 text-surface-200 rounded-xl transition-colors">Edit Media Kit</button>
-          <button className="px-4 py-2 text-sm font-medium bg-accent-600/15 hover:bg-accent-600/25 text-accent-400 rounded-xl transition-colors">Download as PDF</button>
+          <button onClick={() => alert('Media Kit editor coming soon! 🚀')} className="px-4 py-2 text-sm font-medium bg-surface-800 hover:bg-surface-700 text-surface-200 rounded-xl transition-colors">Edit Media Kit</button>
+          <button onClick={() => alert('PDF export coming soon! 📄')} className="px-4 py-2 text-sm font-medium bg-accent-600/15 hover:bg-accent-600/25 text-accent-400 rounded-xl transition-colors">Download as PDF</button>
         </div>
       </div>
       <AIPanel show={showAI} onClose={() => setShowAI(false)} />

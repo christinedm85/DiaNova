@@ -25,7 +25,7 @@ export default function Affiliates({ onNavigate }) {
           <h2 className="font-display text-3xl font-bold text-surface-50">Passive Income Streams 💸</h2>
           <p className="text-surface-400 mt-1">Turn your recommendations into revenue. Every link tells a story — make it a profitable one.</p>
         </div>
-        <button className="px-5 py-2.5 bg-amber-500 hover:bg-amber-400 text-surface-950 text-sm font-bold rounded-xl transition-all duration-200 shadow-lg shadow-amber-500/25">
+        <button onClick={() => alert('Affiliate program builder coming soon! ✨')} className="px-5 py-2.5 bg-amber-500 hover:bg-amber-400 text-surface-950 text-sm font-bold rounded-xl transition-all duration-200 shadow-lg shadow-amber-500/25">
           + Add Program
         </button>
       </div>
