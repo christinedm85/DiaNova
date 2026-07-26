@@ -84,10 +84,10 @@ export default function BrandBuilder({ onNavigate }) {
         <p className="text-surface-400 mt-1">Build an identity that premium sponsors can't ignore.</p>
       </div>
 
-      {brand.health_score < 40 && (
+      {(brand?.health_score || 0) < 40 && (
         <EmptyState
           icon="🎨"
-          title={`Your brand kit is at ${brand.health_score}%`}
+          title={`Your brand kit is at ${brand?.health_score || 0}%`}
           description="Every 10 points on your brand score = 15% higher sponsor rates on average. Let's get those numbers up! ⬆️"
           action={() => document.getElementById('sales-tour-brand')?.scrollIntoView({ behavior: 'smooth' })}
           actionLabel="Boost Your Brand Score"

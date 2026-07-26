@@ -44,6 +44,8 @@ export default function Products({ onNavigate }) {
     Templates: { bg: 'bg-accent-500/10', text: 'text-accent-400' },
     Presets: { bg: 'bg-amber-400/10', text: 'text-amber-400' },
     Guide: { bg: 'bg-rose-400/10', text: 'text-rose-400' },
+    Course: { bg: 'bg-violet-400/10', text: 'text-violet-400' },
+    Toolkit: { bg: 'bg-sky-400/10', text: 'text-sky-400' },
   }
 
   return (

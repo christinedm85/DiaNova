@@ -262,8 +262,6 @@ export default function CreatorCalendar({ onNavigate }) {
           {DAYS.map((dayName, idx) => {
             const dayEvents = weekEvents[idx]?.events || []
             const date = dates[idx]
-            const isToday = isCurrentWeek && new Date().getDay() === (idx + 1) % 7 // getDay: 0=Sun → our idx: 0=Mon
-            // Actually need to compare properly
             const today = new Date()
             const isDateToday = isCurrentWeek &&
               date.getDate() === today.getDate() &&
