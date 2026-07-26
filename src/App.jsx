@@ -26,6 +26,7 @@ import IntelligencePage from './components/IntelligencePage.jsx'
 import AdminDashboard from './components/AdminDashboard.jsx'
 import SalesTour from './components/SalesTour.jsx'
 import AskBloom from './components/AskBloom.jsx'
+import CreatorCalendar from './components/CreatorCalendar.jsx'
 import YouTubeIntegration from './components/YouTubeIntegration.jsx'
 import MetaIntegration from './components/MetaIntegration.jsx'
 import TikTokIntegration from './components/TikTokIntegration.jsx'
@@ -34,6 +35,7 @@ import GmailIntegration from './components/GmailIntegration.jsx'
 
 const SECTIONS = {
   dashboard: { label: 'Dashboard', icon: (props) => <SectionIcon section="dashboard" {...props} />, component: Dashboard },
+  calendar: { label: 'Calendar 📅', icon: (props) => <SectionIcon section="calendar" {...props} />, component: CreatorCalendar, group: 'main' },
   intelligence: { label: 'Intelligence 🌸', icon: (props) => <SectionIcon section="intelligence" {...props} />, component: IntelligencePage },
   sponsorships: { label: 'Your Deal Flow 💼', icon: (props) => <SectionIcon section="sponsorships" {...props} />, component: Sponsorships },
   affiliates: { label: 'Passive Income 💸', icon: (props) => <SectionIcon section="affiliates" {...props} />, component: Affiliates },
@@ -167,6 +169,7 @@ export default function App() {
 // Section color mapping for sidebar icons
 const sectionStyles = {
   dashboard: { active: '#a78bfa', label: 'violet' },        // AI Brief
+  calendar: { active: '#818cf8', label: 'accent' },          // Calendar
   intelligence: { active: '#f472b6', label: 'pink' },         // Intelligence
   sponsorships: { active: '#34d399', label: 'emerald' },    // Revenue
   affiliates: { active: '#34d399', label: 'emerald' },      // Revenue
@@ -197,6 +200,15 @@ function SectionIcon({ section, active }) {
           <rect x="14" y="3" width="7" height="5" rx="1" />
           <rect x="14" y="12" width="7" height="9" rx="1" />
           <rect x="3" y="16" width="7" height="5" rx="1" />
+        </svg>
+      )
+    case 'calendar':
+      return (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+          <line x1="16" y1="2" x2="16" y2="6" />
+          <line x1="8" y1="2" x2="8" y2="6" />
+          <line x1="3" y1="10" x2="21" y2="10" />
         </svg>
       )
     case 'intelligence':
