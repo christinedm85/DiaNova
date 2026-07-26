@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { api } from '../api.js'
 import { useAuth } from '../AuthContext.jsx'
 import AIPanel from './AIPanel.jsx'
+import BloomBrief from './BloomBrief.jsx'
 import useCountUp from '../hooks/useCountUp.js'
 import {
   PieChart, Pie, Cell, ResponsiveContainer, Tooltip,
@@ -140,10 +141,12 @@ export default function Dashboard({ onNavigate }) {
   const [tiktokStatus, setTiktokStatus] = useState(null)
   const [monetizationStatus, setMonetizationStatus] = useState(null)
   const [showAI, setShowAI] = useState(false)
+  const [aiTab, setAiTab] = useState(null)
   const [showDetails, setShowDetails] = useState(false)
   const [dismissDemo, setDismissDemo] = useState(false)
   const [animateChart, setAnimateChart] = useState(false)
   const [animateProgress, setAnimateProgress] = useState(false)
+  const [sponsorshipData, setSponsorshipData] = useState(null)
 
   const isDemoUser = user?.email?.includes('demo')
 
@@ -164,11 +167,16 @@ export default function Dashboard({ onNavigate }) {
         console.error('Insights fetch failed:', e)
         return null
       }),
+      api.sponsorships.list().catch(e => {
+        console.error('Sponsorships fetch failed:', e)
+        return []
+      }),
     ])
-      .then(([d, t, i]) => {
+      .then(([d, t, i, s]) => {
         setData(d)
         setTrend(t)
         setInsights(i)
+        setSponsorshipData(s)
         setLoading(false)
         // Trigger animations after a brief delay for initial render
         setTimeout(() => setAnimateProgress(true), 100)
@@ -258,9 +266,43 @@ export default function Dashboard({ onNavigate }) {
     followUpsNeeded: hasData ? (insights?.followUpsDue || 0) : '—',
   }
 
-  const todayMission = hasData && insights?.insights?.length > 0
-    ? insights.insights[0]
-    : { message: 'Connect your first social account to unlock personalized growth recommendations.', action: 'Connect Instagram or YouTube' }
+  // ── Bloom Brief derived data ──────────────────────────
+
+  const sponsorships = sponsorshipData || []
+  const highestOpportunity = sponsorships.length > 0
+    ? sponsorships.reduce((best, s) => (s.amount || 0) > (best.amount || 0) ? s : best, sponsorships[0])
+    : null
+  const activeDeals = sponsorships.filter(s => s.status === 'negotiating' || s.status === 'confirmed').length
+  const confirmedDeals = sponsorships.filter(s => s.status === 'confirmed' || s.status === 'completed')
+  const avgDealSize = confirmedDeals.length > 0
+    ? Math.round(confirmedDeals.reduce((sum, s) => sum + (s.amount || 0), 0) / confirmedDeals.length)
+    : 0
+
+  // Health score: computed from data completeness
+  const healthScore = (() => {
+    if (!hasData) return 48
+    let score = 60
+    if (monthly_revenue > 0) score += 8
+    if (activeDeals > 0) score += 6
+    if ((insights?.followUpsDue || 0) === 0) score += 6
+    if (Object.values(pipeline).reduce((a, b) => a + b, 0) > 0) score += 6
+    if (affiliate_revenue > 0) score += 4
+    if (product_sales > 0) score += 4
+    if (sponsorships.length >= 3) score += 6
+    return Math.min(100, score)
+  })()
+
+  // ── Open AI panel with optional tab ─────────────────────
+
+  const handleOpenAI = (toolTab) => {
+    setAiTab(toolTab || null)
+    setShowAI(true)
+  }
+
+  const handleCloseAI = () => {
+    setShowAI(false)
+    setAiTab(null)
+  }
 
   // ── Error state ───────────────────────────────────────
 
@@ -341,23 +383,27 @@ export default function Dashboard({ onNavigate }) {
             </div>
             <button
               id="sales-tour-ai-button"
-              onClick={() => setShowAI(true)}
+              onClick={() => handleOpenAI()}
               className="flex items-center gap-2 px-4 py-2 rounded-xl bg-violet-500/10 text-violet-400 text-sm font-medium hover:bg-violet-500/20 transition-all border border-violet-500/20"
             >
               <span>✨</span> AI Assistant
             </button>
           </div>
 
-          {/* ═══ AI Brief Hero ═══ */}
-          <AIBrief
-            forecast={insights?.forecast}
-            insights={insights?.insights}
+          {/* ═══ Bloom Brief Command Center ═══ */}
+          <BloomBrief
+            greeting={greetingWithFlower}
             monthlyRevenue={monthly_revenue}
-            pipelinePotential={insights?.pipelinePotential}
-            followUpsDue={insights?.followUpsDue}
-            hasInsights={hasInsights}
+            pipelinePotential={insights?.pipelinePotential || 0}
+            followUpsDue={insights?.followUpsDue || 0}
+            activeDeals={activeDeals}
+            avgDealSize={avgDealSize}
+            highestOpportunity={highestOpportunity}
+            healthScore={healthScore}
             hasData={hasData}
+            hasInsights={hasInsights}
             onNavigate={onNavigate}
+            onOpenAI={handleOpenAI}
           />
 
           {/* ═══ Stats Row ═══ */}
@@ -386,37 +432,6 @@ export default function Dashboard({ onNavigate }) {
               color="rose"
               active={hasData}
             />
-          </div>
-
-          {/* ═══ Today's Mission Card ═══ */}
-          <div className="glass p-6 border border-violet-500/25 bg-gradient-to-r from-violet-500/10 to-emerald-500/10">
-            <div className="flex items-start gap-3">
-              <div className="w-10 h-10 rounded-xl bg-violet-500/15 flex items-center justify-center shrink-0 text-xl">
-                🎯
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-xs text-surface-400 font-medium uppercase tracking-wider mb-1">🎯 Your Next Win</p>
-                <p className="text-sm text-surface-200 leading-relaxed">
-                  {todayMission.message || todayMission.text || 'Connect your first social account to unlock personalized growth recommendations.'}
-                </p>
-                {todayMission.action && hasData && (
-                  <button
-                    onClick={() => onNavigate && onNavigate('sponsorships')}
-                    className="mt-3 text-xs font-medium px-3 py-1.5 rounded-lg bg-violet-500/15 text-violet-400 hover:bg-violet-500/25 transition-colors"
-                  >
-                    {todayMission.action} →
-                  </button>
-                )}
-                {!hasData && (
-                  <button
-                    onClick={() => onNavigate && onNavigate('youtube')}
-                    className="mt-3 text-xs font-medium px-3 py-1.5 rounded-lg bg-violet-500/15 text-violet-400 hover:bg-violet-500/25 transition-colors"
-                  >
-                    Connect Instagram or YouTube →
-                  </button>
-                )}
-              </div>
-            </div>
           </div>
 
           {/* ═══ Revenue Snapshot Cards ═══ */}
@@ -873,7 +888,7 @@ export default function Dashboard({ onNavigate }) {
         )}
       </section>
 
-      <AIPanel show={showAI} onClose={() => setShowAI(false)} />
+      <AIPanel show={showAI} onClose={handleCloseAI} initialTab={aiTab} />
     </div>
   )
 }

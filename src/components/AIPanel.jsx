@@ -1,10 +1,29 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { api } from '../api.js'
 
 const TABS = ['Pricing', 'Brand Match', 'Follow-up', 'Ideas', 'Discovery', '🤝 Coach', '📊 Benchmark', '📄 Scan']
 
-export default function AIPanel({ show, onClose }) {
-  const [tab, setTab] = useState(0)
+export default function AIPanel({ show, onClose, initialTab }) {
+  const resolveTabIndex = (tabName) => {
+    if (!tabName) return 0
+    const idx = TABS.findIndex(t => {
+      const l = t.toLowerCase()
+      if (tabName === 'pricing' && l.includes('pricing')) return true
+      if (tabName === 'negotiation' && (l.includes('coach') || l.includes('negotiation'))) return true
+      if (tabName === 'benchmarking' && l.includes('benchmark')) return true
+      return false
+    })
+    return idx >= 0 ? idx : 0
+  }
+  const [tab, setTab] = useState(resolveTabIndex(initialTab))
+
+  useEffect(() => {
+    if (show) {
+      setTab(resolveTabIndex(initialTab))
+      setResult(null)
+      setError(null)
+    }
+  }, [show, initialTab])
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState(null)
   const [error, setError] = useState(null)
