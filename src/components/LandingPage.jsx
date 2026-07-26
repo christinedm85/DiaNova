@@ -129,16 +129,16 @@ export default function LandingPage({ onGetStarted, onLogin }) {
       <section className="max-w-4xl mx-auto px-6 pb-20">
         <div className="glass p-8 grid grid-cols-3 gap-8 text-center">
           <div>
-            <p className="font-display text-3xl font-bold text-emerald-400">$14K+</p>
-            <p className="text-surface-500 text-sm mt-1">Avg. monthly revenue per creator</p>
+            <p className="font-display text-3xl font-bold text-emerald-400">6</p>
+            <p className="text-surface-500 text-sm mt-1">Core business tools, one dashboard</p>
           </div>
           <div>
-            <p className="font-display text-3xl font-bold text-blue-400">2,400+</p>
-            <p className="text-surface-500 text-sm mt-1">Creators on the platform</p>
+            <p className="font-display text-3xl font-bold text-blue-400">All-In-One</p>
+            <p className="text-surface-500 text-sm mt-1">Sponsorships, affiliates, products & more</p>
           </div>
           <div>
-            <p className="font-display text-3xl font-bold text-amber-400">22%</p>
-            <p className="text-surface-500 text-sm mt-1">Average rate increase after joining</p>
+            <p className="font-display text-3xl font-bold text-amber-400">AI-Powered</p>
+            <p className="text-surface-500 text-sm mt-1">Smart pricing, insights & recommendations</p>
           </div>
         </div>
       </section>
@@ -226,9 +226,9 @@ export default function LandingPage({ onGetStarted, onLogin }) {
         <div className="max-w-6xl mx-auto flex items-center justify-between text-sm text-surface-600">
           <p>© 2026 CreatorBloom. All rights reserved.</p>
           <div className="flex gap-6">
-            <span className="hover:text-surface-400 cursor-pointer transition-colors">Privacy</span>
-            <span className="hover:text-surface-400 cursor-pointer transition-colors">Terms</span>
-            <span className="hover:text-surface-400 cursor-pointer transition-colors">Contact</span>
+            <a href="#" className="hover:text-surface-400 cursor-pointer transition-colors">Privacy</a>
+            <a href="#" className="hover:text-surface-400 cursor-pointer transition-colors">Terms</a>
+            <a href="#" className="hover:text-surface-400 cursor-pointer transition-colors">Contact</a>
           </div>
         </div>
       </footer>

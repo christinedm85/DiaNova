@@ -27,6 +27,7 @@ import AdminDashboard from './components/AdminDashboard.jsx'
 import SalesTour from './components/SalesTour.jsx'
 import AskBloom from './components/AskBloom.jsx'
 import CreatorCalendar from './components/CreatorCalendar.jsx'
+import ErrorBoundary from './components/ErrorBoundary.jsx'
 import YouTubeIntegration from './components/YouTubeIntegration.jsx'
 import MetaIntegration from './components/MetaIntegration.jsx'
 import TikTokIntegration from './components/TikTokIntegration.jsx'
@@ -175,7 +176,9 @@ export default function App() {
       />
       <main className="flex-1 overflow-y-auto p-6 lg:p-10 pt-16 lg:pt-10">
         <div className="max-w-6xl mx-auto" key={active}>
-          <Component onNavigate={handleNavigate} onOpenAskBloom={handleOpenAskBloom} />
+          <ErrorBoundary>
+            <Component onNavigate={handleNavigate} onOpenAskBloom={handleOpenAskBloom} />
+          </ErrorBoundary>
         </div>
       </main>
       {showOnboarding && <Onboarding onComplete={() => setShowOnboarding(false)} />}
@@ -304,7 +307,7 @@ function SectionIcon({ section, active }) {
       return (
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-          <polyline points="22,6 12,13 2,6" />
+          <polyline points="22 6 12 13 2 6" />
         </svg>
       )
     case 'billing':
@@ -376,10 +379,16 @@ function SectionIcon({ section, active }) {
       return (
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <rect x="2" y="4" width="20" height="16" rx="2" />
-          <polyline points="3,6 12,14 21,6" />
+          <polyline points="3 6 12 14 21 6" />
         </svg>
       )
     default:
-      return null
+      return (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="12" r="10" />
+          <line x1="12" y1="8" x2="12" y2="12" />
+          <line x1="12" y1="16" x2="12.01" y2="16" />
+        </svg>
+      )
   }
 }
