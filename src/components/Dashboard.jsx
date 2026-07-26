@@ -278,6 +278,17 @@ export default function Dashboard({ onNavigate, onOpenAskBloom }) {
     ? Math.round(confirmedDeals.reduce((sum, s) => sum + (s.amount || 0), 0) / confirmedDeals.length)
     : 0
 
+  // ── Data extraction ───────────────────────────────────
+
+  const monthly_revenue = data?.monthly_revenue || 0
+  const active_sponsors = data?.active_sponsors || 0
+  const affiliate_revenue = data?.affiliate_revenue || 0
+  const product_sales = data?.product_sales || 0
+  const revenue_breakdown = data?.revenue_breakdown || { sponsorships: 0, affiliates: 0, products: 0, consulting: 0 }
+  const pipeline = data?.pipeline || { prospecting: 0, negotiating: 0, confirmed: 0, completed: 0 }
+  const recent_activity = data?.recent_activity || []
+  const hasInsights = insights && insights.insights && insights.insights.length > 0
+
   // Health score: computed from data completeness
   const healthScore = (() => {
     if (!hasData) return 48
@@ -323,17 +334,6 @@ export default function Dashboard({ onNavigate, onOpenAskBloom }) {
       </div>
     )
   }
-
-  // ── Data extraction ───────────────────────────────────
-
-  const monthly_revenue = data?.monthly_revenue || 0
-  const active_sponsors = data?.active_sponsors || 0
-  const affiliate_revenue = data?.affiliate_revenue || 0
-  const product_sales = data?.product_sales || 0
-  const revenue_breakdown = data?.revenue_breakdown || { sponsorships: 0, affiliates: 0, products: 0, consulting: 0 }
-  const pipeline = data?.pipeline || { prospecting: 0, negotiating: 0, confirmed: 0, completed: 0 }
-  const recent_activity = data?.recent_activity || []
-  const hasInsights = insights && insights.insights && insights.insights.length > 0
 
   // ── Render ─────────────────────────────────────────────
 
