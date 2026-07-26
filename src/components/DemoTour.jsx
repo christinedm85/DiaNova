@@ -53,7 +53,7 @@ const TOUR_STEPS = [
   {
     id: 'cta',
     title: 'Ready to try it yourself?',
-    description: 'Join 2,400+ creators already using CreatorBloom. Start free — no credit card required.',
+    description: 'Everything you need to run your creator business in one place. Start free — no credit card required.',
     target: null,
     position: 'center',
     isCTA: true,
