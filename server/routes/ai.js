@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import db from '../db.js'
 import { authMiddleware, teamScope } from '../middleware.js'
 import { askAI } from '../ai.js'
 
@@ -247,6 +248,156 @@ Return ONLY valid JSON with this exact structure:
     parsed._disclaimer = '⚠️ This is AI-generated guidance, not legal advice. Review contracts with a lawyer before signing.'
   }
   res.json(parsed)
+})
+
+// ── 9. Ask Bloom — Natural language chat ──────────────────
+// POST /ask-bloom — body: { question, conversationHistory[] }
+router.post('/ask-bloom', async (req, res) => {
+  const { question, conversationHistory } = req.body
+  if (!question || typeof question !== 'string') {
+    return res.status(400).json({ error: 'question is required' })
+  }
+
+  // Gather full user context
+  const userId = req.scopeUserId
+  const sponsorships = db.prepare(
+    "SELECT brand, amount, status, stage, updated_at FROM sponsorships WHERE user_id = ? ORDER BY amount DESC"
+  ).all(userId)
+
+  const pipeline = {
+    prospecting: sponsorships.filter(s => s.status === 'prospecting').length,
+    negotiating: sponsorships.filter(s => s.status === 'negotiating').length,
+    confirmed: sponsorships.filter(s => s.status === 'confirmed').length,
+    completed: sponsorships.filter(s => s.status === 'completed').length,
+  }
+
+  const topDeals = sponsorships
+    .filter(s => s.amount > 0)
+    .sort((a, b) => b.amount - a.amount)
+    .slice(0, 5)
+
+  const confirmedDeals = sponsorships.filter(s => s.status === 'confirmed' || s.status === 'completed')
+  const avgDealSize = confirmedDeals.length > 0
+    ? Math.round(confirmedDeals.reduce((sum, s) => sum + (s.amount || 0), 0) / confirmedDeals.length)
+    : 0
+
+  const sponsorTotal = db.prepare(
+    "SELECT COALESCE(SUM(amount), 0) as total FROM sponsorships WHERE status IN ('confirmed', 'completed') AND user_id = ?"
+  ).get(userId).total
+
+  const affRevenue = db.prepare('SELECT COALESCE(SUM(revenue), 0) as total FROM affiliates WHERE user_id = ?').get(userId).total
+  const prodRevenue = db.prepare('SELECT COALESCE(SUM(revenue), 0) as total FROM products WHERE user_id = ?').get(userId).total
+  const monthlyRevenue = sponsorTotal + affRevenue + prodRevenue
+
+  const activeSponsors = db.prepare(
+    "SELECT COUNT(*) as count FROM sponsorships WHERE status IN ('confirmed', 'negotiating') AND user_id = ?"
+  ).get(userId).count
+
+  const followUpsDue = db.prepare(
+    "SELECT COUNT(*) as count FROM sponsorships WHERE follow_up_due = 1 AND user_id = ?"
+  ).get(userId).count
+
+  // Check integration statuses
+  let youtubeConnected = false
+  let metaConnected = false
+  let tiktokConnected = false
+  try {
+    youtubeConnected = !!db.prepare("SELECT 1 FROM youtube_tokens WHERE user_id = ?").get(userId)
+  } catch {}
+  try {
+    metaConnected = !!db.prepare("SELECT 1 FROM meta_tokens WHERE user_id = ?").get(userId)
+  } catch {}
+  try {
+    tiktokConnected = !!db.prepare("SELECT 1 FROM tiktok_tokens WHERE user_id = ?").get(userId)
+  } catch {}
+
+  // Build context summary
+  const contextParts = [`## Creator's Business Context
+
+**Revenue:** ${monthlyRevenue.toLocaleString()} monthly (sponsorships: ${sponsorTotal.toLocaleString()}, affiliates: ${affRevenue.toLocaleString()}, products: ${prodRevenue.toLocaleString()})
+**Active sponsors:** ${activeSponsors}
+**Pipeline:** Prospecting: ${pipeline.prospecting}, Negotiating: ${pipeline.negotiating}, Confirmed: ${pipeline.confirmed}, Completed: ${pipeline.completed}
+**Average deal size:** ${avgDealSize.toLocaleString()}
+**Follow-ups due:** ${followUpsDue}`]
+
+  if (topDeals.length > 0) {
+    contextParts.push(`\n**Top Deals:**\n${topDeals.map(d => `- ${d.brand}: ${(d.amount || 0).toLocaleString()} (${d.status})`).join('\n')}`)
+  }
+
+  contextParts.push(`\n**Integrations Connected:** YouTube: ${youtubeConnected ? 'Yes' : 'No'}, Meta: ${metaConnected ? 'Yes' : 'No'}, TikTok: ${tiktokConnected ? 'Yes' : 'No'}`)
+
+  const contextStr = contextParts.join('\n')
+
+  // Build system prompt
+  const systemPrompt = `You are Bloom, an AI copilot for content creators on CreatorBloom. You help creators run their business — sponsorships, affiliate marketing, pricing, brand building, product sales, and content strategy.
+
+You have access to the creator's real business data. Use it to give specific, personalized advice. When asked about deals, pricing, or strategy, reference actual numbers from their account.
+
+${contextStr}
+
+Guidelines:
+- Be warm, encouraging, and conversational. Use emojis sparingly but naturally 🌸
+- Reference the creator's actual data when relevant (specific brands, amounts, pipeline numbers)
+- When the creator asks "what should I do today" or "what's most important," prioritize follow-ups and high-value deals
+- If you can't answer something or need more data, suggest connecting integrations (YouTube, Meta, TikTok)
+- Keep responses concise — 2-4 sentences usually, longer only when explaining strategy
+- Never make up numbers or brands — only reference data provided
+- If you suggest a rate or price, explain your reasoning based on their deal history`
+
+  // Build messages array
+  const messages = [{ role: 'system', content: systemPrompt }]
+
+  // Add conversation history (last 10 exchanges to stay within budget)
+  if (Array.isArray(conversationHistory)) {
+    const recent = conversationHistory.slice(-10)
+    for (const msg of recent) {
+      if (msg.role === 'user' || msg.role === 'assistant') {
+        messages.push({ role: msg.role, content: msg.content })
+      }
+    }
+  }
+
+  // Add current question
+  messages.push({ role: 'user', content: question })
+
+  try {
+    const openaiRes = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${process.env.OPENAI_API_KEY}` },
+      body: JSON.stringify({ model: 'gpt-4o-mini', messages, temperature: 0.7, max_tokens: 600 })
+    })
+    const json = await openaiRes.json()
+    if (!openaiRes.ok) {
+      console.error('[ask-bloom] OpenAI error:', json)
+      return res.status(502).json({ error: json.error?.message || 'AI request failed' })
+    }
+
+    const responseText = json.choices[0].message.content.trim()
+
+    // Suggest possible follow-up actions based on the question
+    const actionSuggestions = []
+    const lowerQ = question.toLowerCase()
+    if (lowerQ.includes('deal') || lowerQ.includes('accept') || lowerQ.includes('offer')) {
+      actionSuggestions.push({ label: 'View Sponsorships', route: 'sponsorships' })
+    }
+    if (lowerQ.includes('charge') || lowerQ.includes('price') || lowerQ.includes('rate')) {
+      actionSuggestions.push({ label: 'Smart Pricing', route: 'pricing' })
+    }
+    if (lowerQ.includes('revenue') || lowerQ.includes('money') || lowerQ.includes('income')) {
+      actionSuggestions.push({ label: 'View Dashboard', route: 'dashboard' })
+    }
+    if (lowerQ.includes('content') || lowerQ.includes('video') || lowerQ.includes('post')) {
+      actionSuggestions.push({ label: 'Content Ideas', route: 'intelligence' })
+    }
+
+    res.json({
+      response: responseText,
+      actions: actionSuggestions.length > 0 ? actionSuggestions : undefined,
+    })
+  } catch (e) {
+    console.error('[ask-bloom] Error:', e)
+    res.status(500).json({ error: 'Failed to get response' })
+  }
 })
 
 export default router

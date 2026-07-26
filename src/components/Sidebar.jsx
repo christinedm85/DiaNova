@@ -6,7 +6,7 @@ function planEmoji(plan) {
   return ''
 }
 
-export default function Sidebar({ active, onSelect, sections, user, onLogout, onProfile, onTourRestart, sectionStyles }) {
+export default function Sidebar({ active, onSelect, sections, user, onLogout, onProfile, onTourRestart, onAskBloom, sectionStyles }) {
   const { theme, toggle } = useTheme()
   const emoji = planEmoji(user?.plan)
 
@@ -39,6 +39,16 @@ export default function Sidebar({ active, onSelect, sections, user, onLogout, on
       </div>
 
       <nav className="flex-1 px-3 py-4 space-y-1.5 overflow-y-auto">
+        {/* Ask Bloom — special chat button */}
+        <button
+          onClick={onAskBloom}
+          className="w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition-all duration-200 text-violet-400 hover:text-violet-300 hover:bg-violet-500/10 border border-violet-500/15 bg-violet-500/5 group"
+        >
+          <span className="text-lg">🌸</span>
+          Ask Bloom
+          <span className="ml-auto text-[10px] text-violet-500 bg-violet-500/10 px-2 py-0.5 rounded-full group-hover:text-violet-400 transition-colors">AI</span>
+        </button>
+
         {Object.entries(sections).flatMap(([key, { label, icon: Icon, group }]) => {
           const isActive = active === key
           const btn = (

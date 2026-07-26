@@ -25,6 +25,7 @@ import OpportunityFeed from './components/OpportunityFeed.jsx'
 import IntelligencePage from './components/IntelligencePage.jsx'
 import AdminDashboard from './components/AdminDashboard.jsx'
 import SalesTour from './components/SalesTour.jsx'
+import AskBloom from './components/AskBloom.jsx'
 import YouTubeIntegration from './components/YouTubeIntegration.jsx'
 import MetaIntegration from './components/MetaIntegration.jsx'
 import TikTokIntegration from './components/TikTokIntegration.jsx'
@@ -59,6 +60,8 @@ export default function App() {
   const [authPage, setAuthPage] = useState('landing')
   const [showOnboarding, setShowOnboarding] = useState(false)
   const [showSalesTour, setShowSalesTour] = useState(false)
+  const [showAskBloom, setShowAskBloom] = useState(false)
+  const [askBloomQuestion, setAskBloomQuestion] = useState(null)
 
   useEffect(() => {
     if (user && user.onboarding_complete === 0) {
@@ -121,12 +124,17 @@ export default function App() {
     })
   )
 
+  const handleOpenAskBloom = (question) => {
+    setAskBloomQuestion(question || null)
+    setShowAskBloom(true)
+  }
+
   return (
     <div className="flex h-screen overflow-hidden">
-      <Sidebar active={active} onSelect={setActive} sections={visibleSections} user={user} onLogout={logout} onProfile={() => setActive('profile')} onTourRestart={() => setShowSalesTour(true)} sectionStyles={sectionStyles} />
+      <Sidebar active={active} onSelect={setActive} sections={visibleSections} user={user} onLogout={logout} onProfile={() => setActive('profile')} onTourRestart={() => setShowSalesTour(true)} onAskBloom={() => handleOpenAskBloom(null)} sectionStyles={sectionStyles} />
       <main className="flex-1 overflow-y-auto p-10">
         <div className="max-w-6xl mx-auto" key={active}>
-          <Component onNavigate={setActive} />
+          <Component onNavigate={setActive} onOpenAskBloom={handleOpenAskBloom} />
         </div>
       </main>
       {showOnboarding && <Onboarding onComplete={() => setShowOnboarding(false)} />}
@@ -140,6 +148,16 @@ export default function App() {
           onRestart={() => setShowSalesTour(true)}
         />
       )}
+      <AskBloom
+        show={showAskBloom}
+        onClose={() => { setShowAskBloom(false); setAskBloomQuestion(null) }}
+        initialQuestion={askBloomQuestion}
+        onNavigate={(route) => {
+          setShowAskBloom(false)
+          setAskBloomQuestion(null)
+          setActive(route)
+        }}
+      />
     </div>
   )
 }

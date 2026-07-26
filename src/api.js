@@ -127,6 +127,7 @@ export const api = {
     negotiationCoach: (data) => request('/ai/negotiation-coach', { method: 'POST', body: JSON.stringify(data) }),
     creatorBenchmarking: (data) => request('/ai/creator-benchmarking', { method: 'POST', body: JSON.stringify(data) }),
     contractScanner: (data) => request('/ai/contract-scanner', { method: 'POST', body: JSON.stringify(data) }),
+    askBloom: (data) => request('/ai/ask-bloom', { method: 'POST', body: JSON.stringify(data) }),
     },
 
   admin: {

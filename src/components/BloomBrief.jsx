@@ -144,17 +144,17 @@ function QuickPulse({ activeDeals, followUpsDue, avgDealSize }) {
 
 // ── Ask Bloom Prompt ───────────────────────────────────────
 
-function AskBloom({ onOpenAI, onChipClick }) {
+function AskBloom({ onOpenAskBloom, onChipClick }) {
   const chips = [
-    { label: 'Which deal should I accept?', tool: 'negotiation' },
-    { label: 'How much should I charge?', tool: 'pricing' },
-    { label: 'Why is revenue down?', tool: 'benchmarking' },
+    { label: 'Which deal should I accept?', question: 'Which brand deal should I accept?' },
+    { label: 'How much should I charge?', question: 'How much should I charge for sponsorships?' },
+    { label: 'Why is revenue down?', question: 'Why is my revenue down this month?' },
   ]
 
   return (
     <div className="glass p-6 border border-surface-700/30 bg-gradient-to-r from-surface-800/50 to-surface-800/30">
       <div className="flex items-center gap-3 mb-4">
-        <div className="w-8 h-8 rounded-lg bg-violet-500/15 flex items-center justify-center shrink-0">
+        <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500/20 to-emerald-500/20 flex items-center justify-center shrink-0 border border-violet-500/20">
           <span className="text-sm">🌸</span>
         </div>
         <p className="text-sm font-medium text-surface-200">Ask Bloom</p>
@@ -163,7 +163,7 @@ function AskBloom({ onOpenAI, onChipClick }) {
 
       {/* Chat-style input */}
       <div
-        onClick={onOpenAI}
+        onClick={onOpenAskBloom}
         className="flex items-center gap-3 px-4 py-3 rounded-xl bg-surface-800/60 border border-surface-700/40 cursor-pointer hover:border-violet-500/30 hover:bg-surface-800/80 transition-all group"
       >
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-surface-500 group-hover:text-violet-400 transition-colors shrink-0">
@@ -181,7 +181,7 @@ function AskBloom({ onOpenAI, onChipClick }) {
         {chips.map((chip) => (
           <button
             key={chip.label}
-            onClick={() => onChipClick && onChipClick(chip.tool)}
+            onClick={() => onChipClick && onChipClick(chip.question)}
             className="px-3 py-1.5 rounded-lg bg-surface-800/60 border border-surface-700/30 text-xs text-surface-400 hover:text-violet-400 hover:border-violet-500/30 hover:bg-violet-500/10 transition-all"
           >
             {chip.label}
@@ -208,6 +208,7 @@ export default function BloomBrief({
   hasInsights,
   onNavigate,
   onOpenAI,
+  onOpenAskBloom,
 }) {
   const [ringAnimated, setRingAnimated] = useState(false)
   const displayHealth = healthScore ?? (hasData ? 92 : 48)
@@ -387,10 +388,9 @@ export default function BloomBrief({
 
       {/* ═══ Ask Bloom Prompt ═══ */}
       <AskBloom
-        onOpenAI={onOpenAI}
-        onChipClick={(tool) => {
-          // Open AI panel; the Dashboard handles tab selection
-          if (onOpenAI) onOpenAI(tool)
+        onOpenAskBloom={onOpenAskBloom}
+        onChipClick={(question) => {
+          if (onOpenAskBloom) onOpenAskBloom(question)
         }}
       />
     </div>

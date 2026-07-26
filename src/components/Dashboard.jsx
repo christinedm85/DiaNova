@@ -129,7 +129,7 @@ function SkeletonInsight() {
 
 // ── Main Dashboard Component ──────────────────────────────
 
-export default function Dashboard({ onNavigate }) {
+export default function Dashboard({ onNavigate, onOpenAskBloom }) {
   const { user } = useAuth()
   const [data, setData] = useState(null)
   const [trend, setTrend] = useState(null)
@@ -404,6 +404,7 @@ export default function Dashboard({ onNavigate }) {
             hasInsights={hasInsights}
             onNavigate={onNavigate}
             onOpenAI={handleOpenAI}
+            onOpenAskBloom={onOpenAskBloom}
           />
 
           {/* ═══ Stats Row ═══ */}
