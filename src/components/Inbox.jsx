@@ -7,12 +7,14 @@ export default function Inbox() {
   const [sent, setSent] = useState([])
   const [inbox, setInbox] = useState([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   const fetch = () => {
     setLoading(true)
+    setError(null)
     Promise.all([
-      fetch('/api/email/sent').then(r => r.json()),
-      fetch('/api/email/inbox').then(r => r.json()),
+      api.email.sent().catch(() => []),
+      api.email.inbox().catch(() => []),
     ]).then(([s, i]) => {
       setSent(s)
       setInbox(i)
@@ -32,14 +34,12 @@ export default function Inbox() {
       body: form.get('body'),
       type: 'manual',
     }
-    const res = await fetch('/api/email/sent', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    })
-    if (res.ok) {
+    try {
+      await api.email.send(data)
       e.target.reset()
       fetch()
+    } catch {
+      setError("We couldn't send that email. Please try again.")
     }
   }
 
@@ -56,6 +56,10 @@ export default function Inbox() {
         <h2 className="font-display text-3xl font-bold text-surface-50">Inbox</h2>
         <p className="text-surface-400 mt-1">Manage your creator business emails.</p>
       </div>
+
+      {error && (
+        <div className="glass p-4 border-red-500/30 text-red-400 text-sm">{error}</div>
+      )}
 
       {/* Tabs */}
       <div className="flex gap-1 bg-surface-900 rounded-xl p-1 w-fit">
@@ -141,8 +145,12 @@ function EmailRow({ email, isInbox, onRead }) {
   const handleClick = async () => {
     setExpanded(!expanded)
     if (isInbox && !email.read) {
-      await fetch(`/api/email/inbox/${email.id}/read`, { method: 'PUT' })
-      onRead()
+      try {
+        await api.email.markRead(email.id)
+        onRead()
+      } catch {
+        // silently fail — the UI still expands
+      }
     }
   }
 

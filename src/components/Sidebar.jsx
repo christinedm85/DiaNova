@@ -6,7 +6,7 @@ function planEmoji(plan) {
   return ''
 }
 
-export default function Sidebar({ active, onSelect, sections, user, onLogout, onProfile, onTourRestart, onAskBloom, sectionStyles }) {
+export default function Sidebar({ active, onSelect, sections, user, onLogout, onProfile, onTourRestart, onAskBloom, sectionStyles, sidebarOpen, onToggle }) {
   const { theme, toggle } = useTheme()
   const emoji = planEmoji(user?.plan)
 
@@ -27,8 +27,10 @@ export default function Sidebar({ active, onSelect, sections, user, onLogout, on
   }
 
   return (
-    <aside className="w-64 h-full glass rounded-none border-t-0 border-b-0 border-l-0 flex flex-col shrink-0">
-      <div className="px-6 py-7 border-b border-surface-700/50">
+    <aside className={`w-64 h-full glass rounded-none border-t-0 border-b-0 border-l-0 flex flex-col shrink-0 fixed lg:static inset-y-0 left-0 z-50 transition-transform duration-300 ${
+      sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+    }`}>
+      <div className="px-6 py-7 border-b border-surface-700/50 flex items-center justify-between">
         <div className="flex items-center gap-3.5">
           <img src="/icon-192.png" alt="CreatorBloom" className="w-12 h-12 rounded-2xl ring-1 ring-surface-700/50" />
           <div>
@@ -36,12 +38,23 @@ export default function Sidebar({ active, onSelect, sections, user, onLogout, on
             <p className="text-[10px] text-surface-500 tracking-widest uppercase">Your Creator HQ</p>
           </div>
         </div>
+        {/* Close button — visible only on mobile when sidebar is open */}
+        <button
+          onClick={onToggle}
+          className="lg:hidden w-8 h-8 flex items-center justify-center rounded-lg text-surface-400 hover:text-surface-200 hover:bg-surface-800/50 transition-colors"
+          aria-label="Close menu"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
       </div>
 
       <nav className="flex-1 px-3 py-4 space-y-1.5 overflow-y-auto">
         {/* Ask Bloom — special chat button */}
         <button
-          onClick={onAskBloom}
+          onClick={() => { onAskBloom(); onToggle() }}
           className="w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition-all duration-200 text-violet-400 hover:text-violet-300 hover:bg-violet-500/10 border border-violet-500/15 bg-violet-500/5 group"
         >
           <span className="text-lg">🌸</span>
@@ -54,7 +67,7 @@ export default function Sidebar({ active, onSelect, sections, user, onLogout, on
           const btn = (
             <button
               key={key}
-              onClick={() => onSelect(key)}
+              onClick={() => { onSelect(key); onToggle() }}
               className={`w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition-all duration-200 group sidebar-nav-item ${
                 isActive
                   ? `${getActiveClass(key)} border-l-3`
@@ -103,7 +116,7 @@ export default function Sidebar({ active, onSelect, sections, user, onLogout, on
           )}
           {theme === 'dark' ? 'Light mode' : 'Dark mode'}
         </button>
-        <button onClick={onProfile} className="flex items-center gap-3 w-full rounded-xl p-2 -mx-2 hover:bg-surface-800/50 transition-colors">
+        <button onClick={() => { onProfile(); onToggle() }} className="flex items-center gap-3 w-full rounded-xl p-2 -mx-2 hover:bg-surface-800/50 transition-colors">
           <div className="w-10 h-10 rounded-full gradient-border flex items-center justify-center text-[10px] font-bold text-white ring-2 ring-surface-700">
             {user?.name?.[0] || '?'}
           </div>
