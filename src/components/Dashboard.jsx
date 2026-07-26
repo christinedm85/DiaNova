@@ -372,15 +372,7 @@ export default function Dashboard({ onNavigate, onOpenAskBloom }) {
       )}
 
       {/* ═══ Hero Section ═══ */}
-          <div id="sales-tour-dashboard-hero" className="flex items-start justify-between flex-wrap gap-4">
-            <div>
-              <h2 className="font-display text-3xl font-bold text-surface-50">
-                {greetingWithFlower}
-              </h2>
-              <p className="text-surface-400 mt-1">
-                {getPersonalizedSubtitle()}
-              </p>
-            </div>
+          <div id="sales-tour-dashboard-hero" className="flex items-start justify-end flex-wrap gap-4">
             <button
               id="sales-tour-ai-button"
               onClick={() => handleOpenAI()}
