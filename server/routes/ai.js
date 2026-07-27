@@ -261,7 +261,7 @@ router.post('/ask-bloom', async (req, res) => {
   // Gather full user context
   const userId = req.scopeUserId
   const sponsorships = db.prepare(
-    "SELECT brand, amount, status, stage, updated_at FROM sponsorships WHERE user_id = ? ORDER BY amount DESC"
+    "SELECT brand, amount, status, updated_at FROM sponsorships WHERE user_id = ? ORDER BY amount DESC"
   ).all(userId)
 
   const pipeline = {
@@ -294,7 +294,7 @@ router.post('/ask-bloom', async (req, res) => {
   ).get(userId).count
 
   const followUpsDue = db.prepare(
-    "SELECT COUNT(*) as count FROM sponsorships WHERE follow_up_due = 1 AND user_id = ?"
+    "SELECT COUNT(*) as count FROM sponsorships WHERE status IN ('prospecting', 'negotiating') AND user_id = ?"
   ).get(userId).count
 
   // Check integration statuses

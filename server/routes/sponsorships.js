@@ -29,8 +29,15 @@ router.get('/pipeline', (req, res) => {
 
 router.post('/', (req, res) => {
   const { brand, amount, status, notes } = req.body
+
+  // Validate amount is a positive number
+  const parsedAmount = parseFloat(amount)
+  if (amount === undefined || amount === null || amount === '' || isNaN(parsedAmount) || parsedAmount <= 0) {
+    return res.status(400).json({ error: 'Amount must be a positive number.' })
+  }
+
   const stmt = db.prepare('INSERT INTO sponsorships (brand, amount, status, notes, user_id) VALUES (?, ?, ?, ?, ?)')
-  const info = stmt.run(brand, amount, status || 'prospecting', notes || '', req.scopeUserId)
+  const info = stmt.run(brand, parsedAmount, status || 'prospecting', notes || '', req.scopeUserId)
 
   // Track conversion
   db.prepare('INSERT INTO conversions (type, user_id, metadata) VALUES (?, ?, ?)').run('deal_created', req.user.id, JSON.stringify({ brand, amount }))
