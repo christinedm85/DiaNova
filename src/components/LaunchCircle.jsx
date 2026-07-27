@@ -35,7 +35,7 @@ export default function LaunchCircle() {
   useEffect(() => {
     api.launchCircle.count()
       .then(data => setCount(data))
-      .catch(() => setCount({ total: 0, spots: 25, remaining: 25 }))
+      .catch(() => setCount({ total: 0, spots: 30, remaining: 30 }))
   }, [])
 
   const validate = () => {
@@ -74,9 +74,9 @@ export default function LaunchCircle() {
     setSubmitting(false)
   }
 
-  const remaining = count ? count.remaining : 25
+  const remaining = count ? count.remaining : 30
   const filled = count ? count.total : 0
-  const pct = Math.min(100, Math.round((filled / 25) * 100))
+  const pct = Math.min(100, Math.round((filled / 30) * 100))
 
   // Shared input styles
   const inputClass = (field) =>
@@ -91,7 +91,7 @@ export default function LaunchCircle() {
       {/* ── Hero ── */}
       <section className="text-center pt-6">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pink-500/10 border border-pink-500/20 text-pink-400 text-xs font-medium mb-6">
-          🌸 Limited beta — 25 spots
+          🌸 Limited beta — 30 spots
         </div>
         <h1 className="font-display text-4xl md:text-5xl font-bold text-surface-50 leading-tight">
           Join the CreatorBloom{' '}
@@ -135,7 +135,7 @@ export default function LaunchCircle() {
         <p className="text-surface-300 text-lg font-semibold">
           {remaining > 0 ? `${remaining} spots remaining` : 'All spots filled'}
         </p>
-        <p className="text-surface-500 text-sm mt-1">{filled} of 25 filled</p>
+        <p className="text-surface-500 text-sm mt-1">{filled} of 30 filled</p>
         {/* Progress bar */}
         <div className="mt-3 h-2 bg-surface-700/50 rounded-full overflow-hidden">
           <div

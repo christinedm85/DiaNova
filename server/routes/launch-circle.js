@@ -21,7 +21,7 @@ router.post('/apply', (req, res) => {
   }
 
   const count = db.prepare('SELECT COUNT(*) as count FROM launch_circle_applications').get()
-  if (count.count >= 25) {
+  if (count.count >= 30) {
     return res.status(200).json({
       success: false,
       waiting: true,
@@ -57,8 +57,8 @@ router.get('/count', (_req, res) => {
   const { count } = db.prepare('SELECT COUNT(*) as count FROM launch_circle_applications').get()
   res.json({
     total: count,
-    spots: 25,
-    remaining: Math.max(0, 25 - count),
+    spots: 30,
+    remaining: Math.max(0, 30 - count),
   })
 })
 
