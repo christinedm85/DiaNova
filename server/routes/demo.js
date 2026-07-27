@@ -125,8 +125,12 @@ router.post('/seed', (req, res) => {
 
     if (!demoUser) {
       const hash = bcrypt.hashSync(DEMO_PASSWORD, 10)
-      const info = db.prepare('INSERT INTO users (name, email, password, plan, email_verified, onboarding_complete) VALUES (?, ?, ?, ?, 1, 1)').run(DEMO_NAME, DEMO_EMAIL, hash, 'pro')
+      const info = db.prepare('INSERT INTO users (name, email, password, plan, email_verified, onboarding_complete) VALUES (?, ?, ?, ?, 1, 1)').run(DEMO_NAME, DEMO_EMAIL, hash, 'studio')
       demoUser = db.prepare('SELECT id, name, email, plan, email_verified, onboarding_complete, is_admin FROM users WHERE id = ?').get(info.lastInsertRowid)
+    } else {
+      // Upgrade existing demo user to studio plan
+      db.prepare('UPDATE users SET plan = ? WHERE id = ? AND plan != ?').run('studio', demoUser.id, 'studio')
+      demoUser = db.prepare('SELECT id, name, email, plan, email_verified, onboarding_complete, is_admin FROM users WHERE id = ?').get(demoUser.id)
     }
 
     // Clear and re-seed demo data
