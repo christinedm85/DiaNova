@@ -29,7 +29,7 @@ router.get('/', (req, res) => {
     active_sponsors: sponsorCount,
     affiliate_revenue: affRevenue,
     product_sales: prodRevenue,
-    revenue_breakdown: { sponsorships: sponsorTotal, affiliates: affRevenue, products: prodRevenue, consulting: 1980 },
+    revenue_breakdown: { sponsorships: sponsorTotal, affiliates: affRevenue, products: prodRevenue },
     pipeline,
     recent_activity: recentDeals,
   })
