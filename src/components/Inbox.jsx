@@ -44,7 +44,7 @@ export default function Inbox() {
   }
 
   const emails = tab === 'inbox' ? inbox : sent
-  const inboxEmpty = tab === 'inbox'
+  const isInboxTab = tab === 'inbox'
 
   if (loading) {
     return <div className="flex items-center justify-center h-64"><div className="w-8 h-8 border-2 border-accent-400 border-t-transparent rounded-full animate-spin" /></div>
@@ -117,10 +117,10 @@ export default function Inbox() {
             <div className="glass p-6">
               <EmptyState
                 icon="📧"
-                title={inboxEmpty ? 'No messages yet' : 'No sent emails yet'}
-                description={inboxEmpty ? "Your inbox is empty. When brands reply to your outreach, their messages will show up right here. 📬" : "Send your first message to get started."}
-                action={inboxEmpty ? undefined : () => setTab('compose')}
-                actionLabel={inboxEmpty ? undefined : 'Compose email'}
+                title={isInboxTab ? 'No messages yet' : 'No sent emails yet'}
+                description={isInboxTab ? "Your inbox is empty. When brands reply to your outreach, their messages will show up right here. 📬" : "Send your first message to get started."}
+                action={isInboxTab ? undefined : () => setTab('compose')}
+                actionLabel={isInboxTab ? undefined : 'Compose email'}
               />
             </div>
           ) : (
