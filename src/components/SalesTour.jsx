@@ -21,7 +21,7 @@ const TOUR_STEPS = [
   {
     id: 'forecast',
     title: 'Revenue Forecasting',
-    description: null, // set dynamically
+    description: 'See your projected monthly revenue and track progress toward your income goals with real-time forecasting.',
     target: 'sales-tour-forecast',
     section: 'dashboard',
     position: 'top',
