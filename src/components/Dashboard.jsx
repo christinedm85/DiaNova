@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { api } from '../api.js'
 import { useAuth } from '../AuthContext.jsx'
 import AIPanel from './AIPanel.jsx'
@@ -157,36 +157,35 @@ export default function Dashboard({ onNavigate, onOpenAskBloom }) {
     api.monetization.status().then(setMonetizationStatus).catch(() => {})
   }, [])
 
-  const fetchAll = () => {
+  const fetchAll = async () => {
     setLoading(true)
     setError(null)
-    Promise.all([
-      api.dashboard(),
-      api.trend(),
-      api.insights().catch(e => {
-        console.error('Insights fetch failed:', e)
-        return null
-      }),
-      api.sponsorships.list().catch(e => {
-        console.error('Sponsorships fetch failed:', e)
-        return []
-      }),
-    ])
-      .then(([d, t, i, s]) => {
-        setData(d)
-        setTrend(t)
-        setInsights(i)
-        setSponsorshipData(s)
-        setLoading(false)
-        // Trigger animations after a brief delay for initial render
-        setTimeout(() => setAnimateProgress(true), 100)
-        setTimeout(() => setAnimateChart(true), 200)
-      })
-      .catch(e => {
-        console.error('Dashboard fetch error:', e)
-        setError(e.message)
-        setLoading(false)
-      })
+    try {
+      const [d, t, i, s] = await Promise.all([
+        api.dashboard(),
+        api.trend(),
+        api.insights().catch(e => {
+          console.error('Insights fetch failed:', e)
+          return null
+        }),
+        api.sponsorships.list().catch(e => {
+          console.error('Sponsorships fetch failed:', e)
+          return []
+        }),
+      ])
+      setData(d)
+      setTrend(t)
+      setInsights(i)
+      setSponsorshipData(s)
+      setLoading(false)
+      // Trigger animations after a brief delay for initial render
+      setTimeout(() => setAnimateProgress(true), 100)
+      setTimeout(() => setAnimateChart(true), 200)
+    } catch (e) {
+      console.error('Dashboard fetch error:', e)
+      setError(e.message)
+      setLoading(false)
+    }
   }
 
   useEffect(() => { fetchAll() }, [])
@@ -997,6 +996,9 @@ function ActivityItem({ action, detail, time }) {
 // ── AI Brief Hero ────────────────────────────────────────
 
 function AIBrief({ forecast, insights, monthlyRevenue, pipelinePotential, followUpsDue, hasInsights, hasData, onNavigate }) {
+  // ── Stable random picks for the session ──────────────────
+  const stableContentIndex = useRef(Math.floor(Math.random() * 4))
+
   // ── Row 1: Revenue Opportunity ──────────────────────────
   const projectedNext = forecast?.nextMonth || monthlyRevenue || 0
   const revenueUpside = hasData && projectedNext > monthlyRevenue
@@ -1026,7 +1028,7 @@ function AIBrief({ forecast, insights, monthlyRevenue, pipelinePotential, follow
     : null
   const bestContent = contentMatch
     ? contentMatch.message.split(" ").slice(0, 3).join(" ")
-    : contentFallbacks[Math.floor(Date.now() / 15000) % contentFallbacks.length]
+    : contentFallbacks[stableContentIndex.current]
 
   // ── Row 3: Recommended Action ───────────────────────────
   const fallbackActions = [
