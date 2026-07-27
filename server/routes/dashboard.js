@@ -14,8 +14,14 @@ router.get('/', (req, res) => {
   const monthly = sponsorTotal + affRevenue + prodRevenue
 
   const recentDeals = db.prepare(
-    "SELECT brand, amount, 'Sponsorship deal closed' as action, updated_at FROM sponsorships WHERE status = 'completed' AND user_id = ? ORDER BY updated_at DESC LIMIT 5"
-  ).all(req.scopeUserId)
+    "SELECT brand, amount, status, updated_at FROM sponsorships WHERE status IN ('completed', 'confirmed', 'negotiating', 'prospecting') AND user_id = ? ORDER BY updated_at DESC LIMIT 5"
+  ).all(req.scopeUserId).map(row => ({
+    ...row,
+    action: row.status === 'completed' ? `Deal closed with ${row.brand}`
+          : row.status === 'confirmed' ? `Deal confirmed with ${row.brand}`
+          : row.status === 'negotiating' ? `Negotiating with ${row.brand}`
+          : `Prospecting ${row.brand}`,
+  }))
 
   const pipeline = {
     prospecting: db.prepare("SELECT COUNT(*) as count FROM sponsorships WHERE status = 'prospecting' AND user_id = ?").get(req.scopeUserId).count,

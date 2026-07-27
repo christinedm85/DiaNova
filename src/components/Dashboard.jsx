@@ -7,7 +7,7 @@ import useCountUp from '../hooks/useCountUp.js'
 import {
   PieChart, Pie, Cell, ResponsiveContainer, Tooltip,
   AreaChart, Area, XAxis, YAxis, CartesianGrid,
-  BarChart, Bar, Legend,
+  BarChart, Bar,
 } from 'recharts'
 
 const COLORS = ['#60a5fa', '#fbbf24', '#34d399', '#a78bfa']
@@ -148,6 +148,7 @@ export default function Dashboard({ onNavigate, onOpenAskBloom }) {
   const [animateProgress, setAnimateProgress] = useState(false)
   const [sponsorshipData, setSponsorshipData] = useState(null)
   const stableContentIndex = useRef(Math.floor(Math.random() * 4))
+  const mountedRef = useRef(true)
 
   const isDemoUser = user?.email?.includes('demo')
 
@@ -174,22 +175,28 @@ export default function Dashboard({ onNavigate, onOpenAskBloom }) {
           return []
         }),
       ])
+      if (!mountedRef.current) return
       setData(d)
       setTrend(t)
       setInsights(i)
       setSponsorshipData(s)
       setLoading(false)
       // Trigger animations after a brief delay for initial render
-      setTimeout(() => setAnimateProgress(true), 100)
-      setTimeout(() => setAnimateChart(true), 200)
+      setTimeout(() => { if (mountedRef.current) setAnimateProgress(true) }, 100)
+      setTimeout(() => { if (mountedRef.current) setAnimateChart(true) }, 200)
     } catch (e) {
       console.error('Dashboard fetch error:', e)
+      if (!mountedRef.current) return
       setError(e.message)
       setLoading(false)
     }
   }
 
-  useEffect(() => { fetchAll() }, [])
+  useEffect(() => {
+    mountedRef.current = true
+    fetchAll()
+    return () => { mountedRef.current = false }
+  }, [])
 
   // ── Loading state ─────────────────────────────────────
 
@@ -784,37 +791,47 @@ export default function Dashboard({ onNavigate, onOpenAskBloom }) {
               {/* Revenue Breakdown Donut */}
               <div className="glass p-6 flex flex-col items-center">
                 <h3 className="font-display text-lg font-semibold text-surface-100 mb-2 w-full">Revenue Mix</h3>
-                <ResponsiveContainer width="100%" height={240}>
-                  <PieChart>
-                    <Pie
-                      data={pieData(revenue_breakdown)}
-                      cx="50%"
-                      cy="50%"
-                      innerRadius={55}
-                      outerRadius={90}
-                      paddingAngle={3}
-                      dataKey="value"
-                      animationDuration={animateChart ? 1000 : 0}
-                      animationBegin={200}
-                    >
-                      {pieData(revenue_breakdown).map((_, i) => (
-                        <Cell key={i} fill={COLORS[i]} stroke="none" />
+                {pieData(revenue_breakdown).length > 0 ? (
+                  <>
+                    <ResponsiveContainer width="100%" height={240}>
+                      <PieChart>
+                        <Pie
+                          data={pieData(revenue_breakdown)}
+                          cx="50%"
+                          cy="50%"
+                          innerRadius={55}
+                          outerRadius={90}
+                          paddingAngle={3}
+                          dataKey="value"
+                          animationDuration={animateChart ? 1000 : 0}
+                          animationBegin={200}
+                        >
+                          {pieData(revenue_breakdown).map((_, i) => (
+                            <Cell key={i} fill={COLORS[i]} stroke="none" />
+                          ))}
+                        </Pie>
+                        <Tooltip
+                          contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '12px', fontSize: '13px', color: '#e2e8f0' }}
+                          formatter={(v) => [`$${v.toLocaleString()}`, undefined]}
+                        />
+                      </PieChart>
+                    </ResponsiveContainer>
+                    <div className="flex flex-wrap gap-3 justify-center mt-1">
+                      {pieData(revenue_breakdown).map((d, i) => (
+                        <div key={d.name} className="flex items-center gap-1.5 text-xs">
+                          <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: COLORS[i] }} />
+                          <span className="text-surface-400">{d.name}</span>
+                        </div>
                       ))}
-                    </Pie>
-                    <Tooltip
-                      contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '12px', fontSize: '13px', color: '#e2e8f0' }}
-                      formatter={(v) => [`$${v.toLocaleString()}`, undefined]}
-                    />
-                  </PieChart>
-                </ResponsiveContainer>
-                <div className="flex flex-wrap gap-3 justify-center mt-1">
-                  {pieData(revenue_breakdown).map((d, i) => (
-                    <div key={d.name} className="flex items-center gap-1.5 text-xs">
-                      <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: COLORS[i] }} />
-                      <span className="text-surface-400">{d.name}</span>
                     </div>
-                  ))}
-                </div>
+                  </>
+                ) : (
+                  <div className="flex flex-col items-center justify-center py-8">
+                    <p className="text-surface-400 text-sm text-center">
+                      No revenue data yet — connect your first deal to see your earnings breakdown.
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -866,7 +883,7 @@ export default function Dashboard({ onNavigate, onOpenAskBloom }) {
                 <h3 className="font-display text-lg font-semibold text-surface-100 mb-4">Recent Activity</h3>
                 <div className="space-y-3">
                   {recent_activity.map((item, i) => (
-                    <ActivityItem key={i} action={item.action} detail={`${item.brand} — ${item.amount.toLocaleString()}`} time="Recently" />
+                    <ActivityItem key={i} action={item.action} detail={`${item.brand} — ${item.amount.toLocaleString()}`} time={relativeTime(item.updated_at)} />
                   ))}
                   {recent_activity.length === 0 && (
                     <ActivityItem action="No activity yet" detail="Land your first deal and it'll show up right here. 🤝" time="" />
@@ -1266,6 +1283,26 @@ function PreviewInsightCard({ emoji, text, color }) {
 }
 
 // ── Data helpers ─────────────────────────────────────────
+
+function relativeTime(dateStr) {
+  if (!dateStr) return ''
+  const now = new Date()
+  const then = new Date(dateStr)
+  const diffMs = now - then
+  const diffSec = Math.floor(diffMs / 1000)
+  const diffMin = Math.floor(diffSec / 60)
+  const diffHr = Math.floor(diffMin / 60)
+  const diffDay = Math.floor(diffHr / 24)
+  const diffWeek = Math.floor(diffDay / 7)
+  const diffMonth = Math.floor(diffDay / 30)
+  if (diffSec < 60) return 'Just now'
+  if (diffMin < 60) return `${diffMin} minute${diffMin !== 1 ? 's' : ''} ago`
+  if (diffHr < 24) return `${diffHr} hour${diffHr !== 1 ? 's' : ''} ago`
+  if (diffDay < 7) return `${diffDay} day${diffDay !== 1 ? 's' : ''} ago`
+  if (diffWeek < 5) return `${diffWeek} week${diffWeek !== 1 ? 's' : ''} ago`
+  if (diffMonth < 12) return `${diffMonth} month${diffMonth !== 1 ? 's' : ''} ago`
+  return then.toLocaleDateString()
+}
 
 function pieData(breakdown) {
   return [
