@@ -25,7 +25,7 @@ router.get('/', (req, res) => {
   }
 
   res.json({
-    monthly_revenue: monthly,
+    total_revenue: monthly,
     active_sponsors: sponsorCount,
     affiliate_revenue: affRevenue,
     product_sales: prodRevenue,
@@ -42,7 +42,7 @@ router.get('/trend', (req, res) => {
 
   const trend = history.map((h, i) => ({
     month: h.month,
-    sponsorships: Math.round(h.avg_rate * (0.7 + Math.random() * 0.6)),
+    sponsorships: Math.round(h.avg_rate * (0.7 + (i / Math.max(history.length - 1, 1)) * 0.6)),
     affiliates: Math.round(affRevenue / history.length * (0.5 + i * 0.15)),
     products: Math.round(prodRevenue / history.length * (0.3 + i * 0.2)),
   }))

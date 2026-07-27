@@ -254,7 +254,7 @@ export default function Dashboard({ onNavigate, onOpenAskBloom }) {
 
   // ── Derive stats from available data ───────────────────
 
-  const hasData = data && !(data.monthly_revenue === 0 && data.pipeline.prospecting === 0 &&
+  const hasData = data && !(data.total_revenue === 0 && data.pipeline.prospecting === 0 &&
     data.pipeline.negotiating === 0 && data.pipeline.confirmed === 0 && data.pipeline.completed === 0)
 
   const derivedStats = {
@@ -280,7 +280,7 @@ export default function Dashboard({ onNavigate, onOpenAskBloom }) {
 
   // ── Data extraction ───────────────────────────────────
 
-  const monthly_revenue = data?.monthly_revenue || 0
+  const monthly_revenue = data?.total_revenue || 0
   const active_sponsors = data?.active_sponsors || 0
   const affiliate_revenue = data?.affiliate_revenue || 0
   const product_sales = data?.product_sales || 0
