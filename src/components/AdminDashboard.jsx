@@ -43,6 +43,8 @@ export default function AdminDashboard() {
   const [seedAllMsg, setSeedAllMsg] = useState(null)
   const [seedAllLoading, setSeedAllLoading] = useState(false)
   const [selectedUserId, setSelectedUserId] = useState('')
+  const [launchApps, setLaunchApps] = useState(null)
+  const [launchLoading, setLaunchLoading] = useState(false)
 
   const fetchData = () => {
     setLoading(true)
@@ -63,6 +65,14 @@ export default function AdminDashboard() {
   }
 
   useEffect(() => { fetchData() }, [])
+
+  const fetchLaunchApps = () => {
+    setLaunchLoading(true)
+    api.launchCircle.applications()
+      .then(setLaunchApps)
+      .catch(() => setLaunchApps([]))
+      .finally(() => setLaunchLoading(false))
+  }
 
   const handleSeedDemo = async () => {
     if (!selectedUserId) {
@@ -151,6 +161,9 @@ export default function AdminDashboard() {
         </TabButton>
         <TabButton active={tab === 'actions'} onClick={() => setTab('actions')}>
           ⚡ Actions
+        </TabButton>
+        <TabButton active={tab === 'launch'} onClick={() => { setTab('launch'); if (!launchApps) fetchLaunchApps() }}>
+          🌸 Launch Circle
         </TabButton>
       </div>
 
@@ -343,6 +356,95 @@ export default function AdminDashboard() {
               </p>
             )}
           </div>
+        </div>
+      )}
+
+      {/* ── Launch Circle Tab ── */}
+      {tab === 'launch' && (
+        <div className="space-y-6">
+          <div className="flex items-center justify-between">
+            <h3 className="font-display text-lg font-semibold text-surface-100">
+              🌸 Launch Circle Applications
+            </h3>
+            <button
+              onClick={fetchLaunchApps}
+              disabled={launchLoading}
+              className="px-4 py-2 text-sm font-medium text-surface-400 hover:text-surface-200 bg-surface-800 hover:bg-surface-700 rounded-xl transition-colors disabled:opacity-50"
+            >
+              {launchLoading ? 'Loading...' : '🔄 Refresh'}
+            </button>
+          </div>
+
+          {launchLoading ? (
+            <div className="glass p-8 text-center">
+              <div className="w-6 h-6 border-2 border-accent-400 border-t-transparent rounded-full animate-spin mx-auto" />
+              <p className="text-surface-500 text-sm mt-3">Loading applications...</p>
+            </div>
+          ) : launchApps && launchApps.length === 0 ? (
+            <div className="glass p-8 text-center">
+              <span className="text-4xl">📭</span>
+              <p className="text-surface-400 mt-3">No applications yet.</p>
+            </div>
+          ) : launchApps ? (
+            <div className="glass overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b border-surface-700/50">
+                      <th className="text-left px-5 py-3 text-surface-400 font-medium">Name</th>
+                      <th className="text-left px-5 py-3 text-surface-400 font-medium">Email</th>
+                      <th className="text-left px-5 py-3 text-surface-400 font-medium">Handle</th>
+                      <th className="text-left px-5 py-3 text-surface-400 font-medium">Revenue Stage</th>
+                      <th className="text-left px-5 py-3 text-surface-400 font-medium">Followers</th>
+                      <th className="text-left px-5 py-3 text-surface-400 font-medium">Challenge</th>
+                      <th className="text-left px-5 py-3 text-surface-400 font-medium">Applied</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {launchApps.map(app => (
+                      <tr key={app.id} className="border-b border-surface-700/30 hover:bg-surface-800/30 transition-colors">
+                        <td className="px-5 py-3">
+                          <div className="flex items-center gap-2.5">
+                            <div className="w-8 h-8 rounded-full bg-pink-500/10 flex items-center justify-center text-xs font-bold text-pink-400">
+                              {app.name?.[0] || '?'}
+                            </div>
+                            <span className="font-medium text-surface-200">{app.name}</span>
+                          </div>
+                        </td>
+                        <td className="px-5 py-3 text-surface-400 text-xs">{app.email}</td>
+                        <td className="px-5 py-3 text-surface-400 text-xs">{app.handle || '—'}</td>
+                        <td className="px-5 py-3">
+                          <span className="text-surface-300 text-xs max-w-[180px] block truncate" title={app.revenue_stage}>
+                            {app.revenue_stage}
+                          </span>
+                        </td>
+                        <td className="px-5 py-3">
+                          <span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium ${
+                            app.follower_range === '250K+' ? 'bg-amber-500/10 text-amber-400' :
+                            app.follower_range === '25K – 250K' ? 'bg-accent-500/10 text-accent-400' :
+                            'bg-surface-700 text-surface-400'
+                          }`}>
+                            {app.follower_range}
+                          </span>
+                        </td>
+                        <td className="px-5 py-3">
+                          <span className="text-surface-400 text-xs max-w-[200px] block truncate" title={app.challenge}>
+                            {app.challenge}
+                          </span>
+                        </td>
+                        <td className="px-5 py-3 text-surface-500 text-xs">
+                          {app.created_at ? new Date(app.created_at).toLocaleDateString() : '—'}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <div className="px-5 py-3 border-t border-surface-700/50 text-xs text-surface-500">
+                {launchApps.length} application{launchApps.length !== 1 ? 's' : ''} · {25 - launchApps.length} spot{25 - launchApps.length !== 1 ? 's' : ''} remaining
+              </div>
+            </div>
+          ) : null}
         </div>
       )}
     </div>

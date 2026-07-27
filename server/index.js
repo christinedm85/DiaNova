@@ -43,6 +43,7 @@ import metaRouter from './routes/meta.js'
 import tiktokRouter from './routes/tiktok.js'
 import monetizationRouter from './routes/monetization.js'
 import gmailRouter from './routes/gmail.js'
+import launchCircleRouter from './routes/launch-circle.js'
 import { teamScope, logError, authMiddleware, adminMiddleware } from './middleware.js'
 import './migrate-youtube.js'
 import './migrate-meta.js'
@@ -50,6 +51,7 @@ import './migrate-tiktok.js'
 import './migrate-monetization.js'
 import './migrate-gmail.js'
 import './migrate-teams.js'
+import './migrate-launch-circle.js'
 import './migrate.js'
 
 const app = express()
@@ -82,6 +84,7 @@ app.use('/api/auth', authRouter)
 app.use('/api/billing', billingRouter)
 app.use('/api/demo', demoRouter)
 app.use('/api/admin', adminRouter)
+app.use('/api/launch-circle', launchCircleRouter)
 
 // Health check
 app.get('/api/health', (_req, res) => {

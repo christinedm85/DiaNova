@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { demoSeed } from '../api.js'
+import LaunchCircle from './LaunchCircle.jsx'
 
 const PLANS = [
   {
@@ -40,12 +41,17 @@ export default function LandingPage({ onGetStarted, onLogin }) {
   const [showAccessModal, setShowAccessModal] = useState(false)
   const [accessCode, setAccessCode] = useState('')
   const [accessError, setAccessError] = useState('')
+  const launchRef = useRef(null)
 
   useEffect(() => {
     const handle = () => setScrolled(window.scrollY > 50)
     window.addEventListener('scroll', handle)
     return () => window.removeEventListener('scroll', handle)
   }, [])
+
+  const scrollToLaunch = () => {
+    launchRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }
 
   const handleTryDemo = () => {
     setShowAccessModal(true)
@@ -87,6 +93,9 @@ export default function LandingPage({ onGetStarted, onLogin }) {
             <span className="font-display text-lg font-bold text-surface-50 tracking-tight">CreatorBloom</span>
           </div>
           <div className="flex items-center gap-3">
+            <button onClick={scrollToLaunch} className="px-4 py-2 text-sm font-medium text-pink-400 hover:text-pink-300 transition-colors flex items-center gap-1.5">
+              🌸 Launch Circle
+            </button>
             <button onClick={onLogin} className="px-4 py-2 text-sm font-medium text-surface-300 hover:text-surface-100 transition-colors">
               Sign In
             </button>
@@ -96,6 +105,18 @@ export default function LandingPage({ onGetStarted, onLogin }) {
           </div>
         </div>
       </nav>
+
+      {/* Announcement Ribbon */}
+      <div className="pt-20">
+        <button
+          onClick={scrollToLaunch}
+          className="w-full bg-gradient-to-r from-pink-500/10 via-rose-500/10 to-pink-500/10 border-b border-pink-500/20 px-6 py-2.5 flex items-center justify-center gap-2 text-sm text-pink-300 hover:text-pink-200 transition-colors cursor-pointer"
+        >
+          <span>🌸</span>
+          <span className="font-medium">Applications for the CreatorBloom Launch Circle are now open.</span>
+          <span className="text-pink-400 font-semibold underline underline-offset-2">Apply →</span>
+        </button>
+      </div>
 
       {/* Hero */}
       <section className="pt-40 pb-28 px-6 text-center max-w-4xl mx-auto">
@@ -219,6 +240,11 @@ export default function LandingPage({ onGetStarted, onLogin }) {
             </button>
           </div>
         </div>
+      </section>
+
+      {/* Launch Circle Section */}
+      <section ref={launchRef} className="max-w-6xl mx-auto px-6 pb-20 scroll-mt-24">
+        <LaunchCircle />
       </section>
 
       {/* Footer */}
