@@ -1,10 +1,15 @@
 import { useState, useEffect } from 'react'
 import { api } from '../api.js'
 import EmptyState from './EmptyState.jsx'
+import FormField from './FormField.jsx'
 
 export default function Affiliates({ onNavigate }) {
   const [programs, setPrograms] = useState([])
   const [loading, setLoading] = useState(true)
+  const [showModal, setShowModal] = useState(false)
+  const [form, setForm] = useState({ program: '', company: '', commission: '', status: 'active' })
+  const [formError, setFormError] = useState('')
+  const [submitting, setSubmitting] = useState(false)
 
   const fetch = () => api.affiliates.list().then(setPrograms).finally(() => setLoading(false))
   useEffect(() => { fetch() }, [])
@@ -12,6 +17,32 @@ export default function Affiliates({ onNavigate }) {
   const handleDelete = async (id) => {
     await api.affiliates.remove(id)
     fetch()
+  }
+
+  const handleCreate = async (e) => {
+    e.preventDefault()
+    setFormError('')
+    if (!form.program.trim()) { setFormError('Program name is required.'); return }
+    if (!form.commission.trim()) { setFormError('Commission rate is required.'); return }
+    setSubmitting(true)
+    try {
+      const displayName = form.company.trim() ? `${form.program} (${form.company})` : form.program
+      await api.affiliates.create({
+        program: displayName,
+        commission: form.commission,
+        clicks: 0,
+        conversions: 0,
+        revenue: 0,
+        trend: '0%',
+      })
+      setForm({ program: '', company: '', commission: '', status: 'active' })
+      setShowModal(false)
+      fetch()
+    } catch (e) {
+      setFormError(e.message || 'Failed to create program.')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   if (loading) {
@@ -25,7 +56,7 @@ export default function Affiliates({ onNavigate }) {
           <h2 className="font-display text-3xl font-bold text-surface-50">Passive Income Streams 💸</h2>
           <p className="text-surface-400 mt-1">Turn your recommendations into revenue. Every link tells a story — make it a profitable one.</p>
         </div>
-        <button onClick={() => alert('Affiliate program builder coming soon! ✨')} className="px-5 py-2.5 bg-amber-500 hover:bg-amber-400 text-surface-950 text-sm font-bold rounded-xl transition-all duration-200 shadow-lg shadow-amber-500/25">
+        <button onClick={() => setShowModal(true)} className="px-5 py-2.5 bg-amber-500 hover:bg-amber-400 text-surface-950 text-sm font-bold rounded-xl transition-all duration-200 shadow-lg shadow-amber-500/25">
           + Add Program
         </button>
       </div>
@@ -98,6 +129,55 @@ export default function Affiliates({ onNavigate }) {
           </div>
         </div>
       </div>
+
+      {/* Add Program Modal */}
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={() => setShowModal(false)}>
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+          <div className="relative glass p-6 w-full max-w-md space-y-4 animate-scale-in" onClick={e => e.stopPropagation()}>
+            <div className="flex items-center justify-between">
+              <h3 className="font-display text-lg font-semibold text-surface-100">Add Affiliate Program</h3>
+              <button onClick={() => setShowModal(false)} className="text-surface-500 hover:text-surface-300 text-xl leading-none">&times;</button>
+            </div>
+            {formError && <div className="p-3 bg-rose-500/10 border border-rose-500/20 rounded-xl text-sm text-rose-400">{formError}</div>}
+            <form onSubmit={handleCreate} className="space-y-3">
+              <FormField
+                placeholder="Program name (e.g. Amazon Associates)"
+                value={form.program}
+                onChange={e => setForm({ ...form, program: e.target.value })}
+                required
+              />
+              <FormField
+                placeholder="Company (optional, e.g. Amazon)"
+                value={form.company}
+                onChange={e => setForm({ ...form, company: e.target.value })}
+              />
+              <FormField
+                placeholder="Commission rate (e.g. 20%)"
+                value={form.commission}
+                onChange={e => setForm({ ...form, commission: e.target.value })}
+                required
+              />
+              <select
+                className="w-full px-3 py-2 rounded-xl bg-surface-800 border border-surface-700/50 text-surface-200 text-sm focus:outline-none focus:border-amber-500"
+                value={form.status}
+                onChange={e => setForm({ ...form, status: e.target.value })}
+              >
+                <option value="active">Active</option>
+                <option value="pending">Pending</option>
+                <option value="inactive">Inactive</option>
+              </select>
+              <button
+                type="submit"
+                disabled={submitting}
+                className="w-full px-4 py-2.5 bg-amber-500 hover:bg-amber-400 disabled:opacity-40 text-surface-950 text-sm font-bold rounded-xl transition-colors"
+              >
+                {submitting ? 'Adding...' : 'Add Program'}
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

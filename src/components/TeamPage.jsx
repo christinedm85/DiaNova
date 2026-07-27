@@ -3,7 +3,7 @@ import { api } from '../api.js'
 import { useAuth } from '../AuthContext.jsx'
 import FormField from './FormField.jsx'
 
-export default function TeamPage() {
+export default function TeamPage({ onNavigate }) {
   const { user } = useAuth()
   const [team, setTeam] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -70,7 +70,7 @@ export default function TeamPage() {
           <div className="text-4xl">👥</div>
           <h3 className="font-display text-lg font-semibold text-surface-100">Studio Plan Required</h3>
           <p className="text-sm text-surface-400">Team access is available on the Studio plan. Upgrade to invite team members and collaborate.</p>
-          <button onClick={() => window.location.hash = '#billing'} className="px-5 py-2.5 bg-accent-600 hover:bg-accent-500 text-white text-sm font-semibold rounded-xl transition-colors">
+          <button onClick={() => onNavigate && onNavigate('billing')} className="px-5 py-2.5 bg-accent-600 hover:bg-accent-500 text-white text-sm font-semibold rounded-xl transition-colors">
             Upgrade to Studio
           </button>
         </div>

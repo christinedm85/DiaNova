@@ -25,7 +25,13 @@ router.get('/stats', (req, res) => {
 
 router.post('/', (req, res) => {
   const { name, email, source } = req.body
-  const info = db.prepare('INSERT INTO leads (name, email, source, user_id) VALUES (?, ?, ?, ?)').run(name, email, source || 'Direct', req.scopeUserId)
+
+  // Validate email format
+  if (!email || typeof email !== 'string' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+    return res.status(400).json({ error: 'A valid email address is required.' })
+  }
+
+  const info = db.prepare('INSERT INTO leads (name, email, source, user_id) VALUES (?, ?, ?, ?)').run(name, email.trim(), source || 'Direct', req.scopeUserId)
 
   // Track conversion
   db.prepare('INSERT INTO conversions (type, user_id, metadata) VALUES (?, ?, ?)').run('lead_captured', req.user.id, JSON.stringify({ name, source }))
