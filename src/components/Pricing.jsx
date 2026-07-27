@@ -60,7 +60,7 @@ export default function Pricing() {
               <div>
                 <p className="text-xs text-surface-400 uppercase tracking-widest">Recommended Rate</p>
                 <p className="font-display text-4xl font-bold text-surface-50 mt-1">${calc.recommended.toLocaleString()} – ${calc.high.toLocaleString()}</p>
-                <p className="text-sm text-emerald-400 mt-1">↑ Based on {parseInt(subs).toLocaleString()} subscribers</p>
+                <p className="text-sm text-emerald-400 mt-1">↑ Based on {(isNaN(parseInt(subs)) ? 0 : parseInt(subs)).toLocaleString()} subscribers</p>
               </div>
               <div className="text-right">
                 <p className="text-xs text-surface-500">Market range</p>

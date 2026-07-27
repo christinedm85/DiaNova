@@ -44,6 +44,7 @@ export default function BrandBuilder({ onNavigate }) {
   const currentScore = brand?.health_score || 0
 
   const togglePillar = async (pillar) => {
+    if (!brand?.pillars) return
     const pillars = brand.pillars.includes(pillar)
       ? brand.pillars.filter(p => p !== pillar)
       : [...brand.pillars, pillar]
@@ -52,6 +53,7 @@ export default function BrandBuilder({ onNavigate }) {
   }
 
   const toggleTone = async (tone) => {
+    if (!brand?.tone) return
     const tones = brand.tone.includes(tone)
       ? brand.tone.filter(t => t !== tone)
       : [...brand.tone, tone]
@@ -60,6 +62,7 @@ export default function BrandBuilder({ onNavigate }) {
   }
 
   const toggleAudience = async (aud) => {
+    if (!brand?.audience) return
     const audience = brand.audience.includes(aud)
       ? brand.audience.filter(a => a !== aud)
       : [...brand.audience, aud]

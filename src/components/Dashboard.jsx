@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { api } from '../api.js'
 import { useAuth } from '../AuthContext.jsx'
 import AIPanel from './AIPanel.jsx'
@@ -147,6 +147,7 @@ export default function Dashboard({ onNavigate, onOpenAskBloom }) {
   const [animateChart, setAnimateChart] = useState(false)
   const [animateProgress, setAnimateProgress] = useState(false)
   const [sponsorshipData, setSponsorshipData] = useState(null)
+  const stableContentIndex = useRef(Math.floor(Math.random() * 4))
 
   const isDemoUser = user?.email?.includes('demo')
 
@@ -284,7 +285,7 @@ export default function Dashboard({ onNavigate, onOpenAskBloom }) {
   const active_sponsors = data?.active_sponsors || 0
   const affiliate_revenue = data?.affiliate_revenue || 0
   const product_sales = data?.product_sales || 0
-  const revenue_breakdown = data?.revenue_breakdown || { sponsorships: 0, affiliates: 0, products: 0, consulting: 0 }
+  const revenue_breakdown = data?.revenue_breakdown || { sponsorships: 0, affiliates: 0, products: 0 }
   const pipeline = data?.pipeline || { prospecting: 0, negotiating: 0, confirmed: 0, completed: 0 }
   const recent_activity = data?.recent_activity || []
   const hasInsights = insights && insights.insights && insights.insights.length > 0
@@ -1026,7 +1027,7 @@ function AIBrief({ forecast, insights, monthlyRevenue, pipelinePotential, follow
     : null
   const bestContent = contentMatch
     ? contentMatch.message.split(" ").slice(0, 3).join(" ")
-    : contentFallbacks[Math.floor(Date.now() / 15000) % contentFallbacks.length]
+    : contentFallbacks[stableContentIndex.current]
 
   // ── Row 3: Recommended Action ───────────────────────────
   const fallbackActions = [
@@ -1269,7 +1270,6 @@ function pieData(breakdown) {
     { name: 'Sponsorships', value: breakdown.sponsorships },
     { name: 'Affiliates', value: breakdown.affiliates },
     { name: 'Products', value: breakdown.products },
-    { name: 'Consulting', value: breakdown.consulting },
   ].filter(d => d.value > 0)
 }
 

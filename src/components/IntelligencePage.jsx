@@ -300,9 +300,11 @@ export default function IntelligencePage({ onNavigate }) {
   const pipelineTotal = Object.values(pipeline).reduce((a, b) => (a || 0) + (b || 0), 0)
   const activeDeals = (pipeline.prospecting || 0) + (pipeline.negotiating || 0)
   const followUpsDue = insightsData?.followUpsDue || 0
-  const avgDealSize = totalDeals > 0
-    ? Math.round((Object.values(pipeline).reduce((a, b) => (a || 0) + (b || 0), 0) * monthlyRevenue / Math.max(totalDeals, 1)) || 0)
-    : 0
+  // Compute average deal size from actual sponsorship amounts when available
+  const sponsorshipAmounts = (sponsorships || []).filter(s => s.amount > 0).map(s => s.amount)
+  const avgDealSize = sponsorshipAmounts.length > 0
+    ? Math.round(sponsorshipAmounts.reduce((a, b) => a + b, 0) / sponsorshipAmounts.length)
+    : (totalDeals > 0 ? Math.round(monthlyRevenue / totalDeals) : 0)
   const confirmedTotal = pipeline.confirmed || 0
   const completedTotal = pipeline.completed || 0
 
