@@ -181,4 +181,10 @@ export const api = {
     send: (data) => request('/email/sent', { method: 'POST', body: JSON.stringify(data) }),
     markRead: (id) => request(`/email/inbox/${id}/read`, { method: 'PUT' }),
   },
+
+  launchCircle: {
+    apply: (data) => request('/launch-circle/apply', { method: 'POST', body: JSON.stringify(data) }),
+    count: () => request('/launch-circle/count'),
+    applications: () => request('/launch-circle/applications'),
+  },
 }

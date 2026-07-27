@@ -33,10 +33,12 @@ import MetaIntegration from './components/MetaIntegration.jsx'
 import TikTokIntegration from './components/TikTokIntegration.jsx'
 import MonetizationIntegration from './components/MonetizationIntegration.jsx'
 import GmailIntegration from './components/GmailIntegration.jsx'
+import LaunchCircle from './components/LaunchCircle.jsx'
 
 const SECTIONS = {
   dashboard: { label: 'Dashboard', icon: (props) => <SectionIcon section="dashboard" {...props} />, component: Dashboard },
   calendar: { label: 'Calendar 📅', icon: (props) => <SectionIcon section="calendar" {...props} />, component: CreatorCalendar, group: 'main' },
+  'launch-circle': { label: '🌸 Launch Circle', icon: (props) => <SectionIcon section="launch-circle" {...props} />, component: LaunchCircle, group: 'main' },
   intelligence: { label: 'Intelligence 🌸', icon: (props) => <SectionIcon section="intelligence" {...props} />, component: IntelligencePage },
   sponsorships: { label: 'Your Deal Flow 💼', icon: (props) => <SectionIcon section="sponsorships" {...props} />, component: Sponsorships },
   affiliates: { label: 'Passive Income 💸', icon: (props) => <SectionIcon section="affiliates" {...props} />, component: Affiliates },
@@ -211,6 +213,7 @@ export default function App() {
 // Section color mapping for sidebar icons
 const sectionStyles = {
   dashboard: { active: '#a78bfa', label: 'violet' },        // AI Brief
+  'launch-circle': { active: '#f472b6', label: 'pink' },     // Launch Circle
   calendar: { active: '#818cf8', label: 'accent' },          // Calendar
   intelligence: { active: '#f472b6', label: 'pink' },         // Intelligence
   sponsorships: { active: '#34d399', label: 'emerald' },    // Revenue
@@ -251,6 +254,13 @@ function SectionIcon({ section, active }) {
           <line x1="16" y1="2" x2="16" y2="6" />
           <line x1="8" y1="2" x2="8" y2="6" />
           <line x1="3" y1="10" x2="21" y2="10" />
+        </svg>
+      )
+    case 'launch-circle':
+      return (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="12" r="10" />
+          <path d="M12 6v6l4 2" />
         </svg>
       )
     case 'intelligence':
