@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { api } from '../api.js'
 import { useAuth } from '../AuthContext.jsx'
 import AIPanel from './AIPanel.jsx'
@@ -147,6 +147,7 @@ export default function Dashboard({ onNavigate, onOpenAskBloom }) {
   const [animateChart, setAnimateChart] = useState(false)
   const [animateProgress, setAnimateProgress] = useState(false)
   const [sponsorshipData, setSponsorshipData] = useState(null)
+  const stableContentIndex = useRef(Math.floor(Math.random() * 4))
 
   const isDemoUser = user?.email?.includes('demo')
 
@@ -1026,7 +1027,7 @@ function AIBrief({ forecast, insights, monthlyRevenue, pipelinePotential, follow
     : null
   const bestContent = contentMatch
     ? contentMatch.message.split(" ").slice(0, 3).join(" ")
-    : contentFallbacks[Math.floor(Date.now() / 15000) % contentFallbacks.length]
+    : contentFallbacks[stableContentIndex.current]
 
   // ── Row 3: Recommended Action ───────────────────────────
   const fallbackActions = [
