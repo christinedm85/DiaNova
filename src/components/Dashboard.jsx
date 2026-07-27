@@ -254,7 +254,7 @@ export default function Dashboard({ onNavigate, onOpenAskBloom }) {
 
   // ── Derive stats from available data ───────────────────
 
-  const hasData = data && !(data.monthly_revenue === 0 && data.pipeline.prospecting === 0 &&
+  const hasData = data && !(data.total_revenue === 0 && data.pipeline.prospecting === 0 &&
     data.pipeline.negotiating === 0 && data.pipeline.confirmed === 0 && data.pipeline.completed === 0)
 
   const derivedStats = {
@@ -280,11 +280,11 @@ export default function Dashboard({ onNavigate, onOpenAskBloom }) {
 
   // ── Data extraction ───────────────────────────────────
 
-  const monthly_revenue = data?.monthly_revenue || 0
+  const monthly_revenue = data?.total_revenue || 0
   const active_sponsors = data?.active_sponsors || 0
   const affiliate_revenue = data?.affiliate_revenue || 0
   const product_sales = data?.product_sales || 0
-  const revenue_breakdown = data?.revenue_breakdown || { sponsorships: 0, affiliates: 0, products: 0, consulting: 0 }
+  const revenue_breakdown = data?.revenue_breakdown || { sponsorships: 0, affiliates: 0, products: 0 }
   const pipeline = data?.pipeline || { prospecting: 0, negotiating: 0, confirmed: 0, completed: 0 }
   const recent_activity = data?.recent_activity || []
   const hasInsights = insights && insights.insights && insights.insights.length > 0
@@ -1269,7 +1269,6 @@ function pieData(breakdown) {
     { name: 'Sponsorships', value: breakdown.sponsorships },
     { name: 'Affiliates', value: breakdown.affiliates },
     { name: 'Products', value: breakdown.products },
-    { name: 'Consulting', value: breakdown.consulting },
   ].filter(d => d.value > 0)
 }
 
