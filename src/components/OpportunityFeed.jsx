@@ -34,27 +34,22 @@ export default function OpportunityFeed({ onNavigate }) {
 
   const niche = user?.niche || user?.category || 'content creation'
 
-  useEffect(() => {
-    let cancelled = false
+  const fetchOpportunities = () => {
     setLoading(true)
     setError(null)
 
     getOpportunities(niche)
       .then(data => {
-        if (!cancelled) {
-          setOpportunities(Array.isArray(data) ? data : [])
-          setLoading(false)
-        }
+        setOpportunities(Array.isArray(data) ? data : [])
+        setLoading(false)
       })
       .catch(err => {
-        if (!cancelled) {
-          setError(err.message || 'Failed to load opportunities')
-          setLoading(false)
-        }
+        setError(err.message || 'Failed to load opportunities')
+        setLoading(false)
       })
+  }
 
-    return () => { cancelled = true }
-  }, [niche])
+  useEffect(() => { fetchOpportunities() }, [niche])
 
   const filtered = filter === 'all'
     ? opportunities
@@ -110,7 +105,7 @@ export default function OpportunityFeed({ onNavigate }) {
           <h3 className="font-semibold text-surface-200 text-lg mb-1">The deal radar needs a reboot</h3>
           <p className="text-surface-400 text-sm mb-4">{error}</p>
           <button
-            onClick={() => window.location.reload()}
+            onClick={fetchOpportunities}
             className="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white text-sm font-medium rounded-lg transition-colors"
           >
             Retry
