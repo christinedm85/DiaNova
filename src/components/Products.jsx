@@ -5,11 +5,16 @@ import FormField from './FormField.jsx'
 import AIPanel from './AIPanel.jsx'
 
 function downloadCSV(type) {
-  api.exportCSV(type).then(r => r.blob()).then(blob => {
+  api.exportCSV(type).then(r => {
+    if (!r.ok) throw new Error('Export failed')
+    return r.blob()
+  }).then(blob => {
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url; a.download = `${type}.csv`; a.click()
     URL.revokeObjectURL(url)
+  }).catch(() => {
+    alert('CSV export failed. Please try again.')
   })
 }
 
@@ -121,7 +126,8 @@ export default function Products({ onNavigate }) {
       </div>
 
       <div className="glass p-6">
-        <h3 className="font-display text-lg font-semibold text-surface-100 mb-4">💡 What Should You Make Next?</h3>
+        <h3 className="font-display text-lg font-semibold text-surface-100 mb-1">💡 What Should You Make Next?</h3>
+        <p className="text-xs text-surface-500 mb-4">AI-powered suggestions coming soon</p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <IdeaCard title="Ultimate Lighting Guide" desc="Your lighting tutorial has 84K views. Package it as a premium PDF with setup diagrams." potential="$3,200/mo est." confidence="High match" />
           <IdeaCard title="Monthly Q&A Templates" desc="Your audience engages heavily in comments. Offer templated content calendars." potential="$1,800/mo est." confidence="Good match" />

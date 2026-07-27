@@ -127,7 +127,11 @@ export default function IntelligencePage({ onNavigate }) {
   // Track which cards have animated in
   const [showCards, setShowCards] = useState(false)
 
-  useEffect(() => {
+  const fetchIntelligence = () => {
+    setLoading(true)
+    setError(null)
+    setShowCards(false)
+
     Promise.all([
       api.dashboard(),
       api.insights().catch(() => null),
@@ -145,7 +149,9 @@ export default function IntelligencePage({ onNavigate }) {
         setError(e.message)
         setLoading(false)
       })
-  }, [])
+  }
+
+  useEffect(() => { fetchIntelligence() }, [])
 
   // ── Loading state ──────────────────────────────────────
 
@@ -182,7 +188,7 @@ export default function IntelligencePage({ onNavigate }) {
           <h3 className="font-display text-xl font-semibold text-surface-100 mb-2">Insight feed disrupted</h3>
           <p className="text-surface-400 text-sm mb-6">Could not pull your intelligence data. Let's try that again.</p>
           <button
-            onClick={() => window.location.reload()}
+            onClick={fetchIntelligence}
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-accent-500 text-white text-sm font-medium hover:bg-accent-400 transition-colors"
           >
             Retry

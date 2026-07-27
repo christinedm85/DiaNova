@@ -120,6 +120,14 @@ export default function DemoPage({ onGetStarted }) {
       {/* Main Content */}
       <main className="flex-1 overflow-y-auto p-8">
         <div className="max-w-6xl mx-auto">
+          {/* Preview Banner */}
+          <div className="glass p-4 mb-8 border border-amber-500/30 bg-amber-500/10 rounded-2xl flex items-center gap-3">
+            <span className="text-xl">👀</span>
+            <div>
+              <p className="text-sm font-medium text-amber-300">This is a preview.</p>
+              <p className="text-xs text-surface-400">Log in to see your full personalized workspace with real data.</p>
+            </div>
+          </div>
           {active === 'dashboard' && <DemoDashboard />}
           {active === 'sponsorships' && <DemoSponsorships />}
           {active === 'leads' && <DemoLeads />}

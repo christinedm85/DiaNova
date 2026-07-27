@@ -137,7 +137,8 @@ export default function Affiliates({ onNavigate }) {
           <p className="text-sm text-surface-300">Your links in video descriptions perform <span className="text-emerald-400 font-semibold">3x better</span> than social bio links.</p>
         </div>
         <div className="glass p-6">
-          <h3 className="font-display text-lg font-semibold text-surface-100 mb-3">💡 Missed Opportunities</h3>
+          <h3 className="font-display text-lg font-semibold text-surface-100 mb-1">💡 Missed Opportunities</h3>
+          <p className="text-xs text-surface-500 mb-3">Curated for you — based on your niche</p>
           <div className="space-y-3">
             <OppItem brand="AudioPro" reason="Your podcast audience matches their target demo" commission="20%" />
             <OppItem brand="FitTracker" reason="Top 3 videos are fitness-related" commission="12%" />

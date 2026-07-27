@@ -7,11 +7,16 @@ import FormField from './FormField.jsx'
 import AIPanel from './AIPanel.jsx'
 
 function downloadCSV(type) {
-  api.exportCSV(type).then(r => r.blob()).then(blob => {
+  api.exportCSV(type).then(r => {
+    if (!r.ok) throw new Error('Export failed')
+    return r.blob()
+  }).then(blob => {
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url; a.download = `${type}.csv`; a.click()
     URL.revokeObjectURL(url)
+  }).catch(() => {
+    alert('CSV export failed. Please try again.')
   })
 }
 
@@ -197,11 +202,12 @@ export default function Sponsorships({ onNavigate }) {
       )}
 
       <div className="glass p-6">
-        <h3 className="font-display text-lg font-semibold text-surface-100 mb-4">Your Media Kit</h3>
+        <h3 className="font-display text-lg font-semibold text-surface-100 mb-1">Your Media Kit</h3>
+        <p className="text-xs text-surface-500 mb-4">Sample data — connect your social accounts for real metrics</p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <MediaKitStat label="Avg. Video Views" value="142K" />
-          <MediaKitStat label="Engagement Rate" value="4.8%" />
-          <MediaKitStat label="Audience Demo" value="18-34 / 62% M" />
+          <MediaKitStat label="Avg. Video Views" value="142K" note="(sample)" />
+          <MediaKitStat label="Engagement Rate" value="4.8%" note="(sample)" />
+          <MediaKitStat label="Audience Demo" value="18-34 / 62% M" note="(sample)" />
         </div>
         <div className="mt-4 flex gap-3">
           <button onClick={() => onNavigate && onNavigate('brand')} className="px-4 py-2 text-sm font-medium bg-surface-800 hover:bg-surface-700 text-surface-200 rounded-xl transition-colors">Edit Media Kit</button>
@@ -220,11 +226,12 @@ export default function Sponsorships({ onNavigate }) {
   )
 }
 
-function MediaKitStat({ label, value }) {
+function MediaKitStat({ label, value, note }) {
   return (
     <div className="bg-surface-800/40 rounded-xl p-4 text-center">
       <p className="font-display text-2xl font-bold text-surface-100">{value}</p>
       <p className="text-xs text-surface-400 mt-1">{label}</p>
+      {note && <p className="text-[10px] text-surface-500 mt-0.5">{note}</p>}
     </div>
   )
 }

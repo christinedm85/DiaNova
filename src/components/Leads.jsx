@@ -4,11 +4,16 @@ import EmptyState from './EmptyState.jsx'
 import FormField from './FormField.jsx'
 
 function downloadCSV(type) {
-  api.exportCSV(type).then(r => r.blob()).then(blob => {
+  api.exportCSV(type).then(r => {
+    if (!r.ok) throw new Error('Export failed')
+    return r.blob()
+  }).then(blob => {
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url; a.download = `${type}.csv`; a.click()
     URL.revokeObjectURL(url)
+  }).catch(() => {
+    alert('CSV export failed. Please try again.')
   })
 }
 
