@@ -1,16 +1,24 @@
 import { useState, useEffect } from 'react'
 import { api } from '../api.js'
+import ConfirmDialog from './ConfirmDialog.jsx'
 import EmptyState from './EmptyState.jsx'
 
 export default function Affiliates({ onNavigate }) {
   const [programs, setPrograms] = useState([])
   const [loading, setLoading] = useState(true)
+  const [confirm, setConfirm] = useState(null)
 
   const fetch = () => api.affiliates.list().then(setPrograms).finally(() => setLoading(false))
   useEffect(() => { fetch() }, [])
 
-  const handleDelete = async (id) => {
-    await api.affiliates.remove(id)
+  const handleDeleteRequest = (id) => {
+    const program = programs.find(p => p.id === id)
+    setConfirm({ id, name: program?.program || 'this program' })
+  }
+
+  const handleDeleteConfirm = async () => {
+    await api.affiliates.remove(confirm.id)
+    setConfirm(null)
     fetch()
   }
 
@@ -20,6 +28,14 @@ export default function Affiliates({ onNavigate }) {
 
   return (
     <div className="page-enter space-y-10">
+      <ConfirmDialog
+        open={!!confirm}
+        title="Delete Affiliate Program"
+        message={`Are you sure you want to delete "${confirm?.name}"? This cannot be undone.`}
+        onConfirm={handleDeleteConfirm}
+        onCancel={() => setConfirm(null)}
+      />
+
       <div className="flex items-center justify-between">
         <div>
           <h2 className="font-display text-3xl font-bold text-surface-50">Passive Income Streams 💸</h2>
@@ -65,7 +81,7 @@ export default function Affiliates({ onNavigate }) {
                     <td className="px-4 py-3 font-semibold text-surface-100">${p.revenue.toLocaleString()}</td>
                     <td className={`px-4 py-3 font-medium ${p.trend.startsWith('+') ? 'text-emerald-400' : 'text-rose-400'}`}>{p.trend}</td>
                     <td className="px-4 py-3">
-                      <button onClick={() => handleDelete(p.id)} className="text-xs text-rose-400 hover:text-rose-300 opacity-0 group-hover:opacity-100 transition-opacity">×</button>
+                      <button onClick={() => handleDeleteRequest(p.id)} className="text-xs text-rose-400 hover:text-rose-300 opacity-0 group-hover:opacity-100 transition-opacity">×</button>
                     </td>
                   </tr>
                 ))}
